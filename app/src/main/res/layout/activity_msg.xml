@@ -9,56 +9,49 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".SaveiroActivity">
+    tools:context=".MsgActivity">
 
     <TextView
-        android:id="@+id/textViewTituloSaveiro"
+        android:id="@+id/textViewMSG"
         style="@style/TextViewTituloLista"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/texto_tanque" />
-
-    <ListView
-        android:id="@+id/listSaveiro"
-        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:paddingBottom="20dp"
+        android:paddingTop="20dp"
+        android:text="@string/texto_item_default" />
+
 
     <LinearLayout
-        android:id="@+id/linerBotao"
+        android:id="@+id/rightRelativeLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
 
         <Button
-            android:id="@+id/buttonDesmarcarTodosSaveiro"
+            android:id="@+id/buttonSimMSG"
             style="@style/BotaoAvulso"
             android:layout_weight="1"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="@string/texto_desmarcar" />
+            android:text="@string/texto_padrao_sim" />
 
         <Button
-            android:id="@+id/buttonMarcarTodosSaveiro"
+            android:id="@+id/buttonNaoMSG"
             style="@style/BotaoAvulso"
             android:layout_weight="1"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="@string/texto_marcar" />
+            android:text="@string/texto_padrao_nao" />
 
     </LinearLayout>
 
     <Button
-        android:id="@+id/buttonRetSaveiro"
+        android:id="@+id/buttonRetMSG"
         style="@style/BotaoAvulso"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/texto_padrao_retornar" />
-
-    <Button
-        android:id="@+id/buttonSalvarSaveiro"
-        style="@style/BotaoAvulso"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/texto_padrao_ok" />
 
 </LinearLayout>

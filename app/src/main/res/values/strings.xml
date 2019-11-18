@@ -24,4 +24,9 @@
     <string name="texto_marcar">MARCAR TODOS</string>
     <string name="texto_padrao_retornar">RETORNAR</string>
     <string name="texto_talhao">TALHÃO(ÕES)</string>
+    <string name="texto_padrao_nao">NÃO</string>
+    <string name="texto_padrao_sim">SIM</string>
+    <string name="texto_tanque">CAMINHÃO(ÕES) TANQUE</string>
+    <string name="texto_brigadista">QTDE DE BRIGADISTA(S)</string>
+    <string name="texto_terceiro">NOME DA EMPRESA</string>
 </resources>

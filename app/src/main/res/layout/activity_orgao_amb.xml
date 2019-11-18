@@ -9,17 +9,17 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".SaveiroActivity">
+    tools:context=".OrgaoAmbActivity">
 
     <TextView
-        android:id="@+id/textViewTituloSaveiro"
+        android:id="@+id/textViewTituloTalhao"
         style="@style/TextViewTituloLista"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/texto_tanque" />
+        android:text="@string/texto_talhao" />
 
     <ListView
-        android:id="@+id/listSaveiro"
+        android:id="@+id/listTalhao"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
@@ -30,7 +30,7 @@
         android:layout_height="wrap_content" >
 
         <Button
-            android:id="@+id/buttonDesmarcarTodosSaveiro"
+            android:id="@+id/buttonDesmarcarTodosTalhao"
             style="@style/BotaoAvulso"
             android:layout_weight="1"
             android:layout_width="fill_parent"
@@ -38,7 +38,7 @@
             android:text="@string/texto_desmarcar" />
 
         <Button
-            android:id="@+id/buttonMarcarTodosSaveiro"
+            android:id="@+id/buttonMarcarTodosTalhao"
             style="@style/BotaoAvulso"
             android:layout_weight="1"
             android:layout_width="fill_parent"
@@ -48,14 +48,14 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/buttonRetSaveiro"
+        android:id="@+id/buttonRetTalhao"
         style="@style/BotaoAvulso"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/texto_padrao_retornar" />
 
     <Button
-        android:id="@+id/buttonSalvarSaveiro"
+        android:id="@+id/buttonSalvarTalhao"
         style="@style/BotaoAvulso"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

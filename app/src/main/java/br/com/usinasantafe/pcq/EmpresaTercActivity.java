@@ -3,11 +3,11 @@ package br.com.usinasantafe.pcq;
 import android.app.Activity;
 import android.os.Bundle;
 
-public class FazendaActivity extends Activity {
+public class EmpresaTercActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fazenda);
+        setContentView(R.layout.activity_empresa_terc);
     }
 }

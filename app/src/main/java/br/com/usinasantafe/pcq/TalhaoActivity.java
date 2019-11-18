@@ -14,7 +14,7 @@ import java.util.List;
 
 import br.com.usinasantafe.pcq.bean.estaticas.TalhaoBean;
 
-public class TalhaoActivity extends Activity {
+public class TalhaoActivity extends ActivityGeneric {
 
     private ArrayList<ViewHolderChoice> itens;
     private AdapterListChoice adapterListChoice;
@@ -101,7 +101,7 @@ public class TalhaoActivity extends Activity {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                Intent it = new Intent(TalhaoActivity.this, IncendioCanavialActivity.class);
+                Intent it = new Intent(TalhaoActivity.this, SecaoActivity.class);
                 startActivity(it);
                 finish();
             }
@@ -125,9 +125,10 @@ public class TalhaoActivity extends Activity {
 
                 if(talhaoSelectedList.size() > 0){
 
-//                    ManipDadosEnvio.getInstance().salvaAponta(pruContext.getApontamentoTO(), funcSelectedList);
+                    pcqContext.getFormularioCTR().getCabecBean().setTalhaoCabec(talhaoSelectedList);
+                    pcqContext.setPosMsg(1);
 
-                    Intent it = new Intent(TalhaoActivity.this, IncendioCanavialActivity.class);
+                    Intent it = new Intent(TalhaoActivity.this, MsgActivity.class);
                     startActivity(it);
                     finish();
 

@@ -3,7 +3,7 @@ package br.com.usinasantafe.pcq;
 import android.app.Activity;
 import android.os.Bundle;
 
-public class SuporteActivity extends Activity {
+public class SuporteActivity extends ActivityGeneric {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -21,40 +21,61 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".TerceiroActivity"
+        <activity android:name=".EmpresaTercActivity"></activity>
+        <activity android:name=".OrgaoAmbActivity" />
+        <activity android:name=".HaIncPalhadaActivity" />
+        <activity android:name=".MsgActivity" />
+        <activity
+            android:name=".TerceiroActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".TanqueActivity"
+        <activity
+            android:name=".TanqueActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".TalhaoActivity"
+        <activity
+            android:name=".TalhaoActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".SuporteActivity"
+        <activity
+            android:name=".SuporteActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".StatusCriterioActivity"
+        <activity
+            android:name=".StatusCriterioActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".SecaoActivity"
+        <activity
+            android:name=".SecaoActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".SaveiroActivity"
+        <activity
+            android:name=".SaveiroActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".OrgaoActivity"
+        <activity
+            android:name=".OrgaoActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".IncendioVegetActivity"
+        <activity
+            android:name=".HaIncVegetActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".IncendioCanavialActivity"
+        <activity
+            android:name=".HaIncendioActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".FazendaActivity"
+        <activity
+            android:name=".FazendaActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".CriterioActivity"
+        <activity
+            android:name=".CriterioActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ComentarioActivity"
+        <activity
+            android:name=".ComentarioActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ColabActivity"
+        <activity
+            android:name=".ColabActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".BrigadistaActivity"
+        <activity
+            android:name=".BrigadistaActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".MenuInicialActivity"
+        <activity
+            android:name=".MenuInicialActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

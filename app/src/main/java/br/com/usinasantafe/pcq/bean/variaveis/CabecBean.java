@@ -3,6 +3,8 @@ package br.com.usinasantafe.pcq.bean.variaveis;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.util.ArrayList;
+
 import br.com.usinasantafe.pcq.pst.Entidade;
 
 @DatabaseTable(tableName="tbcabecvar")
@@ -17,25 +19,22 @@ public class CabecBean extends Entidade {
     @DatabaseField
     private Long secaoCabec;
     @DatabaseField
-    private Long tipoIncCanavialCabec;
+    private Double haIncCanaCabec;
     @DatabaseField
-    private Double qtdeIncCanavialCabec;
+    private Double haIncPalhadaCabec;
     @DatabaseField
-    private Long vegNativaCabec;
+    private Double haIncResLegalCabec;
     @DatabaseField
-    private Double qtdeResVegNativaCabec;
+    private Double haIncAppCabec;
     @DatabaseField
-    private Double qtdeAppVegNativaCabec;
+    private Double haIncAreaComumCabec;
+    private ArrayList<Long> talhaoCabec;
+    private ArrayList<Long> tanqueCabec;
+    private ArrayList<Long> saveiroCabec;
     @DatabaseField
-    private Double qtdeAreaComVegNativaCabec;
+    private Long qtdeBrigadistaCabec;
     @DatabaseField
-    private Long tanqueCabec;
-    @DatabaseField
-    private Long saveiroCabec;
-    @DatabaseField
-    private Long brigCabec;
-    @DatabaseField
-    private Long qtdeBrigCabec;
+    private Long orgaoAmbientalCabec;
     @DatabaseField
     private String comentCabec;
     @DatabaseField
@@ -86,84 +85,44 @@ public class CabecBean extends Entidade {
         this.secaoCabec = secaoCabec;
     }
 
-    public Long getTipoIncCanavialCabec() {
-        return tipoIncCanavialCabec;
+    public Double getHaIncCanaCabec() {
+        return haIncCanaCabec;
     }
 
-    public void setTipoIncCanavialCabec(Long tipoIncCanavialCabec) {
-        this.tipoIncCanavialCabec = tipoIncCanavialCabec;
+    public void setHaIncCanaCabec(Double haIncCanaCabec) {
+        this.haIncCanaCabec = haIncCanaCabec;
     }
 
-    public Double getQtdeIncCanavialCabec() {
-        return qtdeIncCanavialCabec;
+    public Double getHaIncResLegalCabec() {
+        return haIncResLegalCabec;
     }
 
-    public void setQtdeIncCanavialCabec(Double qtdeIncCanavialCabec) {
-        this.qtdeIncCanavialCabec = qtdeIncCanavialCabec;
+    public void setHaIncResLegalCabec(Double haIncResLegalCabec) {
+        this.haIncResLegalCabec = haIncResLegalCabec;
     }
 
-    public Long getVegNativaCabec() {
-        return vegNativaCabec;
+    public Double getHaIncAppCabec() {
+        return haIncAppCabec;
     }
 
-    public void setVegNativaCabec(Long vegNativaCabec) {
-        this.vegNativaCabec = vegNativaCabec;
+    public void setHaIncAppCabec(Double haIncAppCabec) {
+        this.haIncAppCabec = haIncAppCabec;
     }
 
-    public Double getQtdeResVegNativaCabec() {
-        return qtdeResVegNativaCabec;
+    public Double getHaIncAreaComumCabec() {
+        return haIncAreaComumCabec;
     }
 
-    public void setQtdeResVegNativaCabec(Double qtdeResVegNativaCabec) {
-        this.qtdeResVegNativaCabec = qtdeResVegNativaCabec;
+    public void setHaIncAreaComumCabec(Double haIncAreaComumCabec) {
+        this.haIncAreaComumCabec = haIncAreaComumCabec;
     }
 
-    public Double getQtdeAppVegNativaCabec() {
-        return qtdeAppVegNativaCabec;
+    public Double getHaIncPalhadaCabec() {
+        return haIncPalhadaCabec;
     }
 
-    public void setQtdeAppVegNativaCabec(Double qtdeAppVegNativaCabec) {
-        this.qtdeAppVegNativaCabec = qtdeAppVegNativaCabec;
-    }
-
-    public Double getQtdeAreaComVegNativaCabec() {
-        return qtdeAreaComVegNativaCabec;
-    }
-
-    public void setQtdeAreaComVegNativaCabec(Double qtdeAreaComVegNativaCabec) {
-        this.qtdeAreaComVegNativaCabec = qtdeAreaComVegNativaCabec;
-    }
-
-    public Long getTanqueCabec() {
-        return tanqueCabec;
-    }
-
-    public void setTanqueCabec(Long tanqueCabec) {
-        this.tanqueCabec = tanqueCabec;
-    }
-
-    public Long getSaveiroCabec() {
-        return saveiroCabec;
-    }
-
-    public void setSaveiroCabec(Long saveiroCabec) {
-        this.saveiroCabec = saveiroCabec;
-    }
-
-    public Long getBrigCabec() {
-        return brigCabec;
-    }
-
-    public void setBrigCabec(Long brigCabec) {
-        this.brigCabec = brigCabec;
-    }
-
-    public Long getQtdeBrigCabec() {
-        return qtdeBrigCabec;
-    }
-
-    public void setQtdeBrigCabec(Long qtdeBrigCabec) {
-        this.qtdeBrigCabec = qtdeBrigCabec;
+    public void setHaIncPalhadaCabec(Double haIncPalhadaCabec) {
+        this.haIncPalhadaCabec = haIncPalhadaCabec;
     }
 
     public String getComentCabec() {
@@ -172,5 +131,45 @@ public class CabecBean extends Entidade {
 
     public void setComentCabec(String comentCabec) {
         this.comentCabec = comentCabec;
+    }
+
+    public ArrayList<Long> getTalhaoCabec() {
+        return talhaoCabec;
+    }
+
+    public void setTalhaoCabec(ArrayList<Long> talhaoCabec) {
+        this.talhaoCabec = talhaoCabec;
+    }
+
+    public ArrayList<Long> getTanqueCabec() {
+        return tanqueCabec;
+    }
+
+    public void setTanqueCabec(ArrayList<Long> tanqueCabec) {
+        this.tanqueCabec = tanqueCabec;
+    }
+
+    public ArrayList<Long> getSaveiroCabec() {
+        return saveiroCabec;
+    }
+
+    public void setSaveiroCabec(ArrayList<Long> saveiroCabec) {
+        this.saveiroCabec = saveiroCabec;
+    }
+
+    public Long getQtdeBrigadistaCabec() {
+        return qtdeBrigadistaCabec;
+    }
+
+    public void setQtdeBrigadistaCabec(Long qtdeBrigadistaCabec) {
+        this.qtdeBrigadistaCabec = qtdeBrigadistaCabec;
+    }
+
+    public Long getOrgaoAmbientalCabec() {
+        return orgaoAmbientalCabec;
+    }
+
+    public void setOrgaoAmbientalCabec(Long orgaoAmbientalCabec) {
+        this.orgaoAmbientalCabec = orgaoAmbientalCabec;
     }
 }

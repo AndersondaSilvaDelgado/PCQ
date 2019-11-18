@@ -5,9 +5,9 @@ import java.util.List;
 import br.com.usinasantafe.pcq.bean.variaveis.CabecBean;
 import br.com.usinasantafe.pcq.util.Tempo;
 
-public class CabFormDAO {
+public class CabecDAO {
 
-    public CabFormDAO() {
+    public CabecDAO() {
     }
 
     public void salvarCabecAbert(CabecBean cabecBean){

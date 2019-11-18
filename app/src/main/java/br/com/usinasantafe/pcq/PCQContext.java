@@ -8,6 +8,7 @@ public class PCQContext extends Application {
 
     public static String versaoAplic = "1.00";
     private FormularioCTR formularioCTR;
+    private int posMsg;
 
     @Override
     public void onCreate() {
@@ -20,4 +21,11 @@ public class PCQContext extends Application {
         return formularioCTR;
     }
 
+    public int getPosMsg() {
+        return posMsg;
+    }
+
+    public void setPosMsg(int posMsg) {
+        this.posMsg = posMsg;
+    }
 }
