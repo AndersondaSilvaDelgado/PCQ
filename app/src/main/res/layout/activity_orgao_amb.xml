@@ -12,14 +12,14 @@
     tools:context=".OrgaoAmbActivity">
 
     <TextView
-        android:id="@+id/textViewTituloTalhao"
+        android:id="@+id/textViewTituloOrgAmbiental"
         style="@style/TextViewTituloLista"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/texto_talhao" />
+        android:text="@string/texto_org_ambiental" />
 
     <ListView
-        android:id="@+id/listTalhao"
+        android:id="@+id/listOrgAmbiental"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
@@ -30,7 +30,7 @@
         android:layout_height="wrap_content" >
 
         <Button
-            android:id="@+id/buttonDesmarcarTodosTalhao"
+            android:id="@+id/buttonDesmarcarTodosOrgAmbiental"
             style="@style/BotaoAvulso"
             android:layout_weight="1"
             android:layout_width="fill_parent"
@@ -38,7 +38,7 @@
             android:text="@string/texto_desmarcar" />
 
         <Button
-            android:id="@+id/buttonMarcarTodosTalhao"
+            android:id="@+id/buttonMarcarTodosOrgAmbiental"
             style="@style/BotaoAvulso"
             android:layout_weight="1"
             android:layout_width="fill_parent"
@@ -48,14 +48,14 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/buttonRetTalhao"
+        android:id="@+id/buttonRetOrgAmbiental"
         style="@style/BotaoAvulso"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/texto_padrao_retornar" />
 
     <Button
-        android:id="@+id/buttonSalvarTalhao"
+        android:id="@+id/buttonSalvarOrgAmbiental"
         style="@style/BotaoAvulso"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -125,6 +125,8 @@ public class MenuInicialActivity extends ActivityGeneric {
 
                     if (colabBean.hasElements()) {
 
+                        clearBD();
+
                         Intent it = new Intent(MenuInicialActivity.this, ColabActivity.class);
                         startActivity(it);
                         finish();
@@ -257,4 +259,9 @@ public class MenuInicialActivity extends ActivityGeneric {
             Log.i("PMM", "TIMER já ativo");
         }
     }
+
+    public void clearBD(){
+        pcqContext.getFormularioCTR().delCabecIniciado();
+    }
+
 }

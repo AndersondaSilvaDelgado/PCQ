@@ -100,7 +100,7 @@ public class SecaoActivity extends ActivityGeneric {
                     if (secaoList.size() > 0) {
 
                         secaoBean = (SecaoBean) secaoList.get(0);
-                        pcqContext.getFormularioCTR().getCabecBean().setSecaoCabec(secaoBean.getIdSecao());
+                        pcqContext.getFormularioCTR().setSecaoCabec(secaoBean.getIdSecao());
                         secaoList.clear();
 
                         Intent it = new Intent(SecaoActivity.this, TalhaoActivity.class);

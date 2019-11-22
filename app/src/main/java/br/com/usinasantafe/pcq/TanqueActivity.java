@@ -122,8 +122,9 @@ public class TanqueActivity extends ActivityGeneric {
 
                 if(tanqueSelectedList.size() > 0){
 
-                    pcqContext.getFormularioCTR().getCabecBean().setTanqueCabec(tanqueSelectedList);
-                    pcqContext.setPosMsg(pcqContext.getPosMsg() + 1);
+                    pcqContext.getFormularioCTR().setTanqueCabec(tanqueSelectedList);
+                    tanqueSelectedList.clear();
+                    pcqContext.getFormularioCTR().setPosMsg(pcqContext.getFormularioCTR().getPosMsg() + 1);
 
                     Intent it = new Intent(TanqueActivity.this, MsgActivity.class);
                     startActivity(it);

@@ -6,7 +6,7 @@ import com.j256.ormlite.table.DatabaseTable;
 import br.com.usinasantafe.pcq.pst.Entidade;
 
 @DatabaseTable(tableName="tbitemtalhaovar")
-public class ItemTalhaoBean extends Entidade {
+public class TalhaoBean extends Entidade {
 
     private static final long serialVersionUID = 1L;
 
@@ -19,7 +19,7 @@ public class ItemTalhaoBean extends Entidade {
     @DatabaseField
     private String dthrTalhao;
 
-    public ItemTalhaoBean() {
+    public TalhaoBean() {
     }
 
     public Long getIdItemTalhao() {

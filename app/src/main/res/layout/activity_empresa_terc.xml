@@ -12,14 +12,14 @@
     tools:context=".EmpresaTercActivity">
 
     <TextView
-        android:id="@+id/textViewComentario"
+        android:id="@+id/textViewEmpresa"
         style="@style/TextViewTituloLista"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/texto_terceiro" />
 
     <EditText
-        android:id="@+id/editTextComentario"
+        android:id="@+id/editTextEmpresa"
         android:inputType="textMultiLine"
         android:gravity="top|left"
         android:layout_width="match_parent"
@@ -34,7 +34,7 @@
         android:layout_height="wrap_content" >
 
         <Button
-            android:id="@+id/buttonRetComentario"
+            android:id="@+id/buttonRetEmpresa"
             style="@style/BotaoAvulso"
             android:layout_weight="1"
             android:layout_width="fill_parent"
@@ -42,7 +42,7 @@
             android:text="@string/texto_padrao_retornar" />
 
         <Button
-            android:id="@+id/buttonAvancaComentario"
+            android:id="@+id/buttonAvancaEmpresa"
             style="@style/BotaoAvulso"
             android:layout_weight="1"
             android:layout_width="fill_parent"

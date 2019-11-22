@@ -18,7 +18,6 @@
     <string name="texto_responsavel">MATRIC. RESPONSÁVEL</string>
     <string name="texto_menu_principal">PRINCIPAL - V 1.00</string>
     <string name="texto_item_default">TESTE</string>
-    <string name="texto_item_list">TESTE</string>
     <string name="texto_secao">NUM. SEÇÃO</string>
     <string name="texto_desmarcar">DESMARCAR TODOS</string>
     <string name="texto_marcar">MARCAR TODOS</string>
@@ -29,4 +28,6 @@
     <string name="texto_tanque">CAMINHÃO(ÕES) TANQUE</string>
     <string name="texto_brigadista">QTDE DE BRIGADISTA(S)</string>
     <string name="texto_terceiro">NOME DA EMPRESA</string>
+    <string name="texto_org_ambiental">ORGÃO(ÕES) AMBIENTAL</string>
+    <string name="texto_comentario">QUAIS AÇÕES FORAM TOMADAS PARA COMBATER O INCÊNDIO?</string>
 </resources>

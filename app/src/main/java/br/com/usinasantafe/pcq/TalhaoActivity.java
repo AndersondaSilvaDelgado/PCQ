@@ -38,7 +38,7 @@ public class TalhaoActivity extends ActivityGeneric {
         itens = new ArrayList<ViewHolderChoice>();
 
         TalhaoBean talhaoBean = new TalhaoBean();
-        talhaoList = talhaoBean.get("idSecao", pcqContext.getFormularioCTR().getCabecBean().getSecaoCabec());
+        talhaoList = talhaoBean.get("idSecao", pcqContext.getFormularioCTR().getSecaoCabec());
 
         for (int i = 0; i < talhaoList.size(); i++) {
             talhaoBean = (TalhaoBean) talhaoList.get(i);
@@ -125,8 +125,8 @@ public class TalhaoActivity extends ActivityGeneric {
 
                 if(talhaoSelectedList.size() > 0){
 
-                    pcqContext.getFormularioCTR().getCabecBean().setTalhaoCabec(talhaoSelectedList);
-                    pcqContext.setPosMsg(1);
+                    pcqContext.getFormularioCTR().setTalhaoCabec(talhaoSelectedList);
+                    pcqContext.getFormularioCTR().setPosMsg(1);
 
                     Intent it = new Intent(TalhaoActivity.this, MsgActivity.class);
                     startActivity(it);

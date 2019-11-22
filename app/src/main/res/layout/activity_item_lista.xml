@@ -10,6 +10,6 @@
     <TextView
         android:id="@+id/textViewItemList"
         style="@style/TextViewItemList"
-        android:text="@string/texto_item_list" />
+        android:text="@string/texto_item_default" />
 
 </LinearLayout>

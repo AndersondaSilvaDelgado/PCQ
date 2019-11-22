@@ -22,7 +22,7 @@ public class MsgActivity extends ActivityGeneric {
         Button buttonNaoMSG = (Button) findViewById(R.id.buttonNaoMSG);
         Button buttonRetMSG = (Button) findViewById(R.id.buttonRetMSG);
 
-        switch (pcqContext.getPosMsg()){
+        switch (pcqContext.getFormularioCTR().getPosMsg()){
             case 1:
                 textViewMSG.setText("HOUVE INCÊNDIO EM CANA?");
                 break;
@@ -61,32 +61,32 @@ public class MsgActivity extends ActivityGeneric {
             public void onClick(View v) {
                 // TODO Auto-generated method stub
 
-                if(pcqContext.getPosMsg() < 6){
+                if(pcqContext.getFormularioCTR().getPosMsg() < 6){
                     Intent it = new Intent(MsgActivity.this, HaIncendioActivity.class);
                     startActivity(it);
                     finish();
                 }
-                else if(pcqContext.getPosMsg() == 6){
+                else if(pcqContext.getFormularioCTR().getPosMsg() == 6){
                     Intent it = new Intent(MsgActivity.this, TanqueActivity.class);
                     startActivity(it);
                     finish();
                 }
-                else if(pcqContext.getPosMsg() == 7){
+                else if(pcqContext.getFormularioCTR().getPosMsg() == 7){
                     Intent it = new Intent(MsgActivity.this, SaveiroActivity.class);
                     startActivity(it);
                     finish();
                 }
-                else if(pcqContext.getPosMsg() == 8){
+                else if(pcqContext.getFormularioCTR().getPosMsg() == 8){
                     Intent it = new Intent(MsgActivity.this, BrigadistaActivity.class);
                     startActivity(it);
                     finish();
                 }
-                else if(pcqContext.getPosMsg() == 9){
+                else if(pcqContext.getFormularioCTR().getPosMsg() == 9){
                     Intent it = new Intent(MsgActivity.this, EmpresaTercActivity.class);
                     startActivity(it);
                     finish();
                 }
-                else if(pcqContext.getPosMsg() == 10){
+                else if(pcqContext.getFormularioCTR().getPosMsg() == 10){
                     Intent it = new Intent(MsgActivity.this, OrgaoAmbActivity.class);
                     startActivity(it);
                     finish();
@@ -99,13 +99,13 @@ public class MsgActivity extends ActivityGeneric {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                if(pcqContext.getPosMsg() == 10){
+                if(pcqContext.getFormularioCTR().getPosMsg() == 10){
                     Intent it = new Intent(MsgActivity.this, ComentarioActivity.class);
                     startActivity(it);
                     finish();
                 }
                 else{
-                    pcqContext.setPosMsg(pcqContext.getPosMsg() + 1);
+                    pcqContext.getFormularioCTR().setPosMsg(pcqContext.getFormularioCTR().getPosMsg() + 1);
                     Intent it = new Intent(MsgActivity.this, MsgActivity.class);
                     startActivity(it);
                     finish();
@@ -119,7 +119,7 @@ public class MsgActivity extends ActivityGeneric {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                if(pcqContext.getPosMsg() == 1){
+                if(pcqContext.getFormularioCTR().getPosMsg() == 1){
                     Intent it = new Intent(MsgActivity.this, TalhaoActivity.class);
                     startActivity(it);
                     finish();

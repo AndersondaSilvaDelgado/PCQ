@@ -23,7 +23,7 @@ public class HaIncendioActivity extends ActivityGeneric {
         Button buttonOkPadrao = (Button) findViewById(R.id.buttonOkPadrao);
         Button buttonCancPadrao = (Button) findViewById(R.id.buttonCancPadrao);
 
-        switch (pcqContext.getPosMsg()){
+        switch (pcqContext.getFormularioCTR().getPosMsg()){
             case 1:
                 textViewPadrao.setText("ÁREA QUEIMADA DE CANA(HA):");
                 break;
@@ -53,26 +53,26 @@ public class HaIncendioActivity extends ActivityGeneric {
 
                     if (haIncendioDouble > 0) {
 
-                        switch (pcqContext.getPosMsg()){
+                        switch (pcqContext.getFormularioCTR().getPosMsg()){
                             case 1:
-                                pcqContext.getFormularioCTR().getCabecBean().setHaIncCanaCabec(haIncendioDouble);
+                                pcqContext.getFormularioCTR().setHaIncCanaCabec(haIncendioDouble);
                                 break;
                             case 2:
-                                pcqContext.getFormularioCTR().getCabecBean().setHaIncPalhadaCabec(haIncendioDouble);
+                                pcqContext.getFormularioCTR().setHaIncPalhadaCabec(haIncendioDouble);
                                 break;
                             case 3:
-                                pcqContext.getFormularioCTR().getCabecBean().setHaIncResLegalCabec(haIncendioDouble);
+                                pcqContext.getFormularioCTR().setHaIncResLegalCabec(haIncendioDouble);
                                 break;
                             case 4:
-                                pcqContext.getFormularioCTR().getCabecBean().setHaIncAppCabec(haIncendioDouble);
+                                pcqContext.getFormularioCTR().setHaIncAppCabec(haIncendioDouble);
                                 break;
                             case 5:
-                                pcqContext.getFormularioCTR().getCabecBean().setHaIncAreaComumCabec(haIncendioDouble);
+                                pcqContext.getFormularioCTR().setHaIncAreaComumCabec(haIncendioDouble);
                                 break;
                         }
 
 
-                        pcqContext.setPosMsg(pcqContext.getPosMsg() + 1);
+                        pcqContext.getFormularioCTR().setPosMsg(pcqContext.getFormularioCTR().getPosMsg() + 1);
 
                         Intent it = new Intent(HaIncendioActivity.this, MsgActivity.class);
                         startActivity(it);

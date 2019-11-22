@@ -28,13 +28,10 @@ public class CabecBean extends Entidade {
     private Double haIncAppCabec;
     @DatabaseField
     private Double haIncAreaComumCabec;
-    private ArrayList<Long> talhaoCabec;
-    private ArrayList<Long> tanqueCabec;
-    private ArrayList<Long> saveiroCabec;
     @DatabaseField
     private Long qtdeBrigadistaCabec;
     @DatabaseField
-    private Long orgaoAmbientalCabec;
+    private String empresaTercCabec;
     @DatabaseField
     private String comentCabec;
     @DatabaseField
@@ -133,30 +130,6 @@ public class CabecBean extends Entidade {
         this.comentCabec = comentCabec;
     }
 
-    public ArrayList<Long> getTalhaoCabec() {
-        return talhaoCabec;
-    }
-
-    public void setTalhaoCabec(ArrayList<Long> talhaoCabec) {
-        this.talhaoCabec = talhaoCabec;
-    }
-
-    public ArrayList<Long> getTanqueCabec() {
-        return tanqueCabec;
-    }
-
-    public void setTanqueCabec(ArrayList<Long> tanqueCabec) {
-        this.tanqueCabec = tanqueCabec;
-    }
-
-    public ArrayList<Long> getSaveiroCabec() {
-        return saveiroCabec;
-    }
-
-    public void setSaveiroCabec(ArrayList<Long> saveiroCabec) {
-        this.saveiroCabec = saveiroCabec;
-    }
-
     public Long getQtdeBrigadistaCabec() {
         return qtdeBrigadistaCabec;
     }
@@ -165,11 +138,11 @@ public class CabecBean extends Entidade {
         this.qtdeBrigadistaCabec = qtdeBrigadistaCabec;
     }
 
-    public Long getOrgaoAmbientalCabec() {
-        return orgaoAmbientalCabec;
+    public String getEmpresaTercCabec() {
+        return empresaTercCabec;
     }
 
-    public void setOrgaoAmbientalCabec(Long orgaoAmbientalCabec) {
-        this.orgaoAmbientalCabec = orgaoAmbientalCabec;
+    public void setEmpresaTercCabec(String empresaTercCabec) {
+        this.empresaTercCabec = empresaTercCabec;
     }
 }

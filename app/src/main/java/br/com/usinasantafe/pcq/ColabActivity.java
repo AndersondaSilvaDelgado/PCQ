@@ -100,7 +100,7 @@ public class ColabActivity extends ActivityGeneric {
                     if (colabList.size() > 0) {
 
                         colabBean = (ColabBean) colabList.get(0);
-                        pcqContext.getFormularioCTR().getCabecBean().setMatricColabCabec(colabBean.getMatricColab());
+                        pcqContext.getFormularioCTR().salvarCabecIniciado(colabBean.getMatricColab());
                         colabList.clear();
 
                         Intent it = new Intent(ColabActivity.this, SecaoActivity.class);

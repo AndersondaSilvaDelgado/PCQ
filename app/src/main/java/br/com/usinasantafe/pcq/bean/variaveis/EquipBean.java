@@ -6,7 +6,7 @@ import com.j256.ormlite.table.DatabaseTable;
 import br.com.usinasantafe.pcq.pst.Entidade;
 
 @DatabaseTable(tableName="tbitemequipvar")
-public class ItemEquipBean extends Entidade {
+public class EquipBean extends Entidade {
 
     private static final long serialVersionUID = 1L;
 
@@ -21,7 +21,7 @@ public class ItemEquipBean extends Entidade {
     @DatabaseField
     private String dthrEquip;
 
-    public ItemEquipBean() {
+    public EquipBean() {
     }
 
     public Long getIdItemEquip() {

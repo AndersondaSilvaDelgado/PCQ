@@ -123,8 +123,9 @@ public class SaveiroActivity extends ActivityGeneric {
 
                 if(saveiroSelectedList.size() > 0){
 
-                    pcqContext.getFormularioCTR().getCabecBean().setSaveiroCabec(saveiroSelectedList);
-                    pcqContext.setPosMsg(pcqContext.getPosMsg() + 1);
+                    pcqContext.getFormularioCTR().setSaveiroCabec(saveiroSelectedList);
+                    saveiroSelectedList.clear();
+                    pcqContext.getFormularioCTR().setPosMsg(pcqContext.getFormularioCTR().getPosMsg() + 1);
 
                     Intent it = new Intent(SaveiroActivity.this, MsgActivity.class);
                     startActivity(it);

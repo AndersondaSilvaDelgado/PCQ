@@ -6,12 +6,12 @@ import com.j256.ormlite.table.DatabaseTable;
 import br.com.usinasantafe.pcq.pst.Entidade;
 
 @DatabaseTable(tableName="tbitemcritvar")
-public class ItemCriterioBean extends Entidade {
+public class ItemBean extends Entidade {
 
     private static final long serialVersionUID = 1L;
 
     @DatabaseField(generatedId=true)
-    private Long idItemCriterio;
+    private Long idItem;
     @DatabaseField
     private Long idCabec;
     @DatabaseField
@@ -19,17 +19,19 @@ public class ItemCriterioBean extends Entidade {
     @DatabaseField
     private Long idResp;
     @DatabaseField
-    private String dthrItemCriterio;
+    private Long idSubResp;
+    @DatabaseField
+    private String dthrItem;
 
-    public ItemCriterioBean() {
+    public ItemBean() {
     }
 
-    public Long getIdItemCriterio() {
-        return idItemCriterio;
+    public Long getIdItem() {
+        return idItem;
     }
 
-    public void setIdItemCriterio(Long idItemCriterio) {
-        this.idItemCriterio = idItemCriterio;
+    public void setIdItem(Long idItem) {
+        this.idItem = idItem;
     }
 
     public Long getIdCabec() {
@@ -56,11 +58,19 @@ public class ItemCriterioBean extends Entidade {
         this.idResp = idResp;
     }
 
-    public String getDthrItemCriterio() {
-        return dthrItemCriterio;
+    public String getDthrItem() {
+        return dthrItem;
     }
 
-    public void setDthrItemCriterio(String dthrItemCriterio) {
-        this.dthrItemCriterio = dthrItemCriterio;
+    public void setDthrItem(String dthrItem) {
+        this.dthrItem = dthrItem;
+    }
+
+    public Long getIdSubResp() {
+        return idSubResp;
+    }
+
+    public void setIdSubResp(Long idSubResp) {
+        this.idSubResp = idSubResp;
     }
 }
