@@ -5,7 +5,7 @@ import com.google.gson.JsonArray;
 
 import java.util.List;
 
-import br.com.usinasantafe.pcq.bean.variaveis.ItemBean;
+import br.com.usinasantafe.pcq.bean.variaveis.RespItemBean;
 import br.com.usinasantafe.pcq.util.Tempo;
 
 public class ItemDAO {
@@ -13,23 +13,33 @@ public class ItemDAO {
     public ItemDAO() {
     }
 
-    public void salvarItem(ItemBean itemBean, Long idCabec){
-        itemBean.setIdCabec(idCabec);
-        itemBean.setDthrItem(Tempo.getInstance().dataComHora());
-        itemBean.insert();
+    public void salvarItem(RespItemBean respItemBean, Long idCabec){
+        respItemBean.setIdCabec(idCabec);
+        respItemBean.setDthrItem(Tempo.getInstance().dataComHora());
+        respItemBean.insert();
     }
 
     public JsonArray dadosEnvioItem(Long idCabec){
-        ItemBean itemBean = new ItemBean();
-        List itemList = itemBean.get("idCabec", idCabec);
+        RespItemBean respItemBean = new RespItemBean();
+        List itemList = respItemBean.get("idCabec", idCabec);
         JsonArray itemJsonArray = new JsonArray();
         for (int i = 0; i < itemList.size(); i++) {
-            itemBean = (ItemBean) itemList.get(i);
+            respItemBean = (RespItemBean) itemList.get(i);
             Gson itemGson = new Gson();
-            itemJsonArray.add(itemGson.toJsonTree(itemBean, itemBean.getClass()));
+            itemJsonArray.add(itemGson.toJsonTree(respItemBean, respItemBean.getClass()));
         }
         itemList.clear();
         return itemJsonArray;
+    }
+
+    public void delItem(Long idCabec){
+        RespItemBean respItemBean = new RespItemBean();
+        List itemList = respItemBean.get("idCabec", idCabec);
+        for (int i = 0; i < itemList.size(); i++) {
+            respItemBean = (RespItemBean) itemList.get(i);
+            respItemBean.delete();
+        }
+        itemList.clear();
     }
 
 }

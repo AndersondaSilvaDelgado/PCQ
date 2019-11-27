@@ -6,7 +6,7 @@ import com.google.gson.JsonArray;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.usinasantafe.pcq.bean.variaveis.OrgAmbBean;
+import br.com.usinasantafe.pcq.bean.variaveis.OrgaoAmbItemBean;
 import br.com.usinasantafe.pcq.util.Tempo;
 
 public class OrgaoAmbDAO {
@@ -16,25 +16,35 @@ public class OrgaoAmbDAO {
 
     public void setOrgAmbCabec(ArrayList<Long> orgAmbCabec, Long idCabec){
         for(int i = 0; i < orgAmbCabec.size(); i++){
-            OrgAmbBean orgAmbBean = new OrgAmbBean();
-            orgAmbBean.setIdCabec(idCabec);
-            orgAmbBean.setIdOrgAmb(orgAmbCabec.get(i));
-            orgAmbBean.setDthrOrgAmb(Tempo.getInstance().dataComHora());
-            orgAmbBean.insert();
+            OrgaoAmbItemBean orgaoAmbItemBean = new OrgaoAmbItemBean();
+            orgaoAmbItemBean.setIdCabec(idCabec);
+            orgaoAmbItemBean.setIdOrgAmb(orgAmbCabec.get(i));
+            orgaoAmbItemBean.setDthrOrgAmb(Tempo.getInstance().dataComHora());
+            orgaoAmbItemBean.insert();
         }
     }
 
     public JsonArray dadosEnvioOrgaoAmbiental(Long idCabec){
-        OrgAmbBean orgAmbBean = new OrgAmbBean();
-        List orgAmbList = orgAmbBean.get("idCabec", idCabec);
+        OrgaoAmbItemBean orgaoAmbItemBean = new OrgaoAmbItemBean();
+        List orgAmbList = orgaoAmbItemBean.get("idCabec", idCabec);
         JsonArray orgAmbJsonArray = new JsonArray();
         for (int i = 0; i < orgAmbList.size(); i++) {
-            orgAmbBean = (OrgAmbBean) orgAmbList.get(i);
+            orgaoAmbItemBean = (OrgaoAmbItemBean) orgAmbList.get(i);
             Gson orgAmbGson = new Gson();
-            orgAmbJsonArray.add(orgAmbGson.toJsonTree(orgAmbBean, orgAmbBean.getClass()));
+            orgAmbJsonArray.add(orgAmbGson.toJsonTree(orgaoAmbItemBean, orgaoAmbItemBean.getClass()));
         }
         orgAmbList.clear();
         return orgAmbJsonArray;
+    }
+
+    public void delOrgaoAmbiental(Long idCabec){
+        OrgaoAmbItemBean orgaoAmbItemBean = new OrgaoAmbItemBean();
+        List orgAmbList = orgaoAmbItemBean.get("idCabec", idCabec);
+        for (int i = 0; i < orgAmbList.size(); i++) {
+            orgaoAmbItemBean = (OrgaoAmbItemBean) orgAmbList.get(i);
+            orgaoAmbItemBean.delete();
+        }
+        orgAmbList.clear();
     }
 
 }

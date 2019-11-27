@@ -21,10 +21,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".EmpresaTercActivity"></activity>
-        <activity android:name=".OrgaoAmbActivity" />
-        <activity android:name=".HaIncPalhadaActivity" />
-        <activity android:name=".MsgActivity" />
+        <activity
+            android:name=".EmpresaTercActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".OrgaoAmbActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MsgActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".TerceiroActivity"
             android:screenOrientation="portrait" />
@@ -47,16 +52,7 @@
             android:name=".SaveiroActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".OrgaoActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".HaIncVegetActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".HaIncendioActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".FazendaActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".CriterioActivity"
@@ -79,6 +75,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <receiver android:name=".TimerAlarme">
+            <intent-filter>
+                <action android:name="EXECUTAR_ALARME" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

@@ -14,18 +14,18 @@ import br.com.usinasantafe.pcq.bean.dao.OrgaoAmbDAO;
 import br.com.usinasantafe.pcq.bean.dao.TalhaoDAO;
 import br.com.usinasantafe.pcq.bean.variaveis.CabecBean;
 import br.com.usinasantafe.pcq.bean.variaveis.DadosEnvioBean;
-import br.com.usinasantafe.pcq.bean.variaveis.ItemBean;
+import br.com.usinasantafe.pcq.bean.variaveis.RespItemBean;
+import br.com.usinasantafe.pcq.util.EnvioDadosServ;
 
 public class FormularioCTR {
 
     private int posMsg;
     private int posCriterio;
-    private Long idResposta;
-    private ItemBean itemBean;
+    private RespItemBean respItemBean;
 
     public FormularioCTR() {
-        if(itemBean == null)
-            itemBean = new ItemBean();
+        if(respItemBean == null)
+            respItemBean = new RespItemBean();
     }
 
     //////////////////////////////Cabecalho ///////////////////////////////////////////////////////
@@ -47,25 +47,36 @@ public class FormularioCTR {
         cabecDAO.fecharCabec(cabecDAO.getCabecAbert());
     }
 
+    public Boolean verEnvioDados(){
+        CabecDAO cabecDAO = new CabecDAO();
+        return cabecDAO.cabecFechList().size() > 0;
+    }
+
+    public boolean verCabecAbert(){
+        CabecDAO cabecDAO = new CabecDAO();
+        return cabecDAO.verCabecAbert();
+
+    }
+
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
     /////////////////////////////////Item Cabecalho////////////////////////////////////////////////
 
     public void setItemBean(Long idQuestao, Long idResp) {
-        itemBean = new ItemBean();
-        itemBean.setIdQuestao(idQuestao);
-        itemBean.setIdResp(idResp);
+        respItemBean = new RespItemBean();
+        respItemBean.setIdQuestao(idQuestao);
+        respItemBean.setIdResp(idResp);
     }
 
     public void salvarItem(Long idSubResp){
-        itemBean.setIdSubResp(idSubResp);
+        respItemBean.setIdSubResp(idSubResp);
         CabecDAO cabecDAO = new CabecDAO();
         ItemDAO itemDAO = new ItemDAO();
-        itemDAO.salvarItem(itemBean, cabecDAO.getCabecAbert().getIdCabec());
+        itemDAO.salvarItem(respItemBean, cabecDAO.getCabecAbert().getIdCabec());
     }
 
     public Long getIdResp(){
-        return itemBean.getIdResp();
+        return respItemBean.getIdResp();
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -225,9 +236,38 @@ public class FormularioCTR {
 
         JsonObject talhaoJsonObj = new JsonObject();
         talhaoJsonObj.add("talhao", talhaoJsonArray);
-        dadosEnvioBean.setCabec(talhaoJsonObj.toString());
+        dadosEnvioBean.setTalhao(talhaoJsonObj.toString());
 
         return dadosEnvioBean;
+    }
+
+    public void delForm() {
+
+        CabecDAO cabecDAO = new CabecDAO();
+        List cabecList = cabecDAO.cabecFechList();
+
+        for (int i = 0; i < cabecList.size(); i++) {
+
+            CabecBean cabecBean = (CabecBean) cabecList.get(i);
+
+            ItemDAO itemDAO = new ItemDAO();
+            itemDAO.delItem(cabecBean.getIdCabec());
+
+            EquipDAO equipDAO = new EquipDAO();
+            equipDAO.delEquip(cabecBean.getIdCabec());
+
+            OrgaoAmbDAO orgaoAmbDAO = new OrgaoAmbDAO();
+            orgaoAmbDAO.delOrgaoAmbiental(cabecBean.getIdCabec());
+
+            TalhaoDAO talhaoDAO = new TalhaoDAO();
+            talhaoDAO.delTalhao(cabecBean.getIdCabec());
+
+            cabecBean.delete();
+
+        }
+
+        EnvioDadosServ.getInstance().setEnviando(false);
+
     }
 
 }

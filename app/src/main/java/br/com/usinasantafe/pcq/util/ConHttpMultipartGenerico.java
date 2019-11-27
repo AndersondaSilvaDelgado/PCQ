@@ -15,6 +15,8 @@ import org.apache.http.util.EntityUtils;
 
 import java.util.ArrayList;
 
+import br.com.usinasantafe.pcq.control.FormularioCTR;
+
 public class ConHttpMultipartGenerico extends AsyncTask<String, Void, String>   {
 
     private static ConHttpMultipartGenerico instance = null;
@@ -68,10 +70,12 @@ public class ConHttpMultipartGenerico extends AsyncTask<String, Void, String>   
 		try {
 
 			Log.i("ECM", "VALOR RECEBIDO --> " + result);
-			if(result.trim().contains("GRAVOU")){
-//				AbordagemCTR abordagemCTR = new AbordagemCTR();
-//				abordagemCTR.deleteCabec(result);
-
+			if(result.trim().equals("GRAVOU")){
+				FormularioCTR formularioCTR = new FormularioCTR();
+				formularioCTR.delForm();
+			}
+			else{
+				EnvioDadosServ.getInstance().setEnviando(false);
 			}
 
 		} catch (Exception e) {

@@ -33,10 +33,11 @@
                 style="@style/TextViewTituloQuestao"
                 android:text="@string/texto_item_default" />
 
-            <ListView
-                android:id="@+id/listCriterio"
-                android:layout_width="match_parent"
-                android:layout_height="100dp" />
+            <RadioGroup
+                android:id="@+id/radioGroupItem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
 
             <Button
                 android:id="@+id/buttonRetCriterio"

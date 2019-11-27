@@ -14,7 +14,7 @@ import java.util.List;
 
 import br.com.usinasantafe.pcq.bean.estaticas.EquipBean;
 
-public class OrgaoAmbActivity extends Activity {
+public class OrgaoAmbActivity extends ActivityGeneric {
 
     private ArrayList<ViewHolderChoice> itens;
     private AdapterListChoice adapterListChoice;

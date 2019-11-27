@@ -14,10 +14,15 @@ import br.com.usinasantafe.pcq.bean.estaticas.QuestaoBean;
 import br.com.usinasantafe.pcq.bean.estaticas.RespBean;
 import br.com.usinasantafe.pcq.bean.estaticas.SecaoBean;
 import br.com.usinasantafe.pcq.bean.estaticas.TalhaoBean;
+import br.com.usinasantafe.pcq.bean.variaveis.CabecBean;
+import br.com.usinasantafe.pcq.bean.variaveis.EquipItemBean;
+import br.com.usinasantafe.pcq.bean.variaveis.RespItemBean;
+import br.com.usinasantafe.pcq.bean.variaveis.OrgaoAmbItemBean;
+import br.com.usinasantafe.pcq.bean.variaveis.TalhaoItemBean;
 
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
-	public static final String FORCA_DB_NAME = "pst_db";
+	public static final String FORCA_DB_NAME = "pcq_db";
 	public static final int FORCA_BD_VERSION = 1;
 
 	private static DatabaseHelper instance;
@@ -52,6 +57,12 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 			TableUtils.createTable(cs, RespBean.class);
 			TableUtils.createTable(cs, SecaoBean.class);
 			TableUtils.createTable(cs, TalhaoBean.class);
+
+			TableUtils.createTable(cs, CabecBean.class);
+			TableUtils.createTable(cs, EquipItemBean.class);
+			TableUtils.createTable(cs, RespItemBean.class);
+			TableUtils.createTable(cs, OrgaoAmbItemBean.class);
+			TableUtils.createTable(cs, TalhaoItemBean.class);
 
 		}
 		catch(Exception e){

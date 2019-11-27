@@ -1,9 +1,14 @@
 package br.com.usinasantafe.pcq;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -14,9 +19,9 @@ import br.com.usinasantafe.pcq.bean.estaticas.RespBean;
 
 public class StatusCriterioActivity extends ActivityGeneric {
 
-    private ListView subRespListView;
     private List subRespList;
     private PCQContext pcqContext;
+    private RadioGroup radioGroupStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +32,18 @@ public class StatusCriterioActivity extends ActivityGeneric {
 
         TextView textViewStatusCriterio = (TextView) findViewById(R.id.textViewStatusCriterio);
         TextView textViewTituloStatusCriterio = (TextView) findViewById(R.id.textViewTituloStatusCriterio);
+        radioGroupStatus = (RadioGroup) findViewById(R.id.radioGroupStatus);
+
+        ColorStateList colorStateList = new ColorStateList(
+                new int[][]{
+                        new int[]{-android.R.attr.state_enabled}, //disabled
+                        new int[]{android.R.attr.state_enabled} //enabled
+                },
+                new int[] {
+                        Color.BLACK //disabled
+                        ,Color.BLUE //enabled
+                }
+        );
 
         textViewTituloStatusCriterio.setText("STATUS");
 
@@ -43,18 +60,21 @@ public class StatusCriterioActivity extends ActivityGeneric {
 
         for (int i = 0; i < subRespList.size(); i++) {
             respBean = (RespBean) subRespList.get(i);
-            ViewHolderChoice viewHolderChoice = new ViewHolderChoice();
-            viewHolderChoice.setSelected(false);
-            viewHolderChoice.setDescrCheckBox(respBean.getDescrResp());
-            itens.add(viewHolderChoice);
+            RadioButton radioButtonStatus = new RadioButton(getApplicationContext());
+            radioButtonStatus.setText(respBean.getDescrResp());
+            radioButtonStatus.setTextColor(Color.BLACK);
+            radioButtonStatus.setTextSize(20F);
+            radioButtonStatus.setButtonTintList(colorStateList);
+            radioGroupStatus.addView(radioButtonStatus);
         }
 
-        AdapterListChoiceStatus adapterListChoiceStatus = new AdapterListChoiceStatus(this, itens);
-        subRespListView = (ListView) findViewById(R.id.listStatusCriterio);
-        ViewGroup.LayoutParams lp = (ViewGroup.LayoutParams) subRespListView.getLayoutParams();
-        lp.height = subRespList.size() * 80;
-        subRespListView.setLayoutParams(lp);
-        subRespListView.setAdapter(adapterListChoiceStatus);
+        radioGroupStatus.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                View radioButton = radioGroup.findViewById(i);
+                itemSelected(radioGroup.indexOfChild(radioButton));
+            }
+        });
 
     }
 
@@ -62,7 +82,7 @@ public class StatusCriterioActivity extends ActivityGeneric {
         RespBean respBean = (RespBean) subRespList.get(pos);
         pcqContext.getFormularioCTR().salvarItem(respBean.getIdResp());
         QuestaoBean questaoBean = new QuestaoBean();
-        List questaoList = questaoBean.get("seqQuestao",true);
+        List questaoList = questaoBean.orderBy("seqQuestao",true);
         if(questaoList.size() > pcqContext.getFormularioCTR().getPosCriterio()) {
             pcqContext.getFormularioCTR().setPosCriterio(pcqContext.getFormularioCTR().getPosCriterio() + 1);
             Intent it = new Intent(StatusCriterioActivity.this, CriterioActivity.class);

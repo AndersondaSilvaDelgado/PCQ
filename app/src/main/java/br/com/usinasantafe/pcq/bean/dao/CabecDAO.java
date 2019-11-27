@@ -1,6 +1,5 @@
 package br.com.usinasantafe.pcq.bean.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import br.com.usinasantafe.pcq.bean.variaveis.CabecBean;
@@ -11,7 +10,7 @@ public class CabecDAO {
     public CabecDAO() {
     }
 
-    //////////////////////////////Cabecalho Iniciado///////////////////////////////////////////////
+    ///////////////////////////////////Cabecalho////////////////////////////////////////////////////
 
     public void salvarCabecIniciado(CabecBean cabecBean){
         cabecBean.setHaIncCanaCabec(0D);
@@ -35,8 +34,44 @@ public class CabecDAO {
     }
 
     public void delCabecInic(){
-        CabecBean cabecBean = getCabecInic();
-        cabecBean.delete();
+        if(getCabecInicList().size() > 0) {
+            CabecBean cabecBean = getCabecInic();
+            cabecBean.delete();
+        }
+        getCabecInicList().clear();
+    }
+
+    private List getCabecInicList() {
+        CabecBean cabecBean = new CabecBean();
+        return cabecBean.get("statusCabec", 0L);
+    }
+
+    public boolean verCabecAbert(){
+        boolean retorno = getCabecAbertList().size() > 0;
+        getCabecAbertList().clear();
+        return retorno;
+    }
+
+    private List getCabecAbertList() {
+        CabecBean cabecBean = new CabecBean();
+        return cabecBean.get("statusCabec", 1L);
+    }
+
+    public CabecBean getCabecAbert(){
+        List cabecList = getCabecAbertList();
+        CabecBean cabecBean = (CabecBean) cabecList.get(0);
+        cabecList.clear();
+        return cabecBean;
+    }
+
+    public void fecharCabec(CabecBean cabecBean){
+        cabecBean.setStatusCabec(2L);
+        cabecBean.update();
+    }
+
+    public List cabecFechList() {
+        CabecBean cabecBean = new CabecBean();
+        return cabecBean.get("statusCabec", 2L);
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -100,33 +135,6 @@ public class CabecDAO {
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
-
-    public CabecBean getCabecAbert(){
-        CabecBean cabecBean = new CabecBean();
-        List cabecList = cabecBean.get("statusCabec", 1L);
-        cabecBean = (CabecBean) cabecList.get(0);
-        cabecList.clear();
-        return cabecBean;
-    }
-
-    public void fecharCabec(CabecBean cabecBean){
-        cabecBean.setStatusCabec(2L);
-        cabecBean.update();
-    }
-
-    public void delCabec(Long idCabAbord) {
-        CabecBean cabecBean = new CabecBean();
-        List cabecList = cabecBean.get("idCabAbord", idCabAbord);
-        cabecBean = (CabecBean) cabecList.get(0);
-        cabecBean.delete();
-        cabecList.clear();
-    }
-
-
-    public List cabecFechList() {
-        CabecBean cabecBean = new CabecBean();
-        return cabecBean.get("statusCabec", 2L);
-    }
 
 
 }

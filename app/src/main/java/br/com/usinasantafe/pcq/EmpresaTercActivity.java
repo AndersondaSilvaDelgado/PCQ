@@ -11,7 +11,7 @@ import android.widget.EditText;
 
 import java.util.ArrayList;
 
-public class EmpresaTercActivity extends Activity {
+public class EmpresaTercActivity extends ActivityGeneric {
 
     private PCQContext pcqContext;
     private EditText editTextEmpresa;
@@ -47,6 +47,7 @@ public class EmpresaTercActivity extends Activity {
                 if (!editTextEmpresa.getText().toString().equals("")) {
 
                     pcqContext.getFormularioCTR().setEmpresaTercCabec(editTextEmpresa.getText().toString());
+                    pcqContext.getFormularioCTR().setPosMsg(pcqContext.getFormularioCTR().getPosMsg() + 1);
 
                     Intent it = new Intent(EmpresaTercActivity.this, MsgActivity.class);
                     startActivity(it);

@@ -53,7 +53,7 @@ public class MenuInicialActivity extends ActivityGeneric {
             ActivityCompat.requestPermissions((Activity) this, PERMISSIONS, 112);
         }
 
-//        customHandler.postDelayed(updateTimerThread, 0);
+        customHandler.postDelayed(updateTimerThread, 0);
 
         ColabBean colabBean = new ColabBean();
 
@@ -92,7 +92,12 @@ public class MenuInicialActivity extends ActivityGeneric {
 
         }
 
-//        atualizarAplic();
+        if(pcqContext.getFormularioCTR().verCabecAbert()){
+
+        }
+        else {
+            atualizarAplic();
+        }
 
         listarMenuInicial();
 

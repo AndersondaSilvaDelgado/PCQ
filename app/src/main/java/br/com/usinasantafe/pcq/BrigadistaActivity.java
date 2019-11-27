@@ -29,6 +29,7 @@ public class BrigadistaActivity extends ActivityGeneric {
                 if (!editTextPadrao.getText().toString().equals("")) {
 
                     pcqContext.getFormularioCTR().setQtdeBrigadistaCabec(Long.parseLong(editTextPadrao.getText().toString()));
+                    pcqContext.getFormularioCTR().setPosMsg(pcqContext.getFormularioCTR().getPosMsg() + 1);
 
                     Intent it = new Intent(BrigadistaActivity.this, MsgActivity.class);
                     startActivity(it);

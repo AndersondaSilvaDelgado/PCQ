@@ -1,9 +1,15 @@
 package br.com.usinasantafe.pcq;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -14,11 +20,11 @@ import br.com.usinasantafe.pcq.bean.estaticas.RespBean;
 
 public class CriterioActivity extends ActivityGeneric {
 
-    private ListView respostaListView;
     private List respostaList;
     private List questaoList;
     private PCQContext pcqContext;
     private QuestaoBean questaoBean;
+    private RadioGroup radioGroupItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,11 +35,23 @@ public class CriterioActivity extends ActivityGeneric {
 
         TextView textViewCriterio = (TextView) findViewById(R.id.textViewCriterio);
         TextView textViewTituloCriterio = (TextView) findViewById(R.id.textViewTituloCriterio);
+        radioGroupItem = (RadioGroup) findViewById(R.id.radioGroupItem);
+
+        ColorStateList colorStateList = new ColorStateList(
+                new int[][]{
+                        new int[]{-android.R.attr.state_enabled}, //disabled
+                        new int[]{android.R.attr.state_enabled} //enabled
+                },
+                new int[] {
+                        Color.BLACK //disabled
+                        ,Color.BLUE //enabled
+                }
+        );
 
         textViewTituloCriterio.setText("CRITÉRIO " + pcqContext.getFormularioCTR().getPosCriterio());
 
         questaoBean = new QuestaoBean();
-        List questaoList = questaoBean.get("seqQuestao",true);
+        questaoList = questaoBean.orderBy("seqQuestao",true);
         questaoBean = (QuestaoBean) questaoList.get(pcqContext.getFormularioCTR().getPosCriterio() - 1);
 
         textViewCriterio.setText(questaoBean.getDescrQuestao());
@@ -45,25 +63,29 @@ public class CriterioActivity extends ActivityGeneric {
 
         for (int i = 0; i < respostaList.size(); i++) {
             respBean = (RespBean) respostaList.get(i);
-            ViewHolderChoice viewHolderChoice = new ViewHolderChoice();
-            viewHolderChoice.setSelected(false);
-            viewHolderChoice.setDescrCheckBox(respBean.getDescrResp());
-            itens.add(viewHolderChoice);
+            RadioButton radioButtonItem = new RadioButton(getApplicationContext());
+            radioButtonItem.setText(respBean.getDescrResp());
+            radioButtonItem.setTextColor(Color.BLACK);
+            radioButtonItem.setTextSize(20F);
+            radioButtonItem.setButtonTintList(colorStateList);
+            radioGroupItem.addView(radioButtonItem);
         }
 
-        AdapterListChoiceCriterio adapterListChoiceCriterio = new AdapterListChoiceCriterio(this, itens);
-        respostaListView = (ListView) findViewById(R.id.listCriterio);
-        ViewGroup.LayoutParams lp = (ViewGroup.LayoutParams) respostaListView.getLayoutParams();
-        lp.height = respostaList.size() * 80;
-        respostaListView.setLayoutParams(lp);
-        respostaListView.setAdapter(adapterListChoiceCriterio);
+        radioGroupItem.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                View radioButton = radioGroup.findViewById(i);
+                itemSelected(radioGroup.indexOfChild(radioButton));
+            }
+        });
+
     }
 
 
     public void itemSelected(int pos){
         RespBean respBean = (RespBean) respostaList.get(pos);
         pcqContext.getFormularioCTR().setItemBean(questaoBean.getIdQuestao(), respBean.getIdResp());
-        List subRespList = respBean.get("idSubResp", respBean.getIdSubResp());
+        List subRespList = respBean.get("idQuestao", respBean.getIdSubResp());
         if(subRespList.size() == 0){
             pcqContext.getFormularioCTR().salvarItem(0L);
             if(questaoList.size() > pcqContext.getFormularioCTR().getPosCriterio()) {
@@ -84,7 +106,8 @@ public class CriterioActivity extends ActivityGeneric {
             startActivity(it);
             finish();
         }
-
+        questaoList.clear();
+        subRespList.clear();
     }
 
 }

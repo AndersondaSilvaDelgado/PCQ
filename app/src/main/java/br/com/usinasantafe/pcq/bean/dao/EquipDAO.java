@@ -6,7 +6,7 @@ import com.google.gson.JsonArray;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.usinasantafe.pcq.bean.variaveis.EquipBean;
+import br.com.usinasantafe.pcq.bean.variaveis.EquipItemBean;
 import br.com.usinasantafe.pcq.util.Tempo;
 
 public class EquipDAO {
@@ -16,37 +16,47 @@ public class EquipDAO {
 
     public void setTanqueCabec(ArrayList<Long> tanqueCabec, Long idCabec){
         for(int i = 0; i < tanqueCabec.size(); i++){
-            EquipBean equipBean = new EquipBean();;
-            equipBean.setIdCabec(idCabec);
-            equipBean.setIdEquip(tanqueCabec.get(i));
-            equipBean.setTipoEquip(1L);
-            equipBean.setDthrEquip(Tempo.getInstance().dataComHora());
-            equipBean.insert();
+            EquipItemBean equipItemBean = new EquipItemBean();;
+            equipItemBean.setIdCabec(idCabec);
+            equipItemBean.setIdEquip(tanqueCabec.get(i));
+            equipItemBean.setTipoEquip(1L);
+            equipItemBean.setDthrEquip(Tempo.getInstance().dataComHora());
+            equipItemBean.insert();
         }
     }
 
     public void setSaveiroCabec(ArrayList<Long> saveiroCabec, Long idCabec){
         for(int i = 0; i < saveiroCabec.size(); i++){
-            EquipBean equipBean = new EquipBean();;
-            equipBean.setIdCabec(idCabec);
-            equipBean.setIdEquip(saveiroCabec.get(i));
-            equipBean.setTipoEquip(2L);
-            equipBean.setDthrEquip(Tempo.getInstance().dataComHora());
-            equipBean.insert();
+            EquipItemBean equipItemBean = new EquipItemBean();;
+            equipItemBean.setIdCabec(idCabec);
+            equipItemBean.setIdEquip(saveiroCabec.get(i));
+            equipItemBean.setTipoEquip(2L);
+            equipItemBean.setDthrEquip(Tempo.getInstance().dataComHora());
+            equipItemBean.insert();
         }
     }
 
     public JsonArray dadosEnvioEquip(Long idCabec){
-        EquipBean equipBean = new EquipBean();
-        List equipList = equipBean.get("idCabec", idCabec);
+        EquipItemBean equipItemBean = new EquipItemBean();
+        List equipList = equipItemBean.get("idCabec", idCabec);
         JsonArray equipJsonArray = new JsonArray();
         for (int i = 0; i < equipList.size(); i++) {
-            equipBean = (EquipBean) equipList.get(i);
+            equipItemBean = (EquipItemBean) equipList.get(i);
             Gson equipGson = new Gson();
-            equipJsonArray.add(equipGson.toJsonTree(equipBean, equipBean.getClass()));
+            equipJsonArray.add(equipGson.toJsonTree(equipItemBean, equipItemBean.getClass()));
         }
         equipList.clear();
         return equipJsonArray;
+    }
+
+    public void delEquip(Long idCabec){
+        EquipItemBean equipItemBean = new EquipItemBean();
+        List equipList = equipItemBean.get("idCabec", idCabec);
+        for (int i = 0; i < equipList.size(); i++) {
+            equipItemBean = (EquipItemBean) equipList.get(i);
+            equipItemBean.delete();
+        }
+        equipList.clear();
     }
 
 }

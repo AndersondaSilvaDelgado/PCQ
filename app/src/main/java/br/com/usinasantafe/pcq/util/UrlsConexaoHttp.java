@@ -23,7 +23,7 @@ public class UrlsConexaoHttp {
     }
 
     public String getsInserirDados() {
-        return urlPrincEnvio + "inserirdados.php" + put;
+        return urlPrincEnvio + "formulario.php" + put;
     }
 
     public String urlVerifica(String classe) {

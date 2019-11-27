@@ -27,10 +27,10 @@ public class SaveiroActivity extends ActivityGeneric {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_saveiro);
 
-        Button buttonDesmarcarTodos = (Button) findViewById(R.id.buttonDesmarcarTodosTanque);
-        Button buttonMarcarTodos = (Button) findViewById(R.id.buttonMarcarTodosTanque);
-        Button buttonRetTanque = (Button) findViewById(R.id.buttonRetTanque);
-        Button buttonSalvarTanque = (Button) findViewById(R.id.buttonSalvarTanque);
+        Button buttonDesmarcarTodos = (Button) findViewById(R.id.buttonDesmarcarTodosSaveiro);
+        Button buttonMarcarTodos = (Button) findViewById(R.id.buttonMarcarTodosSaveiro);
+        Button buttonRetTanque = (Button) findViewById(R.id.buttonRetSaveiro);
+        Button buttonSalvarTanque = (Button) findViewById(R.id.buttonSalvarSaveiro);
 
         pcqContext = (PCQContext) getApplication();
         itens = new ArrayList<ViewHolderChoice>();

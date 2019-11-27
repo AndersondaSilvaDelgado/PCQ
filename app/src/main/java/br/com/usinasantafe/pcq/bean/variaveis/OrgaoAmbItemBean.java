@@ -5,8 +5,8 @@ import com.j256.ormlite.table.DatabaseTable;
 
 import br.com.usinasantafe.pcq.pst.Entidade;
 
-@DatabaseTable(tableName="tbitemtalhaovar")
-public class OrgAmbBean extends Entidade {
+@DatabaseTable(tableName="tborgaoambitemvar")
+public class OrgaoAmbItemBean extends Entidade {
 
     private static final long serialVersionUID = 1L;
 
@@ -19,7 +19,7 @@ public class OrgAmbBean extends Entidade {
     @DatabaseField
     private String dthrOrgAmb;
 
-    public OrgAmbBean() {
+    public OrgaoAmbItemBean() {
     }
 
     public Long getIdItemOrgAmb() {
