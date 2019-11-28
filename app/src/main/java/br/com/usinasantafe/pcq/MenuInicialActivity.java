@@ -94,6 +94,13 @@ public class MenuInicialActivity extends ActivityGeneric {
 
         if(pcqContext.getFormularioCTR().verCabecAbert()){
 
+            pcqContext.getFormularioCTR().delItemAberto();
+            pcqContext.getFormularioCTR().setPosCriterio(1);
+
+            Intent it = new Intent(MenuInicialActivity.this, CriterioActivity.class);
+            startActivity(it);
+            finish();
+
         }
         else {
             atualizarAplic();

@@ -31,20 +31,39 @@
             <TextView
                 android:id="@+id/textViewStatusCriterio"
                 style="@style/TextViewTituloQuestao"
+                android:layout_marginTop="10dp"
                 android:text="@string/texto_item_default" />
 
             <RadioGroup
                 android:id="@+id/radioGroupStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:orientation="vertical" />
 
-            <Button
-                android:id="@+id/buttonRetStatusCriterio"
-                style="@style/BotaoAvulso"
+            <LinearLayout
+                android:id="@+id/linerBotao"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/texto_padrao_retornar" />
+                android:layout_height="wrap_content" >
+
+                <Button
+                    android:id="@+id/buttonRetStatusCriterio"
+                    style="@style/BotaoAvulso"
+                    android:layout_weight="1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/texto_padrao_retornar" />
+
+                <Button
+                    android:id="@+id/buttonAvancaStatusCriterio"
+                    style="@style/BotaoAvulso"
+                    android:layout_weight="1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/texto_padrao_ok" />
+
+            </LinearLayout>
 
         </LinearLayout>
 

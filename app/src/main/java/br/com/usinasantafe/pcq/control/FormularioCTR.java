@@ -62,6 +62,13 @@ public class FormularioCTR {
 
     /////////////////////////////////Item Cabecalho////////////////////////////////////////////////
 
+    public void delItemAberto(){
+        CabecDAO cabecDAO = new CabecDAO();
+        CabecBean cabecBean = cabecDAO.getCabecAbert();
+        ItemDAO itemDAO = new ItemDAO();
+        itemDAO.delItem(cabecBean.getIdCabec());
+    }
+
     public void setItemBean(Long idQuestao, Long idResp) {
         respItemBean = new RespItemBean();
         respItemBean.setIdQuestao(idQuestao);

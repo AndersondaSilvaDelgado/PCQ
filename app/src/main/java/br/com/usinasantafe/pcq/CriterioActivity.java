@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RadioButton;
@@ -25,6 +26,7 @@ public class CriterioActivity extends ActivityGeneric {
     private PCQContext pcqContext;
     private QuestaoBean questaoBean;
     private RadioGroup radioGroupItem;
+    private int posicao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +37,11 @@ public class CriterioActivity extends ActivityGeneric {
 
         TextView textViewCriterio = (TextView) findViewById(R.id.textViewCriterio);
         TextView textViewTituloCriterio = (TextView) findViewById(R.id.textViewTituloCriterio);
+        Button buttonRetCriterio = (Button) findViewById(R.id.buttonRetCriterio);
+        Button buttonAvancaCriterio = (Button) findViewById(R.id.buttonAvancaCriterio);
         radioGroupItem = (RadioGroup) findViewById(R.id.radioGroupItem);
+
+        posicao = -1;
 
         ColorStateList colorStateList = new ColorStateList(
                 new int[][]{
@@ -66,7 +72,7 @@ public class CriterioActivity extends ActivityGeneric {
             RadioButton radioButtonItem = new RadioButton(getApplicationContext());
             radioButtonItem.setText(respBean.getDescrResp());
             radioButtonItem.setTextColor(Color.BLACK);
-            radioButtonItem.setTextSize(20F);
+            radioButtonItem.setTextSize(22F);
             radioButtonItem.setButtonTintList(colorStateList);
             radioGroupItem.addView(radioButtonItem);
         }
@@ -75,39 +81,59 @@ public class CriterioActivity extends ActivityGeneric {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 View radioButton = radioGroup.findViewById(i);
-                itemSelected(radioGroup.indexOfChild(radioButton));
+                posicao = radioGroup.indexOfChild(radioButton);
             }
         });
 
-    }
+        buttonRetCriterio.setOnClickListener(new View.OnClickListener() {
 
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                if(pcqContext.getFormularioCTR().getPosCriterio() > 1){
+                    pcqContext.getFormularioCTR().setPosCriterio(pcqContext.getFormularioCTR().getPosCriterio() - 1);
+                    Intent it = new Intent(CriterioActivity.this, CriterioActivity.class);
+                    startActivity(it);
+                    finish();
+                }
+            }
+        });
 
-    public void itemSelected(int pos){
-        RespBean respBean = (RespBean) respostaList.get(pos);
-        pcqContext.getFormularioCTR().setItemBean(questaoBean.getIdQuestao(), respBean.getIdResp());
-        List subRespList = respBean.get("idQuestao", respBean.getIdSubResp());
-        if(subRespList.size() == 0){
-            pcqContext.getFormularioCTR().salvarItem(0L);
-            if(questaoList.size() > pcqContext.getFormularioCTR().getPosCriterio()) {
-                pcqContext.getFormularioCTR().setPosCriterio(pcqContext.getFormularioCTR().getPosCriterio() + 1);
-                Intent it = new Intent(CriterioActivity.this, CriterioActivity.class);
-                startActivity(it);
-                finish();
+        buttonAvancaCriterio.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                if(posicao > -1){
+                    RespBean respBean = (RespBean) respostaList.get(posicao);
+                    pcqContext.getFormularioCTR().setItemBean(questaoBean.getIdQuestao(), respBean.getIdResp());
+                    List subRespList = respBean.get("idQuestao", respBean.getIdSubResp());
+                    if(subRespList.size() == 0){
+                        pcqContext.getFormularioCTR().salvarItem(0L);
+                        if(questaoList.size() > pcqContext.getFormularioCTR().getPosCriterio()) {
+                            pcqContext.getFormularioCTR().setPosCriterio(pcqContext.getFormularioCTR().getPosCriterio() + 1);
+                            Intent it = new Intent(CriterioActivity.this, CriterioActivity.class);
+                            startActivity(it);
+                            finish();
+                        }
+                        else{
+                            pcqContext.getFormularioCTR().fecharCabec();
+                            Intent it = new Intent(CriterioActivity.this, MenuInicialActivity.class);
+                            startActivity(it);
+                            finish();
+                        }
+                    }
+                    else{
+                        Intent it = new Intent(CriterioActivity.this, StatusCriterioActivity.class);
+                        startActivity(it);
+                        finish();
+                    }
+                    questaoList.clear();
+                    subRespList.clear();
+                }
             }
-            else{
-                pcqContext.getFormularioCTR().fecharCabec();
-                Intent it = new Intent(CriterioActivity.this, MenuInicialActivity.class);
-                startActivity(it);
-                finish();
-            }
-        }
-        else{
-            Intent it = new Intent(CriterioActivity.this, StatusCriterioActivity.class);
-            startActivity(it);
-            finish();
-        }
-        questaoList.clear();
-        subRespList.clear();
+        });
+
     }
 
 }

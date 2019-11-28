@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -22,6 +23,7 @@ public class StatusCriterioActivity extends ActivityGeneric {
     private List subRespList;
     private PCQContext pcqContext;
     private RadioGroup radioGroupStatus;
+    private int posicao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +34,11 @@ public class StatusCriterioActivity extends ActivityGeneric {
 
         TextView textViewStatusCriterio = (TextView) findViewById(R.id.textViewStatusCriterio);
         TextView textViewTituloStatusCriterio = (TextView) findViewById(R.id.textViewTituloStatusCriterio);
+        Button buttonRetStatusCriterio = (Button) findViewById(R.id.buttonRetStatusCriterio);
+        Button buttonAvancaStatusCriterio = (Button) findViewById(R.id.buttonAvancaStatusCriterio);
         radioGroupStatus = (RadioGroup) findViewById(R.id.radioGroupStatus);
+
+        posicao = -1;
 
         ColorStateList colorStateList = new ColorStateList(
                 new int[][]{
@@ -63,7 +69,7 @@ public class StatusCriterioActivity extends ActivityGeneric {
             RadioButton radioButtonStatus = new RadioButton(getApplicationContext());
             radioButtonStatus.setText(respBean.getDescrResp());
             radioButtonStatus.setTextColor(Color.BLACK);
-            radioButtonStatus.setTextSize(20F);
+            radioButtonStatus.setTextSize(22F);
             radioButtonStatus.setButtonTintList(colorStateList);
             radioGroupStatus.addView(radioButtonStatus);
         }
@@ -72,29 +78,48 @@ public class StatusCriterioActivity extends ActivityGeneric {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 View radioButton = radioGroup.findViewById(i);
-                itemSelected(radioGroup.indexOfChild(radioButton));
+                posicao = radioGroup.indexOfChild(radioButton);
+            }
+        });
+
+        buttonRetStatusCriterio.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                Intent it = new Intent(StatusCriterioActivity.this, CriterioActivity.class);
+                startActivity(it);
+                finish();
+            }
+        });
+
+        buttonAvancaStatusCriterio.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                if(posicao > -1){
+                    RespBean respBean = (RespBean) subRespList.get(posicao);
+                    pcqContext.getFormularioCTR().salvarItem(respBean.getIdResp());
+                    QuestaoBean questaoBean = new QuestaoBean();
+                    List questaoList = questaoBean.orderBy("seqQuestao",true);
+                    if(questaoList.size() > pcqContext.getFormularioCTR().getPosCriterio()) {
+                        pcqContext.getFormularioCTR().setPosCriterio(pcqContext.getFormularioCTR().getPosCriterio() + 1);
+                        Intent it = new Intent(StatusCriterioActivity.this, CriterioActivity.class);
+                        startActivity(it);
+                        finish();
+                    }
+                    else{
+                        pcqContext.getFormularioCTR().fecharCabec();
+                        Intent it = new Intent(StatusCriterioActivity.this, MenuInicialActivity.class);
+                        startActivity(it);
+                        finish();
+                    }
+                }
             }
         });
 
     }
 
-    public void itemSelected(int pos){
-        RespBean respBean = (RespBean) subRespList.get(pos);
-        pcqContext.getFormularioCTR().salvarItem(respBean.getIdResp());
-        QuestaoBean questaoBean = new QuestaoBean();
-        List questaoList = questaoBean.orderBy("seqQuestao",true);
-        if(questaoList.size() > pcqContext.getFormularioCTR().getPosCriterio()) {
-            pcqContext.getFormularioCTR().setPosCriterio(pcqContext.getFormularioCTR().getPosCriterio() + 1);
-            Intent it = new Intent(StatusCriterioActivity.this, CriterioActivity.class);
-            startActivity(it);
-            finish();
-        }
-        else{
-            pcqContext.getFormularioCTR().fecharCabec();
-            Intent it = new Intent(StatusCriterioActivity.this, MenuInicialActivity.class);
-            startActivity(it);
-            finish();
-        }
-    }
 
 }
