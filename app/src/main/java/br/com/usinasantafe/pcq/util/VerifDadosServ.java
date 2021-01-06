@@ -11,9 +11,11 @@ import com.google.gson.JsonObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import br.com.usinasantafe.pcq.MenuInicialActivity;
-import br.com.usinasantafe.pcq.bean.variaveis.AtualAplicBean;
-import br.com.usinasantafe.pcq.pst.GenericRecordable;
+import br.com.usinasantafe.pcq.util.connHttp.PostVerGenerico;
+import br.com.usinasantafe.pcq.util.connHttp.UrlsConexaoHttp;
+import br.com.usinasantafe.pcq.view.MenuInicialActivity;
+import br.com.usinasantafe.pcq.model.bean.variaveis.AtualAplicBean;
+import br.com.usinasantafe.pcq.model.pst.GenericRecordable;
 
 /**
  * Created by anderson on 16/11/2015.
@@ -31,7 +33,7 @@ public class VerifDadosServ {
     private String tipo;
     private AtualAplicBean atualAplicBean;
     private MenuInicialActivity menuInicialActivity;
-    private ConHttpPostVerGenerico conHttpPostVerGenerico;
+    private PostVerGenerico postVerGenerico;
     private boolean verTerm;
     private String senha;
     private int verTelaAtualPerda = 0;
@@ -92,9 +94,9 @@ public class VerifDadosServ {
         Map<String, Object> parametrosPost = new HashMap<String, Object>();
         parametrosPost.put("dado", json.toString());
 
-        conHttpPostVerGenerico = new ConHttpPostVerGenerico();
-        conHttpPostVerGenerico.setParametrosPost(parametrosPost);
-        conHttpPostVerGenerico.execute(url);
+        postVerGenerico = new PostVerGenerico();
+        postVerGenerico.setParametrosPost(parametrosPost);
+        postVerGenerico.execute(url);
 
     }
 

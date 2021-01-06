@@ -3,8 +3,10 @@ package br.com.usinasantafe.pcq.util;
 import android.content.Context;
 import android.util.Log;
 
-import br.com.usinasantafe.pcq.bean.variaveis.DadosEnvioBean;
+import br.com.usinasantafe.pcq.model.bean.variaveis.DadosEnvioBean;
 import br.com.usinasantafe.pcq.control.FormularioCTR;
+import br.com.usinasantafe.pcq.util.connHttp.MultipartGenerico;
+import br.com.usinasantafe.pcq.util.connHttp.UrlsConexaoHttp;
 
 public class EnvioDadosServ {
 
@@ -44,8 +46,8 @@ public class EnvioDadosServ {
         dados[4] = dadosEnvioBean.getOrgaoAmb();
         dados[5] = dadosEnvioBean.getTalhao();
 
-        ConHttpMultipartGenerico conHttpMultipartGenerico = new ConHttpMultipartGenerico();
-        conHttpMultipartGenerico.execute(dados);
+        MultipartGenerico multipartGenerico = new MultipartGenerico();
+        multipartGenerico.execute(dados);
 
     }
 

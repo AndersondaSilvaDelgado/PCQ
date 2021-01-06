@@ -7,14 +7,14 @@ import com.google.gson.JsonObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.usinasantafe.pcq.bean.dao.CabecDAO;
-import br.com.usinasantafe.pcq.bean.dao.EquipDAO;
-import br.com.usinasantafe.pcq.bean.dao.ItemDAO;
-import br.com.usinasantafe.pcq.bean.dao.OrgaoAmbDAO;
-import br.com.usinasantafe.pcq.bean.dao.TalhaoDAO;
-import br.com.usinasantafe.pcq.bean.variaveis.CabecBean;
-import br.com.usinasantafe.pcq.bean.variaveis.DadosEnvioBean;
-import br.com.usinasantafe.pcq.bean.variaveis.RespItemBean;
+import br.com.usinasantafe.pcq.model.dao.CabecDAO;
+import br.com.usinasantafe.pcq.model.dao.EquipDAO;
+import br.com.usinasantafe.pcq.model.dao.ItemDAO;
+import br.com.usinasantafe.pcq.model.dao.OrgaoAmbDAO;
+import br.com.usinasantafe.pcq.model.dao.TalhaoDAO;
+import br.com.usinasantafe.pcq.model.bean.variaveis.CabecBean;
+import br.com.usinasantafe.pcq.model.bean.variaveis.DadosEnvioBean;
+import br.com.usinasantafe.pcq.model.bean.variaveis.RespItemBean;
 import br.com.usinasantafe.pcq.util.EnvioDadosServ;
 
 public class FormularioCTR {

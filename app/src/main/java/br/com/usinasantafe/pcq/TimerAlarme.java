@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import br.com.usinasantafe.pcq.pst.DatabaseHelper;
+import br.com.usinasantafe.pcq.model.pst.DatabaseHelper;
 import br.com.usinasantafe.pcq.util.EnvioDadosServ;
 import br.com.usinasantafe.pcq.util.Tempo;
 
