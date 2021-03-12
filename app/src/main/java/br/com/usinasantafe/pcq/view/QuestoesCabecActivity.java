@@ -9,14 +9,14 @@ import android.widget.TextView;
 import br.com.usinasantafe.pcq.PCQContext;
 import br.com.usinasantafe.pcq.R;
 
-public class MsgActivity extends ActivityGeneric {
+public class QuestoesCabecActivity extends ActivityGeneric {
 
     private PCQContext pcqContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_msg);
+        setContentView(R.layout.activity_questoes_cabec);
 
         pcqContext = (PCQContext) getApplication();
 
@@ -56,6 +56,9 @@ public class MsgActivity extends ActivityGeneric {
             case 10:
                 textViewMSG.setText("HOUVE FISCALIZAÇÃO DE ALGUM ORGÃO AMBIENTAL?");
                 break;
+            case 11:
+                textViewMSG.setText("A ORIGEM DO FOGO FOI DENTRO DA PROPRIEDADE?");
+                break;
         }
 
         buttonSimMSG.setOnClickListener(new View.OnClickListener() {
@@ -64,32 +67,38 @@ public class MsgActivity extends ActivityGeneric {
             public void onClick(View v) {
 
                 if(pcqContext.getFormularioCTR().getPosMsg() < 6){
-                    Intent it = new Intent(MsgActivity.this, HaIncendioActivity.class);
+                    Intent it = new Intent(QuestoesCabecActivity.this, HaIncendioActivity.class);
                     startActivity(it);
                     finish();
                 }
                 else if(pcqContext.getFormularioCTR().getPosMsg() == 6){
-                    Intent it = new Intent(MsgActivity.this, TanqueActivity.class);
+                    Intent it = new Intent(QuestoesCabecActivity.this, TanqueActivity.class);
                     startActivity(it);
                     finish();
                 }
                 else if(pcqContext.getFormularioCTR().getPosMsg() == 7){
-                    Intent it = new Intent(MsgActivity.this, SaveiroActivity.class);
+                    Intent it = new Intent(QuestoesCabecActivity.this, SaveiroActivity.class);
                     startActivity(it);
                     finish();
                 }
                 else if(pcqContext.getFormularioCTR().getPosMsg() == 8){
-                    Intent it = new Intent(MsgActivity.this, BrigadistaActivity.class);
+                    Intent it = new Intent(QuestoesCabecActivity.this, BrigadistaActivity.class);
                     startActivity(it);
                     finish();
                 }
                 else if(pcqContext.getFormularioCTR().getPosMsg() == 9){
-                    Intent it = new Intent(MsgActivity.this, EmpresaTercActivity.class);
+                    Intent it = new Intent(QuestoesCabecActivity.this, EmpresaTercActivity.class);
                     startActivity(it);
                     finish();
                 }
                 else if(pcqContext.getFormularioCTR().getPosMsg() == 10){
-                    Intent it = new Intent(MsgActivity.this, OrgaoAmbActivity.class);
+                    Intent it = new Intent(QuestoesCabecActivity.this, OrgaoAmbActivity.class);
+                    startActivity(it);
+                    finish();
+                }
+                else if(pcqContext.getFormularioCTR().getPosMsg() == 11){
+                    pcqContext.getFormularioCTR().setOrigemFogoCabec(1L);
+                    Intent it = new Intent(QuestoesCabecActivity.this, ComentarioActivity.class);
                     startActivity(it);
                     finish();
                 }
@@ -100,14 +109,15 @@ public class MsgActivity extends ActivityGeneric {
 
             @Override
             public void onClick(View v) {
-                if(pcqContext.getFormularioCTR().getPosMsg() == 10){
-                    Intent it = new Intent(MsgActivity.this, ComentarioActivity.class);
+                if(pcqContext.getFormularioCTR().getPosMsg() == 11){
+                    pcqContext.getFormularioCTR().setOrigemFogoCabec(2L);
+                    Intent it = new Intent(QuestoesCabecActivity.this, ComentarioActivity.class);
                     startActivity(it);
                     finish();
                 }
                 else{
                     pcqContext.getFormularioCTR().setPosMsg(pcqContext.getFormularioCTR().getPosMsg() + 1);
-                    Intent it = new Intent(MsgActivity.this, MsgActivity.class);
+                    Intent it = new Intent(QuestoesCabecActivity.this, QuestoesCabecActivity.class);
                     startActivity(it);
                     finish();
                 }
@@ -120,7 +130,7 @@ public class MsgActivity extends ActivityGeneric {
             @Override
             public void onClick(View v) {
                 if(pcqContext.getFormularioCTR().getPosMsg() == 1){
-                    Intent it = new Intent(MsgActivity.this, TalhaoActivity.class);
+                    Intent it = new Intent(QuestoesCabecActivity.this, TalhaoActivity.class);
                     startActivity(it);
                     finish();
                 }

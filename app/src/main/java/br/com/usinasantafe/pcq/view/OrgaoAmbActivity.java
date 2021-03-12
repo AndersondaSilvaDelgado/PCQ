@@ -97,7 +97,7 @@ public class OrgaoAmbActivity extends ActivityGeneric {
 
             @Override
             public void onClick(View v) {
-                Intent it = new Intent(OrgaoAmbActivity.this, MsgActivity.class);
+                Intent it = new Intent(OrgaoAmbActivity.this, QuestoesCabecActivity.class);
                 startActivity(it);
                 finish();
             }

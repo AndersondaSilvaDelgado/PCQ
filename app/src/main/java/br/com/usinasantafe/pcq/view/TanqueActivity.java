@@ -20,7 +20,7 @@ public class TanqueActivity extends ActivityGeneric {
     private ArrayList<ViewHolderChoice> itens;
     private AdapterListChoice adapterListChoice;
     private ListView tanqueListView;
-    private List tanqueList;
+    private List<EquipBean> tanqueList;
     private PCQContext pcqContext;
 
     @Override
@@ -36,11 +36,9 @@ public class TanqueActivity extends ActivityGeneric {
         pcqContext = (PCQContext) getApplication();
         itens = new ArrayList<ViewHolderChoice>();
 
-        EquipBean equipBean = new EquipBean();
-        tanqueList = equipBean.get("tipoEquip", 1L);
+        tanqueList = pcqContext.getFormularioCTR().tanqueList();
 
-        for (int i = 0; i < tanqueList.size(); i++) {
-            equipBean = (EquipBean) tanqueList.get(i);
+        for (EquipBean equipBean : tanqueList) {
             ViewHolderChoice viewHolderChoice = new ViewHolderChoice();
             viewHolderChoice.setSelected(false);
             viewHolderChoice.setDescrCheckBox(String.valueOf(equipBean.getNroEquip()));
@@ -57,8 +55,7 @@ public class TanqueActivity extends ActivityGeneric {
             public void onClick(View v) {
 
                 itens.clear();
-                for (int i = 0; i < tanqueList.size(); i++) {
-                    EquipBean equipBean = (EquipBean) tanqueList.get(i);
+                for (EquipBean equipBean : tanqueList) {
                     ViewHolderChoice viewHolderChoice = new ViewHolderChoice();
                     viewHolderChoice.setSelected(false);
                     viewHolderChoice.setDescrCheckBox(String.valueOf(equipBean.getNroEquip()));
@@ -78,8 +75,7 @@ public class TanqueActivity extends ActivityGeneric {
             public void onClick(View v) {
 
                 itens.clear();
-                for (int i = 0; i < tanqueList.size(); i++) {
-                    EquipBean equipBean = (EquipBean) tanqueList.get(i);
+                for (EquipBean equipBean : tanqueList) {
                     ViewHolderChoice viewHolderChoice = new ViewHolderChoice();
                     viewHolderChoice.setSelected(true);
                     viewHolderChoice.setDescrCheckBox(String.valueOf(equipBean.getNroEquip()));
@@ -97,7 +93,7 @@ public class TanqueActivity extends ActivityGeneric {
 
             @Override
             public void onClick(View v) {
-                Intent it = new Intent(TanqueActivity.this, MsgActivity.class);
+                Intent it = new Intent(TanqueActivity.this, QuestoesCabecActivity.class);
                 startActivity(it);
                 finish();
             }
@@ -124,7 +120,7 @@ public class TanqueActivity extends ActivityGeneric {
                     tanqueSelectedList.clear();
                     pcqContext.getFormularioCTR().setPosMsg(pcqContext.getFormularioCTR().getPosMsg() + 1);
 
-                    Intent it = new Intent(TanqueActivity.this, MsgActivity.class);
+                    Intent it = new Intent(TanqueActivity.this, QuestoesCabecActivity.class);
                     startActivity(it);
                     finish();
 

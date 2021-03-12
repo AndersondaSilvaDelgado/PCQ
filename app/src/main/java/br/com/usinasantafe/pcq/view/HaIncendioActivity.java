@@ -76,7 +76,7 @@ public class HaIncendioActivity extends ActivityGeneric {
 
                         pcqContext.getFormularioCTR().setPosMsg(pcqContext.getFormularioCTR().getPosMsg() + 1);
 
-                        Intent it = new Intent(HaIncendioActivity.this, MsgActivity.class);
+                        Intent it = new Intent(HaIncendioActivity.this, QuestoesCabecActivity.class);
                         startActivity(it);
                         finish();
 
@@ -124,7 +124,7 @@ public class HaIncendioActivity extends ActivityGeneric {
     }
 
     public void onBackPressed() {
-        Intent it = new Intent(HaIncendioActivity.this, MsgActivity.class);
+        Intent it = new Intent(HaIncendioActivity.this, QuestoesCabecActivity.class);
         startActivity(it);
         finish();
     }

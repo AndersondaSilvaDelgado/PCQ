@@ -31,7 +31,7 @@ public class EmpresaTercActivity extends ActivityGeneric {
 
             @Override
             public void onClick(View v) {
-                Intent it = new Intent(EmpresaTercActivity.this, MsgActivity.class);
+                Intent it = new Intent(EmpresaTercActivity.this, QuestoesCabecActivity.class);
                 startActivity(it);
                 finish();
             }
@@ -47,7 +47,7 @@ public class EmpresaTercActivity extends ActivityGeneric {
                     pcqContext.getFormularioCTR().setEmpresaTercCabec(editTextEmpresa.getText().toString());
                     pcqContext.getFormularioCTR().setPosMsg(pcqContext.getFormularioCTR().getPosMsg() + 1);
 
-                    Intent it = new Intent(EmpresaTercActivity.this, MsgActivity.class);
+                    Intent it = new Intent(EmpresaTercActivity.this, QuestoesCabecActivity.class);
                     startActivity(it);
                     finish();
 

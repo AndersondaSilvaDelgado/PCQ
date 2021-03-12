@@ -20,7 +20,7 @@ public class TalhaoActivity extends ActivityGeneric {
     private ArrayList<ViewHolderChoice> itens;
     private AdapterListChoice adapterListChoice;
     private ListView talhaoListView;
-    private List talhaoList;
+    private List<TalhaoBean> talhaoList;
     private PCQContext pcqContext;
 
     @Override
@@ -38,11 +38,9 @@ public class TalhaoActivity extends ActivityGeneric {
         pcqContext = (PCQContext) getApplication();
         itens = new ArrayList<ViewHolderChoice>();
 
-        TalhaoBean talhaoBean = new TalhaoBean();
-        talhaoList = talhaoBean.get("idSecao", pcqContext.getFormularioCTR().getSecaoCabec());
+        talhaoList = pcqContext.getFormularioCTR().talhaoList();
 
-        for (int i = 0; i < talhaoList.size(); i++) {
-            talhaoBean = (TalhaoBean) talhaoList.get(i);
+        for (TalhaoBean talhaoBean : talhaoList) {
             ViewHolderChoice viewHolderChoice = new ViewHolderChoice();
             viewHolderChoice.setSelected(false);
             viewHolderChoice.setDescrCheckBox(String.valueOf(talhaoBean.getCodTalhao()));
@@ -59,8 +57,7 @@ public class TalhaoActivity extends ActivityGeneric {
             public void onClick(View v) {
 
                 itens.clear();
-                for (int i = 0; i < talhaoList.size(); i++) {
-                    TalhaoBean talhaoBean = (TalhaoBean) talhaoList.get(i);
+                for (TalhaoBean talhaoBean : talhaoList) {
                     ViewHolderChoice viewHolderChoice = new ViewHolderChoice();
                     viewHolderChoice.setSelected(false);
                     viewHolderChoice.setDescrCheckBox(String.valueOf(talhaoBean.getCodTalhao()));
@@ -80,8 +77,7 @@ public class TalhaoActivity extends ActivityGeneric {
             public void onClick(View v) {
 
                 itens.clear();
-                for (int i = 0; i < talhaoList.size(); i++) {
-                    TalhaoBean talhaoBean = (TalhaoBean) talhaoList.get(i);
+                for (TalhaoBean talhaoBean : talhaoList) {
                     ViewHolderChoice viewHolderChoice = new ViewHolderChoice();
                     viewHolderChoice.setSelected(true);
                     viewHolderChoice.setDescrCheckBox(String.valueOf(talhaoBean.getCodTalhao()));
@@ -125,7 +121,7 @@ public class TalhaoActivity extends ActivityGeneric {
                     pcqContext.getFormularioCTR().setTalhaoCabec(talhaoSelectedList);
                     pcqContext.getFormularioCTR().setPosMsg(1);
 
-                    Intent it = new Intent(TalhaoActivity.this, MsgActivity.class);
+                    Intent it = new Intent(TalhaoActivity.this, QuestoesCabecActivity.class);
                     startActivity(it);
                     finish();
 

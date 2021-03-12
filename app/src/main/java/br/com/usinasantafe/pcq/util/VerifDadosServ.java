@@ -11,6 +11,8 @@ import com.google.gson.JsonObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import br.com.usinasantafe.pcq.control.ConfigCTR;
+import br.com.usinasantafe.pcq.model.dao.ConfigDAO;
 import br.com.usinasantafe.pcq.util.connHttp.PostVerGenerico;
 import br.com.usinasantafe.pcq.util.connHttp.UrlsConexaoHttp;
 import br.com.usinasantafe.pcq.view.MenuInicialActivity;
@@ -49,23 +51,20 @@ public class VerifDadosServ {
     }
 
     public void manipularDadosHttp(String result) {
-        try {
 
         if (!result.equals("")) {
-                if (this.tipo.equals("Atualiza")) {
-                    String verAtualizacao = result.trim();
-                    if (verAtualizacao.equals("S")) {
-                        AtualizarAplicativo atualizarAplicativo = new AtualizarAplicativo();
-                        atualizarAplicativo.setContext(this.menuInicialActivity);
-                        atualizarAplicativo.execute();
-                    } else {
-                        this.menuInicialActivity.startTimer();
-                    }
+            if (this.tipo.equals("Atualiza")) {
+                setVerTerm(true);
+                ConfigDAO configDAO = new ConfigDAO();
+                AtualAplicBean atualAplicBean = configDAO.recAtual(result.trim());
+                if (atualAplicBean.getFlagAtualApp().equals(1L)) {
+                    AtualizarAplicativo atualizarAplicativo = new AtualizarAplicativo();
+                    atualizarAplicativo.setContext(this.menuInicialActivity);
+                    atualizarAplicativo.execute();
+                } else {
+                    this.menuInicialActivity.startTimer();
                 }
             }
-
-        } catch (Exception e) {
-            Log.i("PMM", "Erro Manip atualizar = " + e);
         }
 
     }
@@ -78,6 +77,8 @@ public class VerifDadosServ {
         this.menuInicialActivity = menuInicialActivity;
 
         AtualAplicBean atualAplicBean = new AtualAplicBean();
+        ConfigCTR configCTR = new ConfigCTR();
+        atualAplicBean.setNroAparelhoAtual(configCTR.getConfig().getNroAparelhoConfig());
         atualAplicBean.setVersaoAtual(versaoAplic);
 
         JsonArray jsonArray = new JsonArray();
@@ -100,4 +101,11 @@ public class VerifDadosServ {
 
     }
 
+    public boolean isVerTerm() {
+        return verTerm;
+    }
+
+    public void setVerTerm(boolean verTerm) {
+        this.verTerm = verTerm;
+    }
 }

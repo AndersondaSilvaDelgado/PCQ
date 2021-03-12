@@ -6,12 +6,23 @@ import com.google.gson.JsonArray;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.usinasantafe.pcq.model.bean.estaticas.EquipBean;
 import br.com.usinasantafe.pcq.model.bean.variaveis.EquipItemBean;
 import br.com.usinasantafe.pcq.util.Tempo;
 
 public class EquipDAO {
 
     public EquipDAO() {
+    }
+
+    public List<EquipBean> tanqueList(){
+        EquipBean equipBean = new EquipBean();
+        return equipBean.get("tipoEquip", 1L);
+    }
+
+    public List<EquipBean> saveiroList(){
+        EquipBean equipBean = new EquipBean();
+        return equipBean.get("tipoEquip", 2L);
     }
 
     public void setTanqueCabec(ArrayList<Long> tanqueCabec, Long idCabec){

@@ -20,7 +20,7 @@ public class SaveiroActivity extends ActivityGeneric {
     private ArrayList<ViewHolderChoice> itens;
     private AdapterListChoice adapterListChoice;
     private ListView saveiroListView;
-    private List saveiroList;
+    private List<EquipBean> saveiroList;
     private PCQContext pcqContext;
 
     @Override
@@ -36,11 +36,9 @@ public class SaveiroActivity extends ActivityGeneric {
         pcqContext = (PCQContext) getApplication();
         itens = new ArrayList<ViewHolderChoice>();
 
-        EquipBean equipBean = new EquipBean();
-        saveiroList = equipBean.get("tipoEquip", 2L);
+        saveiroList = pcqContext.getFormularioCTR().saveiroList();
 
-        for (int i = 0; i < saveiroList.size(); i++) {
-            equipBean = (EquipBean) saveiroList.get(i);
+        for (EquipBean equipBean : saveiroList) {
             ViewHolderChoice viewHolderChoice = new ViewHolderChoice();
             viewHolderChoice.setSelected(false);
             viewHolderChoice.setDescrCheckBox(String.valueOf(equipBean.getNroEquip()));
@@ -57,8 +55,7 @@ public class SaveiroActivity extends ActivityGeneric {
             public void onClick(View v) {
 
                 itens.clear();
-                for (int i = 0; i < saveiroList.size(); i++) {
-                    EquipBean equipBean = (EquipBean) saveiroList.get(i);
+                for (EquipBean equipBean : saveiroList) {
                     ViewHolderChoice viewHolderChoice = new ViewHolderChoice();
                     viewHolderChoice.setSelected(false);
                     viewHolderChoice.setDescrCheckBox(String.valueOf(equipBean.getNroEquip()));
@@ -78,8 +75,7 @@ public class SaveiroActivity extends ActivityGeneric {
             public void onClick(View v) {
 
                 itens.clear();
-                for (int i = 0; i < saveiroList.size(); i++) {
-                    EquipBean equipBean = (EquipBean) saveiroList.get(i);
+                for (EquipBean equipBean : saveiroList) {
                     ViewHolderChoice viewHolderChoice = new ViewHolderChoice();
                     viewHolderChoice.setSelected(true);
                     viewHolderChoice.setDescrCheckBox(String.valueOf(equipBean.getNroEquip()));
@@ -97,7 +93,7 @@ public class SaveiroActivity extends ActivityGeneric {
 
             @Override
             public void onClick(View v) {
-                Intent it = new Intent(SaveiroActivity.this, MsgActivity.class);
+                Intent it = new Intent(SaveiroActivity.this, QuestoesCabecActivity.class);
                 startActivity(it);
                 finish();
             }
@@ -124,7 +120,7 @@ public class SaveiroActivity extends ActivityGeneric {
                     saveiroSelectedList.clear();
                     pcqContext.getFormularioCTR().setPosMsg(pcqContext.getFormularioCTR().getPosMsg() + 1);
 
-                    Intent it = new Intent(SaveiroActivity.this, MsgActivity.class);
+                    Intent it = new Intent(SaveiroActivity.this, QuestoesCabecActivity.class);
                     startActivity(it);
                     finish();
 

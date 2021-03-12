@@ -34,7 +34,7 @@ public class BrigadistaActivity extends ActivityGeneric {
                     pcqContext.getFormularioCTR().setQtdeBrigadistaCabec(Long.parseLong(editTextPadrao.getText().toString()));
                     pcqContext.getFormularioCTR().setPosMsg(pcqContext.getFormularioCTR().getPosMsg() + 1);
 
-                    Intent it = new Intent(BrigadistaActivity.this, MsgActivity.class);
+                    Intent it = new Intent(BrigadistaActivity.this, QuestoesCabecActivity.class);
                     startActivity(it);
                     finish();
 
@@ -72,7 +72,7 @@ public class BrigadistaActivity extends ActivityGeneric {
     }
 
     public void onBackPressed() {
-        Intent it = new Intent(BrigadistaActivity.this, MsgActivity.class);
+        Intent it = new Intent(BrigadistaActivity.this, QuestoesCabecActivity.class);
         startActivity(it);
         finish();
     }

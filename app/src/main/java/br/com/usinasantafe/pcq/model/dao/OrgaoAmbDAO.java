@@ -37,7 +37,7 @@ public class OrgaoAmbDAO {
         return orgAmbJsonArray;
     }
 
-    public void delOrgaoAmbiental(Long idCabec){
+    public void delOrgaoAmb(Long idCabec){
         OrgaoAmbItemBean orgaoAmbItemBean = new OrgaoAmbItemBean();
         List orgAmbList = orgaoAmbItemBean.get("idCabec", idCabec);
         for (int i = 0; i < orgAmbList.size(); i++) {

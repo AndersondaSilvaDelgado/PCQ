@@ -6,12 +6,18 @@ import com.google.gson.JsonArray;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.usinasantafe.pcq.model.bean.estaticas.TalhaoBean;
 import br.com.usinasantafe.pcq.model.bean.variaveis.TalhaoItemBean;
 import br.com.usinasantafe.pcq.util.Tempo;
 
 public class TalhaoDAO {
 
     public TalhaoDAO() {
+    }
+
+    public List<TalhaoBean> talhaoList(Long idSecao){
+        TalhaoBean talhaoBean = new TalhaoBean();
+        return talhaoBean.get("idSecao", idSecao);
     }
 
     public void setTalhaoCabec(ArrayList<Long> talhaoCabec, Long idCabec){

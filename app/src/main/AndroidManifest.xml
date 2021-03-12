@@ -23,6 +23,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".view.ConfigActivity"></activity>
         <activity
             android:name=".view.EmpresaTercActivity"
             android:screenOrientation="portrait"
@@ -32,7 +33,7 @@
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".view.MsgActivity"
+            android:name=".view.QuestoesCabecActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
@@ -79,18 +80,25 @@
         <activity
             android:name=".view.BrigadistaActivity"
             android:screenOrientation="portrait" />
-        <uses-library android:name="org.apache.http.legacy" android:required="false" />
+
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+
         <activity
             android:name=".view.MenuInicialActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <receiver android:name=".TimerAlarme">
             <intent-filter>
                 <action android:name="EXECUTAR_ALARME" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>

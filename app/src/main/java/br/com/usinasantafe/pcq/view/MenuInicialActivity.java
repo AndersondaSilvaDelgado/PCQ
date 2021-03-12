@@ -26,7 +26,6 @@ import java.util.Calendar;
 import br.com.usinasantafe.pcq.PCQContext;
 import br.com.usinasantafe.pcq.R;
 import br.com.usinasantafe.pcq.TimerAlarme;
-import br.com.usinasantafe.pcq.model.bean.estaticas.ColabBean;
 import br.com.usinasantafe.pcq.util.AtualDadosServ;
 import br.com.usinasantafe.pcq.util.ConexaoWeb;
 import br.com.usinasantafe.pcq.util.EnvioDadosServ;
@@ -58,42 +57,7 @@ public class MenuInicialActivity extends ActivityGeneric {
 
         customHandler.postDelayed(updateTimerThread, 0);
 
-        ColabBean colabBean = new ColabBean();
-
-        if (!colabBean.hasElements()) {
-
-            ConexaoWeb conexaoWeb = new ConexaoWeb();
-
-            if(conexaoWeb.verificaConexao(MenuInicialActivity.this)){
-
-                progressBar = new ProgressDialog(MenuInicialActivity.this);
-                progressBar.setCancelable(true);
-                progressBar.setMessage("ATUALIZANDO ...");
-                progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-                progressBar.setProgress(0);
-                progressBar.setMax(100);
-                progressBar.show();
-
-                AtualDadosServ.getInstance().atualizarBD(progressBar);
-                AtualDadosServ.getInstance().setContext(MenuInicialActivity.this);
-
-            }
-            else{
-
-                AlertDialog.Builder alerta = new AlertDialog.Builder(MenuInicialActivity.this);
-                alerta.setTitle("ATENÇÃO");
-                alerta.setMessage("FALHA NA CONEXÃO DE DADOS. O CELULAR ESTA SEM SINAL. POR FAVOR, TENTE NOVAMENTE QUANDO O CELULAR ESTIVE COM SINAL.");
-                alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                });
-                alerta.show();
-
-            }
-
-        }
+        clearBD();
 
         if(pcqContext.getFormularioCTR().verCabecAbert()){
 
@@ -117,7 +81,9 @@ public class MenuInicialActivity extends ActivityGeneric {
 
         ArrayList<String> itens = new ArrayList<String>();
 
-        itens.add("FORMULÁRIO");
+        itens.add("FORMULÁRIO COMPLETO");
+        itens.add("FORMULÁRIO SIMPLIFICADO");
+        itens.add("CONFIGURAÇÃO");
         itens.add("ATUALIZAR DADOS");
         itens.add("SAIR");
 
@@ -134,14 +100,10 @@ public class MenuInicialActivity extends ActivityGeneric {
                 TextView textView = (TextView) v.findViewById(R.id.textViewItemList);
                 String text = textView.getText().toString();
 
-                if (text.equals("FORMULÁRIO")) {
+                if (text.equals("FORMULÁRIO COMPLETO")) {
 
-                    ColabBean colabBean = new ColabBean();
-
-                    if (colabBean.hasElements()) {
-
-                        clearBD();
-
+                    if (pcqContext.getFormularioCTR().hasElemColab() && pcqContext.getConfigCTR().hasElements()) {
+                        pcqContext.getFormularioCTR().salvarCabecIniciado(1L);
                         Intent it = new Intent(MenuInicialActivity.this, ColabActivity.class);
                         startActivity(it);
                         finish();
@@ -161,7 +123,39 @@ public class MenuInicialActivity extends ActivityGeneric {
 
                     }
 
-                } else if (text.equals("ATUALIZAR DADOS")) {
+                }
+                else if (text.equals("FORMULÁRIO SIMPLIFICADO")) {
+
+                    if (pcqContext.getFormularioCTR().hasElemColab() && pcqContext.getConfigCTR().hasElements()) {
+                        pcqContext.getFormularioCTR().salvarCabecIniciado(2L);
+                        Intent it = new Intent(MenuInicialActivity.this, ColabActivity.class);
+                        startActivity(it);
+                        finish();
+                    }
+                    else{
+
+                        AlertDialog.Builder alerta = new AlertDialog.Builder(MenuInicialActivity.this);
+                        alerta.setTitle("ATENÇÃO");
+                        alerta.setMessage("BASE DE DADOS DESATUALIZADA! POR FAVOR, ACESSE AS CONFIGURAÇÕES, ATUALIZE A BASE DE DADOS E INSIRA A NUMERO DA LINHA DO APARELHO.");
+                        alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+                        alerta.show();
+
+                    }
+
+                }
+                else if (text.equals("CONFIGURAÇÃO")) {
+
+                    Intent it = new Intent(MenuInicialActivity.this, ConfigActivity.class);
+                    startActivity(it);
+                    finish();
+
+                }
+                else if (text.equals("ATUALIZAR DADOS")) {
 
                     ConexaoWeb conexaoWeb = new ConexaoWeb();
 
@@ -175,8 +169,7 @@ public class MenuInicialActivity extends ActivityGeneric {
                         progressBar.setMax(100);
                         progressBar.show();
 
-                        AtualDadosServ.getInstance().atualizarBD(progressBar);
-                        AtualDadosServ.getInstance().setContext(MenuInicialActivity.this);
+                        AtualDadosServ.getInstance().atualTodasTabBD(MenuInicialActivity.this, progressBar);
 
                     }
                     else{
@@ -194,7 +187,8 @@ public class MenuInicialActivity extends ActivityGeneric {
 
                     }
 
-                } else if (text.equals("SAIR")) {
+                }
+                else if (text.equals("SAIR")) {
 
                     Intent intent = new Intent(Intent.ACTION_MAIN);
                     intent.addCategory(Intent.CATEGORY_HOME);

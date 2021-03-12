@@ -30,4 +30,7 @@
     <string name="texto_terceiro">NOME DA EMPRESA</string>
     <string name="texto_org_ambiental">ORGÃO(ÕES) AMBIENTAL</string>
     <string name="texto_comentario">QUAIS AÇÕES FORAM TOMADAS PARA COMBATER O INCÊNDIO?</string>
+    <string name="texto_nro_linha">NRO LINHA:</string>
+    <string name="texto_padrao_cancelar">CANC.</string>
+    <string name="texto_padrao_salvar">SALVAR</string>
 </resources>

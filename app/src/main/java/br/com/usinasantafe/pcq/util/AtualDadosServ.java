@@ -14,6 +14,7 @@ import org.json.JSONObject;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
+import br.com.usinasantafe.pcq.model.dao.LogErroDAO;
 import br.com.usinasantafe.pcq.model.pst.GenericRecordable;
 import br.com.usinasantafe.pcq.util.connHttp.GetBDGenerico;
 import br.com.usinasantafe.pcq.util.connHttp.UrlsConexaoHttp;
@@ -27,7 +28,6 @@ public class AtualDadosServ {
 	private ProgressDialog progressDialog;
 	private int qtdeBD = 0;
 	private GenericRecordable genericRecordable;
-	private Context context;
 	private int tipoReceb;
 	private Context telaAtual;
 	private Class telaProx;
@@ -85,11 +85,48 @@ public class AtualDadosServ {
 	}
 
 
-	public void atualizarBD(ProgressDialog progressDialog){
+	public void atualGenericoBD(Context telaAtual, Class telaProx, ProgressDialog progressDialog, ArrayList classeArrayList){
 
 		try {
 
 			this.tipoReceb = 1;
+			this.telaAtual = telaAtual;
+			this.telaProx = telaProx;
+			this.progressDialog = progressDialog;
+			tabAtualArrayList = new ArrayList();
+
+			Class<?> retClasse = Class.forName(urlsConexaoHttp.localUrl);
+
+			for (Field field : retClasse.getDeclaredFields()) {
+				String campo = field.getName();
+				Log.i("PMM", "Campo = " + campo);
+				for (int i = 0; i < classeArrayList.size(); i++) {
+					String classe = (String) classeArrayList.get(i);
+					if(campo.equals(classe)){
+						tabAtualArrayList.add(campo);
+					}
+				}
+			}
+
+			classe = (String) tabAtualArrayList.get(contAtualBD);
+			String[] url = {classe};
+			contAtualBD++;
+
+			GetBDGenerico getBDGenerico = new GetBDGenerico();
+			getBDGenerico.execute(url);
+
+		} catch (Exception e) {
+			LogErroDAO.getInstance().insert(e);
+		}
+
+	}
+
+	public void atualTodasTabBD(Context telaAtual, ProgressDialog progressDialog){
+
+		try {
+
+			this.tipoReceb = 1;
+			this.telaAtual = telaAtual;
 			this.progressDialog = progressDialog;
 			tabAtualArrayList = new ArrayList();
 	        Class<?> retClasse = Class.forName(urlsConexaoHttp.localUrl);
@@ -140,7 +177,7 @@ public class AtualDadosServ {
 				this.progressDialog.dismiss();
 				contAtualBD = 0;
 
-				AlertDialog.Builder alerta = new AlertDialog.Builder(this.context);
+				AlertDialog.Builder alerta = new AlertDialog.Builder(this.telaAtual);
 				alerta.setTitle("ATENCAO");
 				alerta.setMessage("FOI ATUALIZADO COM SUCESSO OS DADOS.");
 				alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -181,7 +218,7 @@ public class AtualDadosServ {
 		if(this.tipoReceb == 1){
 
 			this.progressDialog.dismiss();
-			AlertDialog.Builder alerta = new AlertDialog.Builder(this.context);
+			AlertDialog.Builder alerta = new AlertDialog.Builder(this.telaAtual);
 			alerta.setTitle("ATENCAO");
 			alerta.setMessage("FALHA NA CONEXAO DE DADOS. O CELULAR ESTA SEM SINAL. POR FAVOR, TENTE NOVAMENTE QUANDO O CELULAR ESTIVE COM SINAL.");
 			alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -201,10 +238,6 @@ public class AtualDadosServ {
 	    	classe = urlsConexaoHttp.localPSTEstatica + classe;
 	    }
 		return classe;
-	}
-
-	public void setContext(Context context){
-		this.context = context;
 	}
 	
 }

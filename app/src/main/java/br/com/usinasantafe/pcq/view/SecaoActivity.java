@@ -8,11 +8,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import java.util.List;
-
 import br.com.usinasantafe.pcq.PCQContext;
 import br.com.usinasantafe.pcq.R;
-import br.com.usinasantafe.pcq.model.bean.estaticas.SecaoBean;
 import br.com.usinasantafe.pcq.util.ConexaoWeb;
 
 public class SecaoActivity extends ActivityGeneric {
@@ -54,7 +51,7 @@ public class SecaoActivity extends ActivityGeneric {
                             progressBar.setMax(100);
                             progressBar.show();
 
-//                            pstContext.getAbordagemCTR().atualDadosColab(ObservadorDigActivity.this, ObservadorDigActivity.class, progressBar);
+                            pcqContext.getFormularioCTR().atualDadosSecao(SecaoActivity.this, SecaoActivity.class, progressBar);
 
                         } else {
 
@@ -96,14 +93,9 @@ public class SecaoActivity extends ActivityGeneric {
 
                 if (!editTextPadrao.getText().toString().equals("")) {
 
-                    SecaoBean secaoBean = new SecaoBean();
-                    List secaoList = secaoBean.get("codSecao", Long.parseLong(editTextPadrao.getText().toString()));
+                    if (pcqContext.getFormularioCTR().verSecao(Long.parseLong(editTextPadrao.getText().toString().trim()))) {
 
-                    if (secaoList.size() > 0) {
-
-                        secaoBean = (SecaoBean) secaoList.get(0);
-                        pcqContext.getFormularioCTR().setSecaoCabec(secaoBean.getIdSecao());
-                        secaoList.clear();
+                        pcqContext.getFormularioCTR().setSecaoCabec(pcqContext.getFormularioCTR().getSecao(Long.parseLong(editTextPadrao.getText().toString().trim())).getIdSecao());
 
                         Intent it = new Intent(SecaoActivity.this, TalhaoActivity.class);
                         startActivity(it);

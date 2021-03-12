@@ -8,11 +8,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import java.util.List;
-
 import br.com.usinasantafe.pcq.PCQContext;
 import br.com.usinasantafe.pcq.R;
-import br.com.usinasantafe.pcq.model.bean.estaticas.ColabBean;
 import br.com.usinasantafe.pcq.util.ConexaoWeb;
 
 public class ColabActivity extends ActivityGeneric {
@@ -54,7 +51,7 @@ public class ColabActivity extends ActivityGeneric {
                             progressBar.setMax(100);
                             progressBar.show();
 
-//                            pstContext.getAbordagemCTR().atualDadosColab(ObservadorDigActivity.this, ObservadorDigActivity.class, progressBar);
+                            pcqContext.getFormularioCTR().atualDadosColab(ColabActivity.this, ColabActivity.class, progressBar);
 
                         } else {
 
@@ -96,14 +93,9 @@ public class ColabActivity extends ActivityGeneric {
 
                 if (!editTextPadrao.getText().toString().equals("")) {
 
-                    ColabBean colabBean = new ColabBean();
-                    List colabList = colabBean.get("matricColab", Long.parseLong(editTextPadrao.getText().toString()));
+                    if (pcqContext.getFormularioCTR().verColab(Long.parseLong(editTextPadrao.getText().toString().trim()))) {
 
-                    if (colabList.size() > 0) {
-
-                        colabBean = (ColabBean) colabList.get(0);
-                        pcqContext.getFormularioCTR().salvarCabecIniciado(colabBean.getMatricColab());
-                        colabList.clear();
+                        pcqContext.getFormularioCTR().setMatricCabec(Long.parseLong(editTextPadrao.getText().toString().trim()));
 
                         Intent it = new Intent(ColabActivity.this, SecaoActivity.class);
                         startActivity(it);

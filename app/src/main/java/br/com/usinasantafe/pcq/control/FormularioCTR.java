@@ -1,5 +1,8 @@
 package br.com.usinasantafe.pcq.control;
 
+import android.app.ProgressDialog;
+import android.content.Context;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -7,14 +10,20 @@ import com.google.gson.JsonObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.usinasantafe.pcq.model.bean.estaticas.EquipBean;
+import br.com.usinasantafe.pcq.model.bean.estaticas.SecaoBean;
+import br.com.usinasantafe.pcq.model.bean.estaticas.TalhaoBean;
 import br.com.usinasantafe.pcq.model.dao.CabecDAO;
+import br.com.usinasantafe.pcq.model.dao.ColabDAO;
 import br.com.usinasantafe.pcq.model.dao.EquipDAO;
 import br.com.usinasantafe.pcq.model.dao.ItemDAO;
 import br.com.usinasantafe.pcq.model.dao.OrgaoAmbDAO;
+import br.com.usinasantafe.pcq.model.dao.SecaoDAO;
 import br.com.usinasantafe.pcq.model.dao.TalhaoDAO;
 import br.com.usinasantafe.pcq.model.bean.variaveis.CabecBean;
 import br.com.usinasantafe.pcq.model.bean.variaveis.DadosEnvioBean;
 import br.com.usinasantafe.pcq.model.bean.variaveis.RespItemBean;
+import br.com.usinasantafe.pcq.util.AtualDadosServ;
 import br.com.usinasantafe.pcq.util.EnvioDadosServ;
 
 public class FormularioCTR {
@@ -30,16 +39,24 @@ public class FormularioCTR {
 
     //////////////////////////////Cabecalho ///////////////////////////////////////////////////////
 
-    public void salvarCabecIniciado(Long matricFunc){
+    public void salvarCabecIniciado(Long tipo){
         CabecDAO cabecDAO = new CabecDAO();
         CabecBean cabecBean = new CabecBean();
-        cabecBean.setMatricColabCabec(matricFunc);
+        cabecBean.setTipoCabec(tipo);
         cabecDAO.salvarCabecIniciado(cabecBean);
     }
 
     public void delCabecIniciado(){
         CabecDAO cabecDAO = new CabecDAO();
-        cabecDAO.delCabecInic();
+        TalhaoDAO talhaoDAO = new TalhaoDAO();
+        EquipDAO equipDAO = new EquipDAO();
+        OrgaoAmbDAO orgaoAmbDAO = new OrgaoAmbDAO();
+        if(cabecDAO.verCabecIniciado()){
+            talhaoDAO.delTalhao(cabecDAO.getCabecIniciado().getIdCabec());
+            equipDAO.delEquip(cabecDAO.getCabecIniciado().getIdCabec());
+            orgaoAmbDAO.delOrgaoAmb(cabecDAO.getCabecIniciado().getIdCabec());
+            cabecDAO.delCabecInic();
+        }
     }
 
     public void fecharCabec(){
@@ -54,7 +71,7 @@ public class FormularioCTR {
 
     public boolean verCabecAbert(){
         CabecDAO cabecDAO = new CabecDAO();
-        return cabecDAO.verCabecAbert();
+        return cabecDAO.verCabecAberto();
 
     }
 
@@ -88,7 +105,63 @@ public class FormularioCTR {
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
+    ////////////////////////////////////////COLAB ////////////////////////////////////////////////
+
+    public boolean hasElemColab(){
+        ColabDAO colabDAO = new ColabDAO();
+        return colabDAO.hasElements();
+    }
+
+    public boolean verColab(Long matricColab){
+        ColabDAO colabDAO = new ColabDAO();
+        return colabDAO.verColab(matricColab);
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+
+    ////////////////////////////////////////SECAO ////////////////////////////////////////////////
+
+    public boolean verSecao(Long codSecao){
+        SecaoDAO secaoDAO = new SecaoDAO();
+        return secaoDAO.verSecao(codSecao);
+    }
+
+    public SecaoBean getSecao(Long codSecao){
+        SecaoDAO secaoDAO = new SecaoDAO();
+        return secaoDAO.getSecao(codSecao);
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+
+    ////////////////////////////////////////TALHÃO ////////////////////////////////////////////////
+
+    public List<TalhaoBean> talhaoList(){
+        TalhaoDAO talhaoDAO = new TalhaoDAO();
+        return talhaoDAO.talhaoList(getSecaoCabec());
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+
+    ////////////////////////////////////////VEICULO ////////////////////////////////////////////////
+
+    public List<EquipBean> tanqueList(){
+        EquipDAO equipDAO = new EquipDAO();
+        return equipDAO.tanqueList();
+    }
+
+    public List<EquipBean> saveiroList(){
+        EquipDAO equipDAO = new EquipDAO();
+        return equipDAO.saveiroList();
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+
     //////////////////////////////////set Cabecalho////////////////////////////////////////////////
+
+    public void setMatricCabec(Long matricColabFunc){
+        CabecDAO cabecDAO = new CabecDAO();
+        cabecDAO.setMatricColabCabec(matricColabFunc);
+    }
 
     public void setSecaoCabec(Long secaoCabec){
         CabecDAO cabecDAO = new CabecDAO();
@@ -97,7 +170,7 @@ public class FormularioCTR {
 
     public void setTalhaoCabec(ArrayList<Long> talhaoCabec){
         CabecDAO cabecDAO = new CabecDAO();
-        CabecBean cabecBean = cabecDAO.getCabecInic();
+        CabecBean cabecBean = cabecDAO.getCabecIniciado();
         TalhaoDAO talhaoDAO = new TalhaoDAO();
         talhaoDAO.setTalhaoCabec(talhaoCabec, cabecBean.getIdCabec());
     }
@@ -129,14 +202,14 @@ public class FormularioCTR {
 
     public void setTanqueCabec(ArrayList<Long> tanqueCabec){
         CabecDAO cabecDAO = new CabecDAO();
-        CabecBean cabecBean = cabecDAO.getCabecInic();
+        CabecBean cabecBean = cabecDAO.getCabecIniciado();
         EquipDAO equipDAO = new EquipDAO();
         equipDAO.setTanqueCabec(tanqueCabec, cabecBean.getIdCabec());
     }
 
     public void setSaveiroCabec(ArrayList<Long> saveiroCabec){
         CabecDAO cabecDAO = new CabecDAO();
-        CabecBean cabecBean = cabecDAO.getCabecInic();
+        CabecBean cabecBean = cabecDAO.getCabecIniciado();
         EquipDAO equipDAO = new EquipDAO();
         equipDAO.setSaveiroCabec(saveiroCabec, cabecBean.getIdCabec());
     }
@@ -153,9 +226,14 @@ public class FormularioCTR {
 
     public void setOrgAmbCabec(ArrayList<Long> talhaoCabec){
         CabecDAO cabecDAO = new CabecDAO();
-        CabecBean cabecBean = cabecDAO.getCabecInic();
+        CabecBean cabecBean = cabecDAO.getCabecIniciado();
         OrgaoAmbDAO itemOrgAmbDAO = new OrgaoAmbDAO();
         itemOrgAmbDAO.setOrgAmbCabec(talhaoCabec, cabecBean.getIdCabec());
+    }
+
+    public void setOrigemFogoCabec(Long origemFogoCabec) {
+        CabecDAO cabecDAO = new CabecDAO();
+        cabecDAO.setOrigemFogoCabec(origemFogoCabec);
     }
 
     public void setComentCabec(String comentCabec){
@@ -167,9 +245,14 @@ public class FormularioCTR {
 
     //////////////////////////////////get Cabecalho////////////////////////////////////////////////
 
+    public CabecBean getCabecIniciado(){
+        CabecDAO cabecDAO = new CabecDAO();
+        return cabecDAO.getCabecIniciado();
+    }
+
     public Long getSecaoCabec(){
         CabecDAO cabecDAO = new CabecDAO();
-        CabecBean cabecBean = cabecDAO.getCabecInic();
+        CabecBean cabecBean = cabecDAO.getCabecIniciado();
         return cabecBean.getSecaoCabec();
     }
 
@@ -264,7 +347,7 @@ public class FormularioCTR {
             equipDAO.delEquip(cabecBean.getIdCabec());
 
             OrgaoAmbDAO orgaoAmbDAO = new OrgaoAmbDAO();
-            orgaoAmbDAO.delOrgaoAmbiental(cabecBean.getIdCabec());
+            orgaoAmbDAO.delOrgaoAmb(cabecBean.getIdCabec());
 
             TalhaoDAO talhaoDAO = new TalhaoDAO();
             talhaoDAO.delTalhao(cabecBean.getIdCabec());
@@ -276,5 +359,24 @@ public class FormularioCTR {
         EnvioDadosServ.getInstance().setEnviando(false);
 
     }
+
+    /////////////////////////////////////////////////////////////////////////////////////
+
+    //////////////////////// VERIFICAÇÃO E ATUALIZAÇÃO DE DADOS POR SERVIDOR /////////////////////
+
+    public void atualDadosColab(Context telaAtual, Class telaProx, ProgressDialog progressDialog){
+        ArrayList colabArrayList = new ArrayList();
+        colabArrayList.add("ColabBean");
+        AtualDadosServ.getInstance().atualGenericoBD(telaAtual, telaProx, progressDialog, colabArrayList);
+    }
+
+    public void atualDadosSecao(Context telaAtual, Class telaProx, ProgressDialog progressDialog){
+        ArrayList colabArrayList = new ArrayList();
+        colabArrayList.add("SecaoBean");
+        AtualDadosServ.getInstance().atualGenericoBD(telaAtual, telaProx, progressDialog, colabArrayList);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 }

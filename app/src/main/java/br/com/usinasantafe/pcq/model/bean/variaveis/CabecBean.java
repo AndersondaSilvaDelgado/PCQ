@@ -31,9 +31,13 @@ public class CabecBean extends Entidade {
     @DatabaseField
     private String empresaTercCabec;
     @DatabaseField
+    private Long origemFogoCabec;
+    @DatabaseField
     private String comentCabec;
     @DatabaseField
     private String dthrCabec;
+    @DatabaseField
+    private Long tipoCabec;
     @DatabaseField
     private Long statusCabec;
 
@@ -142,5 +146,21 @@ public class CabecBean extends Entidade {
 
     public void setEmpresaTercCabec(String empresaTercCabec) {
         this.empresaTercCabec = empresaTercCabec;
+    }
+
+    public Long getOrigemFogoCabec() {
+        return origemFogoCabec;
+    }
+
+    public void setOrigemFogoCabec(Long origemFogoCabec) {
+        this.origemFogoCabec = origemFogoCabec;
+    }
+
+    public Long getTipoCabec() {
+        return tipoCabec;
+    }
+
+    public void setTipoCabec(Long tipoCabec) {
+        this.tipoCabec = tipoCabec;
     }
 }
