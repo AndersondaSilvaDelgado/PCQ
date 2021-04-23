@@ -31,7 +31,7 @@ public class ComentarioActivity extends ActivityGeneric {
 
             @Override
             public void onClick(View v) {
-                Intent it = new Intent(ComentarioActivity.this, QuestoesCabecActivity.class);
+                Intent it = new Intent(ComentarioActivity.this, MsgCameraActivity.class);
                 startActivity(it);
                 finish();
             }
@@ -46,16 +46,21 @@ public class ComentarioActivity extends ActivityGeneric {
 
                     pcqContext.getFormularioCTR().setComentCabec(editTextComentario.getText().toString());
 
-                    if(pcqContext.getFormularioCTR().getCabecIniciado().getTipoCabec() == 1L){
+                    if(pcqContext.getFormularioCTR().getCabecAbert().getTipoCabec() == 1L){
+
                         pcqContext.getFormularioCTR().setPosCriterio(1);
                         Intent it = new Intent(ComentarioActivity.this, CriterioActivity.class);
                         startActivity(it);
                         finish();
+
                     }
                     else{
+
+                        pcqContext.getFormularioCTR().fecharCabec();
                         Intent it = new Intent(ComentarioActivity.this, MenuInicialActivity.class);
                         startActivity(it);
                         finish();
+
                     }
 
                 }

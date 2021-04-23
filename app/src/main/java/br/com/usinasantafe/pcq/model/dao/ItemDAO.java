@@ -19,12 +19,16 @@ public class ItemDAO {
         respItemBean.insert();
     }
 
-    public JsonArray dadosEnvioItem(Long idCabec){
+    public List<RespItemBean> respItemList(Long idCabec){
         RespItemBean respItemBean = new RespItemBean();
-        List itemList = respItemBean.get("idCabec", idCabec);
+        return respItemBean.get("idCabec", idCabec);
+    }
+
+    public JsonArray dadosEnvioItem(Long idCabec){
+        List<RespItemBean> itemList = respItemList(idCabec);
         JsonArray itemJsonArray = new JsonArray();
         for (int i = 0; i < itemList.size(); i++) {
-            respItemBean = (RespItemBean) itemList.get(i);
+            RespItemBean respItemBean = itemList.get(i);
             Gson itemGson = new Gson();
             itemJsonArray.add(itemGson.toJsonTree(respItemBean, respItemBean.getClass()));
         }

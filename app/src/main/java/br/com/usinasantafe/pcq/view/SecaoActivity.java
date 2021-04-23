@@ -95,7 +95,7 @@ public class SecaoActivity extends ActivityGeneric {
 
                     if (pcqContext.getFormularioCTR().verSecao(Long.parseLong(editTextPadrao.getText().toString().trim()))) {
 
-                        pcqContext.getFormularioCTR().setSecaoCabec(pcqContext.getFormularioCTR().getSecao(Long.parseLong(editTextPadrao.getText().toString().trim())).getIdSecao());
+                        pcqContext.getFormularioCTR().setSecaoCabec(pcqContext.getFormularioCTR().getCodSecao(Long.parseLong(editTextPadrao.getText().toString().trim())).getIdSecao());
 
                         Intent it = new Intent(SecaoActivity.this, TalhaoActivity.class);
                         startActivity(it);

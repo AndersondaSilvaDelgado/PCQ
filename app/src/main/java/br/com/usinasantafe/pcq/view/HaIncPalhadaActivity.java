@@ -8,17 +8,22 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.List;
+
 import br.com.usinasantafe.pcq.PCQContext;
 import br.com.usinasantafe.pcq.R;
+import br.com.usinasantafe.pcq.model.bean.variaveis.TalhaoItemBean;
 
-public class HaIncendioActivity extends ActivityGeneric {
+public class HaIncPalhadaActivity extends ActivityGeneric {
 
+    private List<TalhaoItemBean> talhaoItemList;
     private PCQContext pcqContext;
+    private TalhaoItemBean talhaoItemBean;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ha_incendio);
+        setContentView(R.layout.activity_ha_inc_palhada);
 
         pcqContext = (PCQContext) getApplication();
 
@@ -26,23 +31,11 @@ public class HaIncendioActivity extends ActivityGeneric {
         Button buttonOkPadrao = (Button) findViewById(R.id.buttonOkPadrao);
         Button buttonCancPadrao = (Button) findViewById(R.id.buttonCancPadrao);
 
-        switch (pcqContext.getFormularioCTR().getPosMsg()){
-            case 1:
-                textViewPadrao.setText("ÁREA QUEIMADA DE CANA(HA):");
-                break;
-            case 2:
-                textViewPadrao.setText("ÁREA QUEIMADA DE PALHADA(HA):");
-                break;
-            case 3:
-                textViewPadrao.setText("ÁREA QUEIMADA DE RESERVA LEGAL(HA):");
-                break;
-            case 4:
-                textViewPadrao.setText("ÁREA QUEIMADA DE APP(HA):");
-                break;
-            case 5:
-                textViewPadrao.setText("ÁREA QUEIMADA DE ÁREA COMUM(HA):");
-                break;
-        }
+        talhaoItemList = pcqContext.getFormularioCTR().talhaoItemCabecIniciadoList();
+        talhaoItemBean = talhaoItemList.get(pcqContext.getFormularioCTR().getPosTalhao() - 1);
+
+        textViewPadrao.setText("TALHÃO " + pcqContext.getFormularioCTR().getTalhao(talhaoItemBean.getIdTalhao()).getCodTalhao() + "\n" +
+                "ÁREA QUEIMADA DE PALHADA(HA)");
 
         buttonOkPadrao.setOnClickListener(new View.OnClickListener() {
 
@@ -50,38 +43,30 @@ public class HaIncendioActivity extends ActivityGeneric {
             public void onClick(View v) {
 
                 if (!editTextPadrao.getText().toString().equals("")) {
+
                     String haIncendioString = editTextPadrao.getText().toString();
                     Double haIncendioDouble = Double.valueOf(haIncendioString.replace(",", "."));
 
                     if (haIncendioDouble > 0) {
 
-                        switch (pcqContext.getFormularioCTR().getPosMsg()){
-                            case 1:
-                                pcqContext.getFormularioCTR().setHaIncCanaCabec(haIncendioDouble);
-                                break;
-                            case 2:
-                                pcqContext.getFormularioCTR().setHaIncPalhadaCabec(haIncendioDouble);
-                                break;
-                            case 3:
-                                pcqContext.getFormularioCTR().setHaIncResLegalCabec(haIncendioDouble);
-                                break;
-                            case 4:
-                                pcqContext.getFormularioCTR().setHaIncAppCabec(haIncendioDouble);
-                                break;
-                            case 5:
-                                pcqContext.getFormularioCTR().setHaIncAreaComumCabec(haIncendioDouble);
-                                break;
+                        pcqContext.getFormularioCTR().setHaIncPalhadaTalhao(haIncendioDouble, talhaoItemBean);
+
+                        if(pcqContext.getFormularioCTR().getPosTalhao() == talhaoItemList.size()){
+                            pcqContext.getFormularioCTR().setTipoFoto(1L);
+                            Intent it = new Intent( HaIncPalhadaActivity.this, CameraActivity.class);
+                            startActivity(it);
+                            finish();
                         }
-
-
-                        pcqContext.getFormularioCTR().setPosMsg(pcqContext.getFormularioCTR().getPosMsg() + 1);
-
-                        Intent it = new Intent(HaIncendioActivity.this, QuestoesCabecActivity.class);
-                        startActivity(it);
-                        finish();
+                        else{
+                            pcqContext.getFormularioCTR().setPosTalhao(pcqContext.getFormularioCTR().getPosTalhao() + 1);
+                            Intent it = new Intent( HaIncPalhadaActivity.this, StatusCanavialActivity.class);
+                            startActivity(it);
+                            finish();
+                        }
+                        talhaoItemList.clear();
 
                     } else {
-                        AlertDialog.Builder alerta = new AlertDialog.Builder(HaIncendioActivity.this);
+                        AlertDialog.Builder alerta = new AlertDialog.Builder(HaIncPalhadaActivity.this);
                         alerta.setTitle("ATENÇÃO");
                         alerta.setMessage("POR FAVOR, DIGITE A QUANTIDADE DE AREA QUEIMADA DE CANA EM HECTARE!");
                         alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -95,7 +80,7 @@ public class HaIncendioActivity extends ActivityGeneric {
                     }
                 }
                 else{
-                    AlertDialog.Builder alerta = new AlertDialog.Builder(HaIncendioActivity.this);
+                    AlertDialog.Builder alerta = new AlertDialog.Builder(HaIncPalhadaActivity.this);
                     alerta.setTitle("ATENÇÃO");
                     alerta.setMessage("POR FAVOR, DIGITE A QUANTIDADE DE AREA QUEIMADA DE CANA EM HECTARE!");
                     alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -103,6 +88,7 @@ public class HaIncendioActivity extends ActivityGeneric {
                         public void onClick(DialogInterface dialog, int which) {
 
                         }
+
                     });
 
                     alerta.show();
@@ -124,9 +110,17 @@ public class HaIncendioActivity extends ActivityGeneric {
     }
 
     public void onBackPressed() {
-        Intent it = new Intent(HaIncendioActivity.this, QuestoesCabecActivity.class);
-        startActivity(it);
-        finish();
-    }
 
+        if(talhaoItemBean.getStatusCanavialTalhao() == 2){
+            Intent it = new Intent(HaIncPalhadaActivity.this, StatusCanavialActivity.class);
+            startActivity(it);
+            finish();
+        }
+        else if(talhaoItemBean.getStatusCanavialTalhao() == 3){
+            Intent it = new Intent( HaIncPalhadaActivity.this, TipoCanaActivity.class);
+            startActivity(it);
+            finish();
+        }
+
+    }
 }

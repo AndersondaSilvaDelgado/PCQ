@@ -33,16 +33,16 @@
             android:id="@+id/buttonDesmarcarTodosTanque"
             style="@style/BotaoAvulso"
             android:layout_weight="1"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:text="@string/texto_desmarcar" />
 
         <Button
             android:id="@+id/buttonMarcarTodosTanque"
             style="@style/BotaoAvulso"
             android:layout_weight="1"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:text="@string/texto_marcar" />
 
     </LinearLayout>

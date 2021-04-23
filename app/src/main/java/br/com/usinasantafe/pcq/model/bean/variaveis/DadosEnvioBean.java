@@ -1,10 +1,14 @@
 package br.com.usinasantafe.pcq.model.bean.variaveis;
 
+import android.util.Log;
+
 public class DadosEnvioBean {
 
     private String cabec;
     private String item;
+    private String brigadista;
     private String equip;
+    private String foto;
     private String orgaoAmb;
     private String talhao;
 
@@ -27,6 +31,14 @@ public class DadosEnvioBean {
         this.item = item;
     }
 
+    public String getBrigadista() {
+        return brigadista;
+    }
+
+    public void setBrigadista(String brigadista) {
+        this.brigadista = brigadista;
+    }
+
     public String getEquip() {
         return equip;
     }
@@ -35,12 +47,20 @@ public class DadosEnvioBean {
         this.equip = equip;
     }
 
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
+    }
+
     public String getOrgaoAmb() {
         return orgaoAmb;
     }
 
-    public void setOrgaoAmb(String orgaoamb) {
-        this.orgaoAmb = orgaoamb;
+    public void setOrgaoAmb(String orgaoAmb) {
+        this.orgaoAmb = orgaoAmb;
     }
 
     public String getTalhao() {

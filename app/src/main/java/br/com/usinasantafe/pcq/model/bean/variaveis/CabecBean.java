@@ -13,25 +13,25 @@ public class CabecBean extends Entidade {
     @DatabaseField(generatedId=true)
     private Long idCabec;
     @DatabaseField
-    private Long matricColabCabec;
+    private Long nroAparelhoCabec;
+    @DatabaseField
+    private Long idFuncCabec;
+    @DatabaseField
+    private Long tipoApontTrabCabec;
     @DatabaseField
     private Long secaoCabec;
     @DatabaseField
-    private Double haIncCanaCabec;
-    @DatabaseField
-    private Double haIncPalhadaCabec;
-    @DatabaseField
-    private Double haIncResLegalCabec;
-    @DatabaseField
     private Double haIncAppCabec;
     @DatabaseField
-    private Double haIncAreaComumCabec;
+    private Double haIncForaAppCabec;
     @DatabaseField
-    private Long qtdeBrigadistaCabec;
-    @DatabaseField
-    private String empresaTercCabec;
+    private Long tercCombCabec;
     @DatabaseField
     private Long origemFogoCabec;
+    @DatabaseField
+    private Long aceiroCanavialCabec;
+    @DatabaseField
+    private Long aceiroVegetNativalCabec;
     @DatabaseField
     private String comentCabec;
     @DatabaseField
@@ -52,28 +52,28 @@ public class CabecBean extends Entidade {
         this.idCabec = idCabec;
     }
 
-    public Long getMatricColabCabec() {
-        return matricColabCabec;
+    public Long getNroAparelhoCabec() {
+        return nroAparelhoCabec;
     }
 
-    public void setMatricColabCabec(Long matricColabCabec) {
-        this.matricColabCabec = matricColabCabec;
+    public void setNroAparelhoCabec(Long nroAparelhoCabec) {
+        this.nroAparelhoCabec = nroAparelhoCabec;
     }
 
-    public String getDthrCabec() {
-        return dthrCabec;
+    public Long getIdFuncCabec() {
+        return idFuncCabec;
     }
 
-    public void setDthrCabec(String dthrCabec) {
-        this.dthrCabec = dthrCabec;
+    public void setIdFuncCabec(Long idFuncCabec) {
+        this.idFuncCabec = idFuncCabec;
     }
 
-    public Long getStatusCabec() {
-        return statusCabec;
+    public Long getTipoApontTrabCabec() {
+        return tipoApontTrabCabec;
     }
 
-    public void setStatusCabec(Long statusCabec) {
-        this.statusCabec = statusCabec;
+    public void setTipoApontTrabCabec(Long tipoApontTrabCabec) {
+        this.tipoApontTrabCabec = tipoApontTrabCabec;
     }
 
     public Long getSecaoCabec() {
@@ -84,22 +84,6 @@ public class CabecBean extends Entidade {
         this.secaoCabec = secaoCabec;
     }
 
-    public Double getHaIncCanaCabec() {
-        return haIncCanaCabec;
-    }
-
-    public void setHaIncCanaCabec(Double haIncCanaCabec) {
-        this.haIncCanaCabec = haIncCanaCabec;
-    }
-
-    public Double getHaIncResLegalCabec() {
-        return haIncResLegalCabec;
-    }
-
-    public void setHaIncResLegalCabec(Double haIncResLegalCabec) {
-        this.haIncResLegalCabec = haIncResLegalCabec;
-    }
-
     public Double getHaIncAppCabec() {
         return haIncAppCabec;
     }
@@ -108,44 +92,20 @@ public class CabecBean extends Entidade {
         this.haIncAppCabec = haIncAppCabec;
     }
 
-    public Double getHaIncAreaComumCabec() {
-        return haIncAreaComumCabec;
+    public Double getHaIncForaAppCabec() {
+        return haIncForaAppCabec;
     }
 
-    public void setHaIncAreaComumCabec(Double haIncAreaComumCabec) {
-        this.haIncAreaComumCabec = haIncAreaComumCabec;
+    public void setHaIncForaAppCabec(Double haIncForaAppCabec) {
+        this.haIncForaAppCabec = haIncForaAppCabec;
     }
 
-    public Double getHaIncPalhadaCabec() {
-        return haIncPalhadaCabec;
+    public Long getTercCombCabec() {
+        return tercCombCabec;
     }
 
-    public void setHaIncPalhadaCabec(Double haIncPalhadaCabec) {
-        this.haIncPalhadaCabec = haIncPalhadaCabec;
-    }
-
-    public String getComentCabec() {
-        return comentCabec;
-    }
-
-    public void setComentCabec(String comentCabec) {
-        this.comentCabec = comentCabec;
-    }
-
-    public Long getQtdeBrigadistaCabec() {
-        return qtdeBrigadistaCabec;
-    }
-
-    public void setQtdeBrigadistaCabec(Long qtdeBrigadistaCabec) {
-        this.qtdeBrigadistaCabec = qtdeBrigadistaCabec;
-    }
-
-    public String getEmpresaTercCabec() {
-        return empresaTercCabec;
-    }
-
-    public void setEmpresaTercCabec(String empresaTercCabec) {
-        this.empresaTercCabec = empresaTercCabec;
+    public void setTercCombCabec(Long tercCombCabec) {
+        this.tercCombCabec = tercCombCabec;
     }
 
     public Long getOrigemFogoCabec() {
@@ -156,11 +116,51 @@ public class CabecBean extends Entidade {
         this.origemFogoCabec = origemFogoCabec;
     }
 
+    public Long getAceiroCanavialCabec() {
+        return aceiroCanavialCabec;
+    }
+
+    public void setAceiroCanavialCabec(Long aceiroCanavialCabec) {
+        this.aceiroCanavialCabec = aceiroCanavialCabec;
+    }
+
+    public Long getAceiroVegetNativalCabec() {
+        return aceiroVegetNativalCabec;
+    }
+
+    public void setAceiroVegetNativalCabec(Long aceiroVegetNativalCabec) {
+        this.aceiroVegetNativalCabec = aceiroVegetNativalCabec;
+    }
+
+    public String getComentCabec() {
+        return comentCabec;
+    }
+
+    public void setComentCabec(String comentCabec) {
+        this.comentCabec = comentCabec;
+    }
+
+    public String getDthrCabec() {
+        return dthrCabec;
+    }
+
+    public void setDthrCabec(String dthrCabec) {
+        this.dthrCabec = dthrCabec;
+    }
+
     public Long getTipoCabec() {
         return tipoCabec;
     }
 
     public void setTipoCabec(Long tipoCabec) {
         this.tipoCabec = tipoCabec;
+    }
+
+    public Long getStatusCabec() {
+        return statusCabec;
+    }
+
+    public void setStatusCabec(Long statusCabec) {
+        this.statusCabec = statusCabec;
     }
 }

@@ -26,10 +26,10 @@ public class OrgaoAmbDAO {
 
     public JsonArray dadosEnvioOrgaoAmbiental(Long idCabec){
         OrgaoAmbItemBean orgaoAmbItemBean = new OrgaoAmbItemBean();
-        List orgAmbList = orgaoAmbItemBean.get("idCabec", idCabec);
+        List<OrgaoAmbItemBean> orgAmbList = orgaoAmbItemBean.get("idCabec", idCabec);
         JsonArray orgAmbJsonArray = new JsonArray();
         for (int i = 0; i < orgAmbList.size(); i++) {
-            orgaoAmbItemBean = (OrgaoAmbItemBean) orgAmbList.get(i);
+            orgaoAmbItemBean = orgAmbList.get(i);
             Gson orgAmbGson = new Gson();
             orgAmbJsonArray.add(orgAmbGson.toJsonTree(orgaoAmbItemBean, orgaoAmbItemBean.getClass()));
         }

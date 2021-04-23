@@ -13,16 +13,52 @@
 
     <TextView
         android:id="@+id/textViewPadrao"
-        style="@style/TextView"
+        style="@style/TextViewTituloLista"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="@string/texto_brigadista" />
 
-    <EditText
-        android:id="@+id/editTextPadrao"
-        style="@style/EditView"
-        />
+    <ListView
+        android:id="@+id/listBrigadista"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
-    <include
-        android:id="@+id/layout_novo_botoes"
-        layout="@layout/layout_botoes_s_atual" />
+    <LinearLayout
+        android:id="@+id/linerBotao"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/buttonDesmarcarTodosBrigadista"
+            style="@style/BotaoAvulso"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/texto_desmarcar" />
+
+        <Button
+            android:id="@+id/buttonMarcarTodosBrigadista"
+            style="@style/BotaoAvulso"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/texto_marcar" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/buttonRetBrigadista"
+        style="@style/BotaoAvulso"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/texto_padrao_retornar" />
+
+    <Button
+        android:id="@+id/buttonSalvarBrigadista"
+        style="@style/BotaoAvulso"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/texto_padrao_ok" />
 
 </LinearLayout>

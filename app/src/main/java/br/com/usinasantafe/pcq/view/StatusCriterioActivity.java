@@ -20,7 +20,7 @@ import br.com.usinasantafe.pcq.model.bean.estaticas.RespBean;
 
 public class StatusCriterioActivity extends ActivityGeneric {
 
-    private List subRespList;
+    private List<RespBean> subRespList;
     private PCQContext pcqContext;
     private RadioGroup radioGroupStatus;
     private int posicao;
@@ -53,21 +53,15 @@ public class StatusCriterioActivity extends ActivityGeneric {
 
         textViewTituloStatusCriterio.setText("STATUS");
 
-        RespBean respBean = new RespBean();
-        List respostaList = respBean.get("idResp", pcqContext.getFormularioCTR().getIdResp());
-        respBean = (RespBean) respostaList.get(0);
+        RespBean respBean = pcqContext.getFormularioCTR().getResp(pcqContext.getFormularioCTR().getIdResp());
 
         textViewStatusCriterio.setText(respBean.getDescrResp());
 
-        RespBean subRespBean = new RespBean();
-        subRespList = subRespBean.get("idQuestao", respBean.getIdSubResp());
+        subRespList = pcqContext.getFormularioCTR().respIdQuestaoList(respBean.getIdSubResp());
 
-        ArrayList<ViewHolderChoice> itens = new ArrayList<ViewHolderChoice>();
-
-        for (int i = 0; i < subRespList.size(); i++) {
-            respBean = (RespBean) subRespList.get(i);
+        for (RespBean subRespBean : subRespList) {
             RadioButton radioButtonStatus = new RadioButton(getApplicationContext());
-            radioButtonStatus.setText(respBean.getDescrResp());
+            radioButtonStatus.setText(subRespBean.getDescrResp());
             radioButtonStatus.setTextColor(Color.BLACK);
             radioButtonStatus.setTextSize(22F);
             radioButtonStatus.setButtonTintList(colorStateList);
@@ -99,8 +93,7 @@ public class StatusCriterioActivity extends ActivityGeneric {
                 if(posicao > -1){
                     RespBean respBean = (RespBean) subRespList.get(posicao);
                     pcqContext.getFormularioCTR().salvarItem(respBean.getIdResp());
-                    QuestaoBean questaoBean = new QuestaoBean();
-                    List questaoList = questaoBean.orderBy("seqQuestao",true);
+                    List<QuestaoBean> questaoList = pcqContext.getFormularioCTR().questaoList();
                     if(questaoList.size() > pcqContext.getFormularioCTR().getPosCriterio()) {
                         pcqContext.getFormularioCTR().setPosCriterio(pcqContext.getFormularioCTR().getPosCriterio() + 1);
                         Intent it = new Intent(StatusCriterioActivity.this, CriterioActivity.class);
@@ -113,6 +106,7 @@ public class StatusCriterioActivity extends ActivityGeneric {
                         startActivity(it);
                         finish();
                     }
+                    questaoList.clear();
                 }
             }
         });

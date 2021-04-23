@@ -2,6 +2,7 @@ package br.com.usinasantafe.pcq.util;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -27,21 +28,14 @@ public class VerifDadosServ {
     private static VerifDadosServ instance = null;
     private GenericRecordable genericRecordable;
     private UrlsConexaoHttp urlsConexaoHttp;
-    private Context telaAtual;
-    private Class telaProx1;
-    private Class telaProx2;
     private ProgressDialog progressDialog;
-    private String dado;
     private String tipo;
     private AtualAplicBean atualAplicBean;
     private MenuInicialActivity menuInicialActivity;
     private PostVerGenerico postVerGenerico;
     private boolean verTerm;
-    private String senha;
-    private int verTelaAtualPerda = 0;
 
     public VerifDadosServ() {
-        //genericRecordable = new GenericRecordable();
     }
 
     public static VerifDadosServ getInstance() {
@@ -99,6 +93,13 @@ public class VerifDadosServ {
         postVerGenerico.setParametrosPost(parametrosPost);
         postVerGenerico.execute(url);
 
+    }
+
+    public void cancelVer() {
+        verTerm = true;
+        if (postVerGenerico.getStatus() == AsyncTask.Status.RUNNING) {
+            postVerGenerico.cancel(true);
+        }
     }
 
     public boolean isVerTerm() {

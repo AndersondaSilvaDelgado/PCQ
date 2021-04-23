@@ -50,16 +50,30 @@ public class MenuInicialActivity extends ActivityGeneric {
 
         progressBar = new ProgressDialog(this);
 
+        if (!checkPermission(Manifest.permission.INTERNET)) {
+            String[] PERMISSIONS = {android.Manifest.permission.INTERNET};
+            ActivityCompat.requestPermissions((Activity) this, PERMISSIONS, 112);
+        }
+
+        if (!checkPermission(Manifest.permission.ACCESS_NETWORK_STATE)) {
+            String[] PERMISSIONS = {android.Manifest.permission.ACCESS_NETWORK_STATE};
+            ActivityCompat.requestPermissions((Activity) this, PERMISSIONS, 112);
+        }
+
         if (!checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             String[] PERMISSIONS = {android.Manifest.permission.WRITE_EXTERNAL_STORAGE};
             ActivityCompat.requestPermissions((Activity) this, PERMISSIONS, 112);
         }
 
-        customHandler.postDelayed(updateTimerThread, 0);
+        if (!checkPermission(Manifest.permission.CAMERA)) {
+            String[] PERMISSIONS = {Manifest.permission.CAMERA};
+            ActivityCompat.requestPermissions((Activity) this, PERMISSIONS, 112);
+        }
 
+        verifEnvio();
         clearBD();
 
-        if(pcqContext.getFormularioCTR().verCabecAbert()){
+        if(pcqContext.getFormularioCTR().verCabecAberto()){
 
             pcqContext.getFormularioCTR().delItemAberto();
             pcqContext.getFormularioCTR().setPosCriterio(1);
@@ -103,6 +117,7 @@ public class MenuInicialActivity extends ActivityGeneric {
                 if (text.equals("FORMULÁRIO COMPLETO")) {
 
                     if (pcqContext.getFormularioCTR().hasElemColab() && pcqContext.getConfigCTR().hasElements()) {
+                        customHandler.removeCallbacks(updateTimerThread);
                         pcqContext.getFormularioCTR().salvarCabecIniciado(1L);
                         Intent it = new Intent(MenuInicialActivity.this, ColabActivity.class);
                         startActivity(it);
@@ -127,6 +142,7 @@ public class MenuInicialActivity extends ActivityGeneric {
                 else if (text.equals("FORMULÁRIO SIMPLIFICADO")) {
 
                     if (pcqContext.getFormularioCTR().hasElemColab() && pcqContext.getConfigCTR().hasElements()) {
+                        customHandler.removeCallbacks(updateTimerThread);
                         pcqContext.getFormularioCTR().salvarCabecIniciado(2L);
                         Intent it = new Intent(MenuInicialActivity.this, ColabActivity.class);
                         startActivity(it);
@@ -206,22 +222,36 @@ public class MenuInicialActivity extends ActivityGeneric {
     private Runnable updateTimerThread = new Runnable() {
 
         public void run() {
-            int status = EnvioDadosServ.getInstance().getStatusEnvio();
-            if (status == 1) {
-                textViewProcesso.setTextColor(Color.YELLOW);
-                textViewProcesso.setText("Enviando Dados...");
-            }
-            else if (status == 2) {
-                textViewProcesso.setTextColor(Color.RED);
-                textViewProcesso.setText("Existem Dados para serem Enviados");
-            }
-            else if (status == 3) {
-                textViewProcesso.setTextColor(Color.GREEN);
-                textViewProcesso.setText("Todos os Dados já foram Enviados");
+            verifEnvio();
+            if(!VerifDadosServ.getInstance().isVerTerm()) {
+                VerifDadosServ.getInstance().cancelVer();
+                if (progressBar.isShowing()) {
+                    progressBar.dismiss();
+                }
+                startTimer();
             }
             customHandler.postDelayed(this, 10000);
         }
     };
+
+
+    public void verifEnvio(){
+        if (pcqContext.getConfigCTR().hasElements()) {
+            if (EnvioDadosServ.getInstance().getStatusEnvio() == 1) {
+                textViewProcesso.setTextColor(Color.YELLOW);
+                textViewProcesso.setText("Enviando Dados...");
+            } else if (EnvioDadosServ.getInstance().getStatusEnvio() == 2) {
+                textViewProcesso.setTextColor(Color.RED);
+                textViewProcesso.setText("Existem Dados para serem Enviados");
+            } else if (EnvioDadosServ.getInstance().getStatusEnvio() == 3) {
+                textViewProcesso.setTextColor(Color.GREEN);
+                textViewProcesso.setText("Todos os Dados já foram Enviados");
+            }
+        } else {
+            textViewProcesso.setTextColor(Color.RED);
+            textViewProcesso.setText("Equipamento sem Número");
+        }
+    }
 
     public boolean checkPermission(String permission) {
         int check = ContextCompat.checkSelfPermission(this, permission);
@@ -234,10 +264,13 @@ public class MenuInicialActivity extends ActivityGeneric {
     public void atualizarAplic(){
         ConexaoWeb conexaoWeb = new ConexaoWeb();
         if (conexaoWeb.verificaConexao(this)) {
-            progressBar.setCancelable(true);
-            progressBar.setMessage("BUSCANDO ATUALIZAÇÃO...");
-            progressBar.show();
-            VerifDadosServ.getInstance().verAtualAplic(pcqContext.versaoAplic, this, progressBar);
+            if (pcqContext.getConfigCTR().hasElements()) {
+                progressBar.setCancelable(true);
+                progressBar.setMessage("BUSCANDO ATUALIZAÇÃO...");
+                progressBar.show();
+                customHandler.postDelayed(updateTimerThread, 10000);
+                VerifDadosServ.getInstance().verAtualAplic(pcqContext.versaoAplic, this, progressBar);
+            }
         } else {
             startTimer();
         }

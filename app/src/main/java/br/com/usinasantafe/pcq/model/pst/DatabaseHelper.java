@@ -8,14 +8,22 @@ import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
+import br.com.usinasantafe.pcq.model.bean.estaticas.BrigadistaBean;
 import br.com.usinasantafe.pcq.model.bean.estaticas.ColabBean;
 import br.com.usinasantafe.pcq.model.bean.estaticas.EquipBean;
+import br.com.usinasantafe.pcq.model.bean.estaticas.OrigemFogoBean;
 import br.com.usinasantafe.pcq.model.bean.estaticas.QuestaoBean;
 import br.com.usinasantafe.pcq.model.bean.estaticas.RespBean;
 import br.com.usinasantafe.pcq.model.bean.estaticas.SecaoBean;
 import br.com.usinasantafe.pcq.model.bean.estaticas.TalhaoBean;
+import br.com.usinasantafe.pcq.model.bean.estaticas.TercCombBean;
+import br.com.usinasantafe.pcq.model.bean.estaticas.TipoApontBean;
+import br.com.usinasantafe.pcq.model.bean.variaveis.BrigadistaItemBean;
 import br.com.usinasantafe.pcq.model.bean.variaveis.CabecBean;
+import br.com.usinasantafe.pcq.model.bean.variaveis.ConfigBean;
 import br.com.usinasantafe.pcq.model.bean.variaveis.EquipItemBean;
+import br.com.usinasantafe.pcq.model.bean.variaveis.FotoItemBean;
+import br.com.usinasantafe.pcq.model.bean.variaveis.LogErroBean;
 import br.com.usinasantafe.pcq.model.bean.variaveis.RespItemBean;
 import br.com.usinasantafe.pcq.model.bean.variaveis.OrgaoAmbItemBean;
 import br.com.usinasantafe.pcq.model.bean.variaveis.TalhaoItemBean;
@@ -48,17 +56,25 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 		
 		try{
 
+			TableUtils.createTable(cs, BrigadistaBean.class);
 			TableUtils.createTable(cs, ColabBean.class);
 			TableUtils.createTable(cs, EquipBean.class);
+			TableUtils.createTable(cs, OrigemFogoBean.class);
 			TableUtils.createTable(cs, QuestaoBean.class);
 			TableUtils.createTable(cs, RespBean.class);
 			TableUtils.createTable(cs, SecaoBean.class);
 			TableUtils.createTable(cs, TalhaoBean.class);
+			TableUtils.createTable(cs, TercCombBean.class);
+			TableUtils.createTable(cs, TipoApontBean.class);
 
+			TableUtils.createTable(cs, BrigadistaItemBean.class);
 			TableUtils.createTable(cs, CabecBean.class);
+			TableUtils.createTable(cs, ConfigBean.class);
 			TableUtils.createTable(cs, EquipItemBean.class);
-			TableUtils.createTable(cs, RespItemBean.class);
+			TableUtils.createTable(cs, FotoItemBean.class);
+			TableUtils.createTable(cs, LogErroBean.class);
 			TableUtils.createTable(cs, OrgaoAmbItemBean.class);
+			TableUtils.createTable(cs, RespItemBean.class);
 			TableUtils.createTable(cs, TalhaoItemBean.class);
 
 		}

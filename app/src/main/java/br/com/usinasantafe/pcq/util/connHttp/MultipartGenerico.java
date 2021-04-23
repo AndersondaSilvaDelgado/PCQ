@@ -39,9 +39,11 @@ public class MultipartGenerico extends AsyncTask<String, Void, String>   {
         String url = params[0];
         String cabec = params[1];
         String item = params[2];
-		String equip = params[3];
-		String orgaoamb = params[4];
-		String talhao = params[5];
+        String brigadista = params[3];
+		String equip = params[4];
+		String foto = params[5];
+		String orgaoamb = params[6];
+		String talhao = params[7];
 
 		try{
 
@@ -51,7 +53,9 @@ public class MultipartGenerico extends AsyncTask<String, Void, String>   {
             ArrayList<NameValuePair> valores = new ArrayList<NameValuePair>();
             valores.add(new BasicNameValuePair("cabec", cabec));
 			valores.add(new BasicNameValuePair("item", item));
+			valores.add(new BasicNameValuePair("brigadista", brigadista));
             valores.add(new BasicNameValuePair("equip", equip));
+			valores.add(new BasicNameValuePair("foto", foto));
 			valores.add(new BasicNameValuePair("orgaoamb", orgaoamb));
 			valores.add(new BasicNameValuePair("talhao", talhao));
 

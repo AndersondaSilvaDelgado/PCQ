@@ -11,6 +11,9 @@ public class PCQContext extends Application {
     private FormularioCTR formularioCTR;
     private ConfigCTR configCTR;
     public int tipoForm; //1 - Completo; 2 - Simples
+    public int posTela;
+    // 1 - Camera Queima de Cana
+    // 1 - Camera Queima de Vegetação Nativa
 
     @Override
     public void onCreate() {
@@ -35,5 +38,13 @@ public class PCQContext extends Application {
 
     public void setTipoForm(int tipoForm) {
         this.tipoForm = tipoForm;
+    }
+
+    public int getPosTela() {
+        return posTela;
+    }
+
+    public void setPosTela(int posTela) {
+        this.posTela = posTela;
     }
 }

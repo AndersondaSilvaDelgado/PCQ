@@ -20,8 +20,8 @@ import br.com.usinasantafe.pcq.model.bean.estaticas.RespBean;
 
 public class CriterioActivity extends ActivityGeneric {
 
-    private List respostaList;
-    private List questaoList;
+    private List<RespBean> respostaList;
+    private List<QuestaoBean> questaoList;
     private PCQContext pcqContext;
     private QuestaoBean questaoBean;
     private RadioGroup radioGroupItem;
@@ -56,18 +56,16 @@ public class CriterioActivity extends ActivityGeneric {
         textViewTituloCriterio.setText("CRITÉRIO " + pcqContext.getFormularioCTR().getPosCriterio());
 
         questaoBean = new QuestaoBean();
-        questaoList = questaoBean.orderBy("seqQuestao",true);
-        questaoBean = (QuestaoBean) questaoList.get(pcqContext.getFormularioCTR().getPosCriterio() - 1);
+        questaoList = pcqContext.getFormularioCTR().questaoList();
+        questaoBean = questaoList.get(pcqContext.getFormularioCTR().getPosCriterio() - 1);
 
         textViewCriterio.setText(questaoBean.getDescrQuestao());
 
-        RespBean respBean = new RespBean();
-        respostaList = respBean.get("idQuestao", questaoBean.getIdQuestao());
+        respostaList = pcqContext.getFormularioCTR().respIdQuestaoList(questaoBean.getIdQuestao());
 
         ArrayList<ViewHolderChoice> itens = new ArrayList<ViewHolderChoice>();
 
-        for (int i = 0; i < respostaList.size(); i++) {
-            respBean = (RespBean) respostaList.get(i);
+        for (RespBean respBean : respostaList) {
             RadioButton radioButtonItem = new RadioButton(getApplicationContext());
             radioButtonItem.setText(respBean.getDescrResp());
             radioButtonItem.setTextColor(Color.BLACK);
@@ -104,7 +102,7 @@ public class CriterioActivity extends ActivityGeneric {
                 if(posicao > -1){
                     RespBean respBean = (RespBean) respostaList.get(posicao);
                     pcqContext.getFormularioCTR().setItemBean(questaoBean.getIdQuestao(), respBean.getIdResp());
-                    List subRespList = respBean.get("idQuestao", respBean.getIdSubResp());
+                    List<RespBean> subRespList = pcqContext.getFormularioCTR().respIdQuestaoList(respBean.getIdSubResp());
                     if(subRespList.size() == 0){
                         pcqContext.getFormularioCTR().salvarItem(0L);
                         if(questaoList.size() > pcqContext.getFormularioCTR().getPosCriterio()) {

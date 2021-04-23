@@ -93,7 +93,7 @@ public class SaveiroActivity extends ActivityGeneric {
 
             @Override
             public void onClick(View v) {
-                Intent it = new Intent(SaveiroActivity.this, QuestoesCabecActivity.class);
+                Intent it = new Intent(SaveiroActivity.this, MsgCameraActivity.class);
                 startActivity(it);
                 finish();
             }
@@ -118,24 +118,37 @@ public class SaveiroActivity extends ActivityGeneric {
 
                     pcqContext.getFormularioCTR().setSaveiroCabec(saveiroSelectedList);
                     saveiroSelectedList.clear();
-                    pcqContext.getFormularioCTR().setPosMsg(pcqContext.getFormularioCTR().getPosMsg() + 1);
 
-                    Intent it = new Intent(SaveiroActivity.this, QuestoesCabecActivity.class);
+                    Intent it = new Intent(SaveiroActivity.this, BrigadistaActivity.class);
                     startActivity(it);
                     finish();
 
                 }
                 else{
-                    AlertDialog.Builder alerta = new AlertDialog.Builder( SaveiroActivity.this);
+
+                    AlertDialog.Builder alerta = new AlertDialog.Builder(SaveiroActivity.this);
                     alerta.setTitle("ATENÇÃO");
-                    alerta.setMessage("POR FAVOR! SELECIONE A(S) SAVEIRO(S) USADO PARA O COMBATE AO INCÊNDIO.");
-                    alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    alerta.setMessage("DESEJA REALMENTE AVANÇAR SEM ADICIONAR SAVEIRO?");
+                    alerta.setNegativeButton("SIM", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            Intent it = new Intent(SaveiroActivity.this, BrigadistaActivity.class);
+                            startActivity(it);
+                            finish();
+
+                        }
+                    });
+
+                    alerta.setPositiveButton("NÃO", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
 
                         }
                     });
+
                     alerta.show();
+
                 }
 
                 saveiroSelectedList.clear();

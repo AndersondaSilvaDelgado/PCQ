@@ -12,18 +12,26 @@ public class UrlsConexaoHttp {
 
     public static String put = "?versao=" + PCQContext.versaoAplic.replace(".", "_");
 
+    public static String BrigadistaBean = urlPrincipal + "brigadista.php" + put;
     public static String ColabBean = urlPrincipal + "colab.php" + put;
     public static String EquipBean = urlPrincipal + "equip.php" + put;
+    public static String OrigemFogoBean = urlPrincipal + "origemfogo.php" + put;
     public static String QuestaoBean = urlPrincipal + "questao.php" + put;
     public static String RespBean = urlPrincipal + "resp.php" + put;
     public static String SecaoBean = urlPrincipal + "secao.php" + put;
     public static String TalhaoBean = urlPrincipal + "talhao.php" + put;
+    public static String TercCombBean = urlPrincipal + "terccomb.php" + put;
+    public static String TipoApontBean = urlPrincipal + "tipoapont.php" + put;
 
     public UrlsConexaoHttp() {
     }
 
     public String getsInserirDados() {
         return urlPrincEnvio + "formulario.php" + put;
+    }
+
+    public String getsInsertLogErro() {
+        return urlPrincEnvio + "inserirlogerro.php" + put;
     }
 
     public String urlVerifica(String classe) {

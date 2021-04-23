@@ -11,23 +11,31 @@ public class TalhaoItemBean extends Entidade {
     private static final long serialVersionUID = 1L;
 
     @DatabaseField(generatedId=true)
-    private Long idItemTalhao;
+    private Long idTalhaoItem;
     @DatabaseField
     private Long idCabec;
     @DatabaseField
     private Long idTalhao;
     @DatabaseField
     private String dthrTalhao;
+    @DatabaseField
+    private Double haIncCanaTalhao;
+    @DatabaseField
+    private Long tipoCanaTalhao;
+    @DatabaseField
+    private Double haIncPalhadaTalhao;
+    @DatabaseField
+    private Long statusCanavialTalhao;
 
     public TalhaoItemBean() {
     }
 
-    public Long getIdItemTalhao() {
-        return idItemTalhao;
+    public Long getIdTalhaoItem() {
+        return idTalhaoItem;
     }
 
-    public void setIdItemTalhao(Long idItemTalhao) {
-        this.idItemTalhao = idItemTalhao;
+    public void setIdTalhaoItem(Long idTalhaoItem) {
+        this.idTalhaoItem = idTalhaoItem;
     }
 
     public Long getIdCabec() {
@@ -52,5 +60,37 @@ public class TalhaoItemBean extends Entidade {
 
     public void setDthrTalhao(String dthrTalhao) {
         this.dthrTalhao = dthrTalhao;
+    }
+
+    public Double getHaIncCanaTalhao() {
+        return haIncCanaTalhao;
+    }
+
+    public void setHaIncCanaTalhao(Double haIncCanaTalhao) {
+        this.haIncCanaTalhao = haIncCanaTalhao;
+    }
+
+    public Long getTipoCanaTalhao() {
+        return tipoCanaTalhao;
+    }
+
+    public void setTipoCanaTalhao(Long tipoCanaTalhao) {
+        this.tipoCanaTalhao = tipoCanaTalhao;
+    }
+
+    public Double getHaIncPalhadaTalhao() {
+        return haIncPalhadaTalhao;
+    }
+
+    public void setHaIncPalhadaTalhao(Double haIncPalhadaTalhao) {
+        this.haIncPalhadaTalhao = haIncPalhadaTalhao;
+    }
+
+    public Long getStatusCanavialTalhao() {
+        return statusCanavialTalhao;
+    }
+
+    public void setStatusCanavialTalhao(Long statusCanavialTalhao) {
+        this.statusCanavialTalhao = statusCanavialTalhao;
     }
 }

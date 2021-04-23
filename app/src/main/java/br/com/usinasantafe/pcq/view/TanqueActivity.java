@@ -93,7 +93,7 @@ public class TanqueActivity extends ActivityGeneric {
 
             @Override
             public void onClick(View v) {
-                Intent it = new Intent(TanqueActivity.this, QuestoesCabecActivity.class);
+                Intent it = new Intent(TanqueActivity.this, CameraActivity.class);
                 startActivity(it);
                 finish();
             }
@@ -118,27 +118,38 @@ public class TanqueActivity extends ActivityGeneric {
 
                     pcqContext.getFormularioCTR().setTanqueCabec(tanqueSelectedList);
                     tanqueSelectedList.clear();
-                    pcqContext.getFormularioCTR().setPosMsg(pcqContext.getFormularioCTR().getPosMsg() + 1);
 
-                    Intent it = new Intent(TanqueActivity.this, QuestoesCabecActivity.class);
+                    Intent it = new Intent(TanqueActivity.this, SaveiroActivity.class);
                     startActivity(it);
                     finish();
 
                 }
                 else{
-                    AlertDialog.Builder alerta = new AlertDialog.Builder( TanqueActivity.this);
+
+                    AlertDialog.Builder alerta = new AlertDialog.Builder(TanqueActivity.this);
                     alerta.setTitle("ATENÇÃO");
-                    alerta.setMessage("POR FAVOR! SELECIONE O(S) CAMINHAO(ÕES) TANQUE USADO PARA O COMBATE AO INCÊNDIO.");
-                    alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    alerta.setMessage("DESEJA REALMENTE AVANÇAR SEM ADICIONAR TANQUE DA ÁQUA?");
+                    alerta.setNegativeButton("SIM", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            Intent it = new Intent(TanqueActivity.this, SaveiroActivity.class);
+                            startActivity(it);
+                            finish();
+
+                        }
+                    });
+
+                    alerta.setPositiveButton("NÃO", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
 
                         }
                     });
-                    alerta.show();
-                }
 
-                tanqueSelectedList.clear();
+                    alerta.show();
+
+                }
 
             }
 

@@ -11,12 +11,12 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.List;
 
+import br.com.usinasantafe.pcq.control.ConfigCTR;
 import br.com.usinasantafe.pcq.model.bean.variaveis.ConfigBean;
 import br.com.usinasantafe.pcq.model.bean.variaveis.LogErroBean;
 import br.com.usinasantafe.pcq.util.Tempo;
 
 public class LogErroDAO {
-
 
     private static LogErroDAO instance = null;
 

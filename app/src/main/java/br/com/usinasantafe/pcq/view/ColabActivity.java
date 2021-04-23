@@ -95,9 +95,9 @@ public class ColabActivity extends ActivityGeneric {
 
                     if (pcqContext.getFormularioCTR().verColab(Long.parseLong(editTextPadrao.getText().toString().trim()))) {
 
-                        pcqContext.getFormularioCTR().setMatricCabec(Long.parseLong(editTextPadrao.getText().toString().trim()));
+                        pcqContext.getFormularioCTR().setIdFuncCabec(pcqContext.getFormularioCTR().getMatricColab(Long.parseLong(editTextPadrao.getText().toString().trim())).getIdFuncColab());
 
-                        Intent it = new Intent(ColabActivity.this, SecaoActivity.class);
+                        Intent it = new Intent(ColabActivity.this, TipoApontTrabalhoActivity.class);
                         startActivity(it);
                         finish();
 

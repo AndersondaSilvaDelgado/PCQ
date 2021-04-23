@@ -26,11 +26,21 @@
     <string name="texto_padrao_nao">NÃO</string>
     <string name="texto_padrao_sim">SIM</string>
     <string name="texto_tanque">CAMINHÃO(ÕES) TANQUE</string>
-    <string name="texto_brigadista">QTDE DE BRIGADISTA(S)</string>
+    <string name="texto_brigadista">BRIGADISTA(S)</string>
     <string name="texto_terceiro">NOME DA EMPRESA</string>
     <string name="texto_org_ambiental">ORGÃO(ÕES) AMBIENTAL</string>
     <string name="texto_comentario">QUAIS AÇÕES FORAM TOMADAS PARA COMBATER O INCÊNDIO?</string>
     <string name="texto_nro_linha">NRO LINHA:</string>
     <string name="texto_padrao_cancelar">CANC.</string>
     <string name="texto_padrao_salvar">SALVAR</string>
+    <string name="texto_foto">FOTO</string>
+    <string name="texto_capturar">CAPTURAR</string>
+    <string name="texto_status_canavial">STATUS CANAVIAL</string>
+    <string name="texto_tipo_apont">TIPO APONTAMENTO</string>
+    <string name="texto_aceiro_canavial">CONDIÇÕES DO ACEIRO - CANAVIAL (CARREADOR):</string>
+    <string name="texto_aceiro_veget_nativa">CONDIÇÕES DO ACEIRO - VEGETAÇÃO NATIVA:</string>
+    <string name="texto_origem_fogo">ORIGEM DO FOGO</string>
+    <string name="texto_infor_cabecalho">CABEÇALHO</string>
+    <string name="texto_padrao_avancar">AVANÇAR</string>
+    <string name="texto_infor_criteiro">CRITÉRIOS</string>
 </resources>

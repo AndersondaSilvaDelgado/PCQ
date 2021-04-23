@@ -1,8 +1,10 @@
 package br.com.usinasantafe.pcq.model.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import br.com.usinasantafe.pcq.model.bean.variaveis.CabecBean;
+import br.com.usinasantafe.pcq.model.pst.EspecificaPesquisa;
 import br.com.usinasantafe.pcq.util.Tempo;
 
 public class CabecDAO {
@@ -11,14 +13,10 @@ public class CabecDAO {
     }
 
     public void salvarCabecIniciado(CabecBean cabecBean){
-        cabecBean.setMatricColabCabec(0L);
-        cabecBean.setHaIncCanaCabec(0D);
-        cabecBean.setHaIncAreaComumCabec(0D);
+        cabecBean.setIdFuncCabec(0L);
+        cabecBean.setHaIncForaAppCabec(0D);
         cabecBean.setHaIncAppCabec(0D);
-        cabecBean.setHaIncResLegalCabec(0D);
-        cabecBean.setHaIncPalhadaCabec(0D);
-        cabecBean.setQtdeBrigadistaCabec(0L);
-        cabecBean.setEmpresaTercCabec("null");
+        cabecBean.setTercCombCabec(0L);
         cabecBean.setComentCabec("null");
         cabecBean.setStatusCabec(0L);
         cabecBean.setOrigemFogoCabec(1L);
@@ -51,13 +49,13 @@ public class CabecDAO {
     }
 
     public CabecBean getCabecIniciado(){
-        List<CabecBean> cabecList = getCabecAbertoList();
+        List<CabecBean> cabecList = getCabecIniciadoList();
         CabecBean cabecBean = cabecList.get(0);
         cabecList.clear();
         return cabecBean;
     }
 
-    public CabecBean getCabecAbert(){
+    public CabecBean getCabecAberto(){
         List<CabecBean> cabecList = getCabecAbertoList();
         CabecBean cabecBean = cabecList.get(0);
         cabecList.clear();
@@ -65,23 +63,35 @@ public class CabecDAO {
     }
 
     private List<CabecBean> getCabecIniciadoList() {
+        ArrayList pesqArrayList = new ArrayList();
+        pesqArrayList.add(getPesqStatusIniciado());
         CabecBean cabecBean = new CabecBean();
-        return cabecBean.get("statusCabec", 0L);
+        return cabecBean.get(pesqArrayList);
     }
 
     private List<CabecBean> getCabecAbertoList() {
+        ArrayList pesqArrayList = new ArrayList();
+        pesqArrayList.add(getPesqStatusAberto());
         CabecBean cabecBean = new CabecBean();
-        return cabecBean.get("statusCabec", 1L);
+        return cabecBean.get(pesqArrayList);
     }
 
     public List<CabecBean> cabecFechList() {
+        ArrayList pesqArrayList = new ArrayList();
+        pesqArrayList.add(getPesqStatusFechado());
         CabecBean cabecBean = new CabecBean();
-        return cabecBean.get("statusCabec", 2L);
+        return cabecBean.get(pesqArrayList);
     }
 
-    public void setMatricColabCabec(Long matricColabCabec){
+    public void setIdFuncCabec(Long matricColabCabec){
         CabecBean cabecBean = getCabecIniciado();
-        cabecBean.setMatricColabCabec(matricColabCabec);
+        cabecBean.setIdFuncCabec(matricColabCabec);
+        cabecBean.update();
+    }
+
+    public void setTipoApontTrabCabec(Long tipoApontTrabCabec){
+        CabecBean cabecBean = getCabecIniciado();
+        cabecBean.setTipoApontTrabCabec(tipoApontTrabCabec);
         cabecBean.update();
     }
 
@@ -91,51 +101,39 @@ public class CabecDAO {
         cabecBean.update();
     }
 
-    public void setHaIncCanaCabec(Double haIncCanaCabec){
-        CabecBean cabecBean = getCabecIniciado();
-        cabecBean.setHaIncCanaCabec(haIncCanaCabec);
-        cabecBean.update();
-    }
-
-    public void setHaIncPalhadaCabec(Double haIncPalhadaCabec) {
-        CabecBean cabecBean = getCabecIniciado();
-        cabecBean.setHaIncPalhadaCabec(haIncPalhadaCabec);
-        cabecBean.update();
-    }
-
-    public void setHaIncResLegalCabec(Double haIncResLegalCabec) {
-        CabecBean cabecBean = getCabecIniciado();
-        cabecBean.setHaIncResLegalCabec(haIncResLegalCabec);
-        cabecBean.update();
-    }
-
     public void setHaIncAppCabec(Double haIncAppCabec){
         CabecBean cabecBean = getCabecIniciado();
         cabecBean.setHaIncAppCabec(haIncAppCabec);
         cabecBean.update();
     }
 
-    public void setHaIncAreaComumCabec(Double haIncAreaComumCabec) {
+    public void setHaIncForaAppCabec(Double haIncForaAppCabec) {
         CabecBean cabecBean = getCabecIniciado();
-        cabecBean.setHaIncAreaComumCabec(haIncAreaComumCabec);
+        cabecBean.setHaIncForaAppCabec(haIncForaAppCabec);
         cabecBean.update();
     }
 
-    public void setQtdeBrigadistaCabec(Long qtdeBrigadistaCabec) {
+    public void setTercCombCabec(Long empresaTercCabec) {
         CabecBean cabecBean = getCabecIniciado();
-        cabecBean.setQtdeBrigadistaCabec(qtdeBrigadistaCabec);
-        cabecBean.update();
-    }
-
-    public void setEmpresaTercCabec(String empresaTercCabec) {
-        CabecBean cabecBean = getCabecIniciado();
-        cabecBean.setEmpresaTercCabec(empresaTercCabec);
+        cabecBean.setTercCombCabec(empresaTercCabec);
         cabecBean.update();
     }
 
     public void setOrigemFogoCabec(Long origemFogoCabec) {
         CabecBean cabecBean = getCabecIniciado();
-        cabecBean.setOrigemFogoCabec(origemFogoCabec);;
+        cabecBean.setOrigemFogoCabec(origemFogoCabec);
+        cabecBean.update();
+    }
+
+    public void setAceiroCanavialCabec(Long aceiroCanavialCabec) {
+        CabecBean cabecBean = getCabecIniciado();
+        cabecBean.setAceiroCanavialCabec(aceiroCanavialCabec);
+        cabecBean.update();
+    }
+
+    public void setAceiroVegetNativalCabec(Long aceiroVegetNativalCabec) {
+        CabecBean cabecBean = getCabecIniciado();
+        cabecBean.setAceiroVegetNativalCabec(aceiroVegetNativalCabec);
         cabecBean.update();
     }
 
@@ -145,6 +143,38 @@ public class CabecDAO {
         cabecBean.setDthrCabec(Tempo.getInstance().dataComHora());
         cabecBean.setStatusCabec(1L);
         cabecBean.update();
+    }
+
+    private EspecificaPesquisa getPesqStatusIniciado(){
+        EspecificaPesquisa pesquisa = new EspecificaPesquisa();
+        pesquisa.setCampo("statusCabec");
+        pesquisa.setValor(0L);
+        pesquisa.setTipo(1);
+        return pesquisa;
+    }
+
+    private EspecificaPesquisa getPesqStatusAberto(){
+        EspecificaPesquisa pesquisa = new EspecificaPesquisa();
+        pesquisa.setCampo("statusCabec");
+        pesquisa.setValor(1L);
+        pesquisa.setTipo(1);
+        return pesquisa;
+    }
+
+    private EspecificaPesquisa getPesqStatusFechado(){
+        EspecificaPesquisa pesquisa = new EspecificaPesquisa();
+        pesquisa.setCampo("statusCabec");
+        pesquisa.setValor(2L);
+        pesquisa.setTipo(1);
+        return pesquisa;
+    }
+
+    private EspecificaPesquisa getPesqTipoCompleto(){
+        EspecificaPesquisa pesquisa = new EspecificaPesquisa();
+        pesquisa.setCampo("tipoCabec");
+        pesquisa.setValor(1L);
+        pesquisa.setTipo(1);
+        return pesquisa;
     }
 
 }

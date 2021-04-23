@@ -9,46 +9,29 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".view.QuestoesCabecActivity">
+    tools:context=".view.RelacaoCabecalhoActivity">
 
     <TextView
-        android:id="@+id/textViewMSG"
+        android:id="@+id/textViewListaInforCabec"
         style="@style/TextViewTituloLista"
+        android:text="@string/texto_infor_cabecalho" />
+
+    <ListView
+        android:id="@+id/listaViewInforCabec"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:orientation="horizontal"
-        android:paddingBottom="20dp"
-        android:paddingTop="20dp"
-        android:text="@string/texto_item_default" />
-
-
-    <LinearLayout
-        android:id="@+id/rightRelativeLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-        <Button
-            android:id="@+id/buttonSimMSG"
-            style="@style/BotaoAvulso"
-            android:layout_weight="1"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/texto_padrao_sim" />
-
-        <Button
-            android:id="@+id/buttonNaoMSG"
-            style="@style/BotaoAvulso"
-            android:layout_weight="1"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/texto_padrao_nao" />
-
-    </LinearLayout>
+        />
 
     <Button
-        android:id="@+id/buttonRetMSG"
+        android:id="@+id/buttonAvancarCabec"
+        style="@style/BotaoAvulso"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/texto_padrao_salvar" />
+
+    <Button
+        android:id="@+id/buttonRetornarCabec"
         style="@style/BotaoAvulso"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -11,11 +11,21 @@ public class ColabBean extends Entidade {
     private static final long serialVersionUID = 1L;
 
     @DatabaseField(id=true)
+    private Long idFuncColab;
+    @DatabaseField
     private Long matricColab;
     @DatabaseField
     private String nomeColab;
 
     public ColabBean() {
+    }
+
+    public Long getIdFuncColab() {
+        return idFuncColab;
+    }
+
+    public void setIdFuncColab(Long idFuncColab) {
+        this.idFuncColab = idFuncColab;
     }
 
     public Long getMatricColab() {

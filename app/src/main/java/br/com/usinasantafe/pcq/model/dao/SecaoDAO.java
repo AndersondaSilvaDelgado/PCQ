@@ -10,22 +10,34 @@ public class SecaoDAO {
     }
 
     public boolean verSecao(Long codSecao){
-        List<SecaoBean> secaoList = secaoList(codSecao);
+        List<SecaoBean> secaoList = secaoCodList(codSecao);
         boolean ret = secaoList.size() > 0;
         secaoList.clear();
         return ret;
     }
 
-    public SecaoBean getSecao(Long codSecao){
-        List<SecaoBean> secaoList = secaoList(codSecao);
+    public SecaoBean getCodSecao(Long codSecao){
+        List<SecaoBean> secaoList = secaoCodList(codSecao);
         SecaoBean secaoBean = secaoList.get(0);
         secaoList.clear();
         return secaoBean;
     }
 
-    private List<SecaoBean> secaoList(Long codSecao){
+    public SecaoBean getIdSecao(Long idSecao){
+        List<SecaoBean> secaoList = secaoIdList(idSecao);
+        SecaoBean secaoBean = secaoList.get(0);
+        secaoList.clear();
+        return secaoBean;
+    }
+
+    private List<SecaoBean> secaoCodList(Long codSecao){
         SecaoBean secaoBean = new SecaoBean();
         return secaoBean.get("codSecao", codSecao);
+    }
+
+    private List<SecaoBean> secaoIdList(Long idSecao){
+        SecaoBean secaoBean = new SecaoBean();
+        return secaoBean.get("idSecao", idSecao);
     }
 
 }

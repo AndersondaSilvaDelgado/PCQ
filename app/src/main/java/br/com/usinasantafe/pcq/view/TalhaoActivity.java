@@ -119,9 +119,9 @@ public class TalhaoActivity extends ActivityGeneric {
                 if(talhaoSelectedList.size() > 0){
 
                     pcqContext.getFormularioCTR().setTalhaoCabec(talhaoSelectedList);
-                    pcqContext.getFormularioCTR().setPosMsg(1);
+                    pcqContext.getFormularioCTR().setPosTalhao(1);
 
-                    Intent it = new Intent(TalhaoActivity.this, QuestoesCabecActivity.class);
+                    Intent it = new Intent(TalhaoActivity.this, StatusCanavialActivity.class);
                     startActivity(it);
                     finish();
 
