@@ -9,36 +9,28 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".view.RelacaoCriterioActivity">
+    tools:context=".view.ListaFormReajActivity">
 
     <TextView
-        android:id="@+id/textViewListaInforCriteiro"
+        android:id="@+id/textViewListaFormReaj"
         style="@style/TextViewTituloLista"
-        android:text="@string/texto_infor_criteiro" />
+        android:text="@string/texto_form_reaj" />
 
     <ListView
-        android:id="@+id/listaViewInforCriteiro"
+        android:id="@+id/listaViewFormReaj"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        />
+        android:layout_weight="1" />
 
     <Button
-        android:id="@+id/buttonAvancarCriteiro"
+        android:id="@+id/buttonAtualizarFormReaj"
         style="@style/BotaoAvulso"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/texto_padrao_salvar" />
+        android:text="@string/texto_atualizar_bd" />
 
     <Button
-        android:id="@+id/buttonExcluirCriteiro"
-        style="@style/BotaoAvulso"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/texto_excluir" />
-
-    <Button
-        android:id="@+id/buttonRetornarCriteiro"
+        android:id="@+id/buttonRetornarFormReaj"
         style="@style/BotaoAvulso"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

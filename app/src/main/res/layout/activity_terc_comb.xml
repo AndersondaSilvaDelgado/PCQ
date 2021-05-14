@@ -24,7 +24,7 @@
             <TextView
                 android:id="@+id/textViewTituloTercComb"
                 style="@style/TextViewTituloLista"
-                android:text="@string/texto_tipo_apont" />
+                android:text="@string/texto_terc_combate" />
 
             <RadioGroup
                 android:id="@+id/radioGroupItemTercComb"
@@ -56,6 +56,13 @@
                     android:text="@string/texto_padrao_ok" />
 
             </LinearLayout>
+
+            <Button
+                android:id="@+id/buttonAtualizarBD"
+                style="@style/BotaoAvulso"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/texto_atualizar_bd" />
 
         </LinearLayout>
 

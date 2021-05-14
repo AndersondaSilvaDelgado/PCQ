@@ -24,11 +24,34 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".view.RelacaoCriterioActivity"></activity>
-        <activity android:name=".view.RelacaoCabecalhoActivity" />
-        <activity android:name=".view.HaIncForaAppActivity" />
-        <activity android:name=".view.HaIncAppActivity" />
-        <activity android:name=".view.OrigemFogoActivity" />
+        <activity
+            android:name=".view.RelacaoCabecReajActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".view.ListaFormReajActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".view.RelacaoCriterioActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".view.RelacaoCabecActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".view.HaIncForaAppActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".view.HaIncAppActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".view.OrigemFogoActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".view.AceiroVegetNativaActivity"
             android:screenOrientation="portrait"
@@ -38,15 +61,15 @@
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".view.TipoApontTrabalhoActivity"
+            android:name=".view.TipoApontTrabActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".view.TipoCanaActivity"
+            android:name=".view.AltCanavialActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".view.StatusCanavialActivity"
+            android:name=".view.TipoTalhaoActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
@@ -67,10 +90,6 @@
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".view.TercCombActivity"
-            android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity" />
-        <activity
-            android:name=".view.OrgaoAmbActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
@@ -99,16 +118,20 @@
             tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".view.CriterioActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".view.ComentarioActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".view.ColabActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".view.BrigadistaActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
 
         <uses-library
             android:name="org.apache.http.legacy"
@@ -119,7 +142,6 @@
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -127,7 +149,6 @@
         <receiver android:name=".TimerAlarme">
             <intent-filter>
                 <action android:name="EXECUTAR_ALARME" />
-
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </receiver>

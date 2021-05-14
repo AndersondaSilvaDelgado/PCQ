@@ -67,7 +67,7 @@ public class FotoDAO {
 
     public void delFotoCabec(Long idCabec){
         FotoItemBean fotoItemBean = new FotoItemBean();
-        List<FotoItemBean> fotoList = fotoItemBean.get("idCabFoto", idCabec);
+        List<FotoItemBean> fotoList = fotoItemBean.get("idCabec", idCabec);
         for (FotoItemBean fotoItemBeanBD : fotoList) {
             fotoItemBeanBD.delete();
         }

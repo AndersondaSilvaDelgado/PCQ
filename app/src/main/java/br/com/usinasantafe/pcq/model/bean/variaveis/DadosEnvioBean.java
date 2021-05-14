@@ -9,7 +9,6 @@ public class DadosEnvioBean {
     private String brigadista;
     private String equip;
     private String foto;
-    private String orgaoAmb;
     private String talhao;
 
     public DadosEnvioBean() {
@@ -53,14 +52,6 @@ public class DadosEnvioBean {
 
     public void setFoto(String foto) {
         this.foto = foto;
-    }
-
-    public String getOrgaoAmb() {
-        return orgaoAmb;
-    }
-
-    public void setOrgaoAmb(String orgaoAmb) {
-        this.orgaoAmb = orgaoAmb;
     }
 
     public String getTalhao() {

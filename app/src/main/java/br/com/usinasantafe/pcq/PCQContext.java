@@ -10,10 +10,14 @@ public class PCQContext extends Application {
     public static String versaoAplic = "1.00";
     private FormularioCTR formularioCTR;
     private ConfigCTR configCTR;
-    public int tipoForm; //1 - Completo; 2 - Simples
-    public int posTela;
+    private int posCameraTela;
     // 1 - Camera Queima de Cana
-    // 1 - Camera Queima de Vegetação Nativa
+    // 2 - Camera Queima de Vegetação Nativa
+    private int tipoTela;
+    // 1 - Fluxo Normal
+    // 2 - Relação
+    // 3 - Formulário para Reajuste
+    // 4 - Relação de Formulário para Reajuste
 
     @Override
     public void onCreate() {
@@ -32,19 +36,19 @@ public class PCQContext extends Application {
         return configCTR;
     }
 
-    public int getTipoForm() {
-        return tipoForm;
+    public int getPosCameraTela() {
+        return posCameraTela;
     }
 
-    public void setTipoForm(int tipoForm) {
-        this.tipoForm = tipoForm;
+    public void setPosCameraTela(int posCameraTela) {
+        this.posCameraTela = posCameraTela;
     }
 
-    public int getPosTela() {
-        return posTela;
+    public int getTipoTela() {
+        return tipoTela;
     }
 
-    public void setPosTela(int posTela) {
-        this.posTela = posTela;
+    public void setTipoTela(int tipoTela) {
+        this.tipoTela = tipoTela;
     }
 }

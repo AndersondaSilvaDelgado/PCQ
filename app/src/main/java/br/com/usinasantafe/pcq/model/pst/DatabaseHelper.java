@@ -25,7 +25,6 @@ import br.com.usinasantafe.pcq.model.bean.variaveis.EquipItemBean;
 import br.com.usinasantafe.pcq.model.bean.variaveis.FotoItemBean;
 import br.com.usinasantafe.pcq.model.bean.variaveis.LogErroBean;
 import br.com.usinasantafe.pcq.model.bean.variaveis.RespItemBean;
-import br.com.usinasantafe.pcq.model.bean.variaveis.OrgaoAmbItemBean;
 import br.com.usinasantafe.pcq.model.bean.variaveis.TalhaoItemBean;
 
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
@@ -73,7 +72,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 			TableUtils.createTable(cs, EquipItemBean.class);
 			TableUtils.createTable(cs, FotoItemBean.class);
 			TableUtils.createTable(cs, LogErroBean.class);
-			TableUtils.createTable(cs, OrgaoAmbItemBean.class);
 			TableUtils.createTable(cs, RespItemBean.class);
 			TableUtils.createTable(cs, TalhaoItemBean.class);
 

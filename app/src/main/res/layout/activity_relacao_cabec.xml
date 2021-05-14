@@ -9,7 +9,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".view.RelacaoCabecalhoActivity">
+    tools:context=".view.RelacaoCabecActivity">
 
     <TextView
         android:id="@+id/textViewListaInforCabec"
@@ -31,10 +31,10 @@
         android:text="@string/texto_padrao_salvar" />
 
     <Button
-        android:id="@+id/buttonRetornarCabec"
+        android:id="@+id/buttonExcluirCabec"
         style="@style/BotaoAvulso"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/texto_padrao_retornar" />
+        android:text="@string/texto_excluir" />
 
 </LinearLayout>

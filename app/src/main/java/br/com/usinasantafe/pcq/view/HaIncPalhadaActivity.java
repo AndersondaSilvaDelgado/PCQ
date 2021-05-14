@@ -31,7 +31,7 @@ public class HaIncPalhadaActivity extends ActivityGeneric {
         Button buttonOkPadrao = (Button) findViewById(R.id.buttonOkPadrao);
         Button buttonCancPadrao = (Button) findViewById(R.id.buttonCancPadrao);
 
-        talhaoItemList = pcqContext.getFormularioCTR().talhaoItemCabecIniciadoList();
+        talhaoItemList = pcqContext.getFormularioCTR().talhaoItemList(pcqContext.getTipoTela());
         talhaoItemBean = talhaoItemList.get(pcqContext.getFormularioCTR().getPosTalhao() - 1);
 
         textViewPadrao.setText("TALHÃO " + pcqContext.getFormularioCTR().getTalhao(talhaoItemBean.getIdTalhao()).getCodTalhao() + "\n" +
@@ -52,14 +52,21 @@ public class HaIncPalhadaActivity extends ActivityGeneric {
                         pcqContext.getFormularioCTR().setHaIncPalhadaTalhao(haIncendioDouble, talhaoItemBean);
 
                         if(pcqContext.getFormularioCTR().getPosTalhao() == talhaoItemList.size()){
-                            pcqContext.getFormularioCTR().setTipoFoto(1L);
-                            Intent it = new Intent( HaIncPalhadaActivity.this, CameraActivity.class);
-                            startActivity(it);
-                            finish();
+                            if(pcqContext.getTipoTela() == 1){
+                                pcqContext.setPosCameraTela(1);
+                                Intent it = new Intent(HaIncPalhadaActivity.this, CameraActivity.class);
+                                startActivity(it);
+                                finish();
+                            }
+                            else{
+                                Intent it = new Intent(HaIncPalhadaActivity.this, RelacaoCabecActivity.class);
+                                startActivity(it);
+                                finish();
+                            }
                         }
                         else{
                             pcqContext.getFormularioCTR().setPosTalhao(pcqContext.getFormularioCTR().getPosTalhao() + 1);
-                            Intent it = new Intent( HaIncPalhadaActivity.this, StatusCanavialActivity.class);
+                            Intent it = new Intent(HaIncPalhadaActivity.this, TipoTalhaoActivity.class);
                             startActivity(it);
                             finish();
                         }
@@ -86,7 +93,6 @@ public class HaIncPalhadaActivity extends ActivityGeneric {
                     alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-
                         }
 
                     });
@@ -111,13 +117,13 @@ public class HaIncPalhadaActivity extends ActivityGeneric {
 
     public void onBackPressed() {
 
-        if(talhaoItemBean.getStatusCanavialTalhao() == 2){
-            Intent it = new Intent(HaIncPalhadaActivity.this, StatusCanavialActivity.class);
+        if(talhaoItemBean.getTipoTalhao() == 2){
+            Intent it = new Intent(HaIncPalhadaActivity.this, TipoTalhaoActivity.class);
             startActivity(it);
             finish();
         }
-        else if(talhaoItemBean.getStatusCanavialTalhao() == 3){
-            Intent it = new Intent( HaIncPalhadaActivity.this, TipoCanaActivity.class);
+        else if(talhaoItemBean.getTipoTalhao() == 3){
+            Intent it = new Intent( HaIncPalhadaActivity.this, AltCanavialActivity.class);
             startActivity(it);
             finish();
         }

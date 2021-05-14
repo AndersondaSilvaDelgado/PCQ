@@ -15,6 +15,8 @@ public class RespItemBean extends Entidade {
     @DatabaseField
     private Long idCabec;
     @DatabaseField
+    private Long seqQuestao;
+    @DatabaseField
     private Long idQuestao;
     @DatabaseField
     private Long idResp;
@@ -42,6 +44,14 @@ public class RespItemBean extends Entidade {
         this.idCabec = idCabec;
     }
 
+    public Long getSeqQuestao() {
+        return seqQuestao;
+    }
+
+    public void setSeqQuestao(Long seqResp) {
+        this.seqQuestao = seqResp;
+    }
+
     public Long getIdQuestao() {
         return idQuestao;
     }
@@ -58,19 +68,19 @@ public class RespItemBean extends Entidade {
         this.idResp = idResp;
     }
 
-    public String getDthrItem() {
-        return dthrItem;
-    }
-
-    public void setDthrItem(String dthrItem) {
-        this.dthrItem = dthrItem;
-    }
-
     public Long getIdSubResp() {
         return idSubResp;
     }
 
     public void setIdSubResp(Long idSubResp) {
         this.idSubResp = idSubResp;
+    }
+
+    public String getDthrItem() {
+        return dthrItem;
+    }
+
+    public void setDthrItem(String dthrItem) {
+        this.dthrItem = dthrItem;
     }
 }

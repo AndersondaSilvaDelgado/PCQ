@@ -36,11 +36,18 @@ public class HaIncForaAppActivity extends ActivityGeneric {
 
                     if (haIncendioDouble > 0) {
 
-                        pcqContext.getFormularioCTR().setHaIncForaAppCabec(haIncendioDouble);
+                        pcqContext.getFormularioCTR().setHaIncForaAppCabec(haIncendioDouble, pcqContext.getTipoTela());
 
-                        Intent it = new Intent(HaIncForaAppActivity.this, MsgCameraActivity.class);
-                        startActivity(it);
-                        finish();
+                        if(pcqContext.getTipoTela() == 1) {
+                            Intent it = new Intent(HaIncForaAppActivity.this, MsgCameraActivity.class);
+                            startActivity(it);
+                            finish();
+                        }
+                        else{
+                            Intent it = new Intent(HaIncForaAppActivity.this, RelacaoCabecActivity.class);
+                            startActivity(it);
+                            finish();
+                        }
 
                     } else {
 
@@ -59,11 +66,18 @@ public class HaIncForaAppActivity extends ActivityGeneric {
                 }
                 else{
 
-                    pcqContext.getFormularioCTR().setHaIncForaAppCabec(0D);
+                    pcqContext.getFormularioCTR().setHaIncForaAppCabec(0D, pcqContext.getTipoTela());
 
-                    Intent it = new Intent(HaIncForaAppActivity.this, HaIncForaAppActivity.class);
-                    startActivity(it);
-                    finish();
+                    if(pcqContext.getTipoTela() == 1) {
+                        Intent it = new Intent(HaIncForaAppActivity.this, MsgCameraActivity.class);
+                        startActivity(it);
+                        finish();
+                    }
+                    else{
+                        Intent it = new Intent(HaIncForaAppActivity.this, RelacaoCabecActivity.class);
+                        startActivity(it);
+                        finish();
+                    }
 
                 }
 
@@ -83,9 +97,16 @@ public class HaIncForaAppActivity extends ActivityGeneric {
     }
 
     public void onBackPressed() {
-        Intent it = new Intent(HaIncForaAppActivity.this, HaIncAppActivity.class);
-        startActivity(it);
-        finish();
+        if(pcqContext.getTipoTela() == 1) {
+            Intent it = new Intent(HaIncForaAppActivity.this, HaIncAppActivity.class);
+            startActivity(it);
+            finish();
+        }
+        else{
+            Intent it = new Intent(HaIncForaAppActivity.this, RelacaoCabecActivity.class);
+            startActivity(it);
+            finish();
+        }
     }
 
 }

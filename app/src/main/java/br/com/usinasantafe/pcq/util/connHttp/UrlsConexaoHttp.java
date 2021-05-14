@@ -26,8 +26,12 @@ public class UrlsConexaoHttp {
     public UrlsConexaoHttp() {
     }
 
-    public String getsInserirDados() {
-        return urlPrincEnvio + "formulario.php" + put;
+    public String getsInserirFormCompleto() {
+        return urlPrincEnvio + "inserirformcompleto.php" + put;
+    }
+
+    public String getsInserirFormComplementar() {
+        return urlPrincEnvio + "inserirformcomplementar.php" + put;
     }
 
     public String getsInsertLogErro() {
@@ -38,6 +42,8 @@ public class UrlsConexaoHttp {
         String retorno = "";
         if (classe.equals("Atualiza")) {
             retorno = urlPrincipal + "atualaplic.php" + put;
+        } else if (classe.equals("Form")) {
+            retorno = urlPrincipal + "formreaj.php" + put;
         }
         return retorno;
     }

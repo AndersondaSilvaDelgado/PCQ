@@ -3,7 +3,6 @@ package br.com.usinasantafe.pcq.view;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -69,9 +68,17 @@ public class AceiroVegetNativaActivity extends ActivityGeneric {
 
             @Override
             public void onClick(View v) {
-                Intent it = new Intent(AceiroVegetNativaActivity.this, AceiroCanavialActivity.class);
-                startActivity(it);
-                finish();
+                if(pcqContext.getTipoTela() == 1){
+                    Intent it = new Intent(AceiroVegetNativaActivity.this, AceiroCanavialActivity.class);
+                    startActivity(it);
+                    finish();
+                }
+                else{
+                    Intent it = new Intent( AceiroVegetNativaActivity.this, RelacaoCabecActivity.class);
+                    startActivity(it);
+                    finish();
+                }
+
             }
         });
 
@@ -83,11 +90,18 @@ public class AceiroVegetNativaActivity extends ActivityGeneric {
                 if(posicao > -1){
 
                     Long pos = posicao + 1L;
-                    pcqContext.getFormularioCTR().setAceiroVegetNativalCabec(pos);
+                    pcqContext.getFormularioCTR().setAceiroVegetNativalCabec(pos, pcqContext.getTipoTela());
 
-                    Intent it = new Intent( AceiroVegetNativaActivity.this, ComentarioActivity.class);
-                    startActivity(it);
-                    finish();
+                    if(pcqContext.getTipoTela() == 1){
+                        Intent it = new Intent( AceiroVegetNativaActivity.this, ComentarioActivity.class);
+                        startActivity(it);
+                        finish();
+                    }
+                    else{
+                        Intent it = new Intent( AceiroVegetNativaActivity.this, RelacaoCabecActivity.class);
+                        startActivity(it);
+                        finish();
+                    }
 
                 }
 

@@ -38,23 +38,8 @@ public class BrigadistaDAO {
         return brigadistaItemBean.get(pesqArrayList);
     }
 
-    private EspecificaPesquisa getPesqIdFunc(Long idFuncBrigadista){
-        EspecificaPesquisa pesquisa = new EspecificaPesquisa();
-        pesquisa.setCampo("idFuncBrigadista");
-        pesquisa.setValor(idFuncBrigadista);
-        pesquisa.setTipo(1);
-        return pesquisa;
-    }
-
-    private EspecificaPesquisa getPesqIdCabec(Long idCabec){
-        EspecificaPesquisa pesquisa = new EspecificaPesquisa();
-        pesquisa.setCampo("idCabec");
-        pesquisa.setValor(idCabec);
-        pesquisa.setTipo(1);
-        return pesquisa;
-    }
-
     public void setBrigadistaCabec(ArrayList<Long> brigadistaCabec, Long idCabec){
+        delBrigadista(idCabec);
         for(int i = 0; i < brigadistaCabec.size(); i++){
             BrigadistaItemBean brigadistaItemBean = new BrigadistaItemBean();
             brigadistaItemBean.setIdCabec(idCabec);
@@ -75,6 +60,31 @@ public class BrigadistaDAO {
         }
         brigadistaList.clear();
         return brigadistaJsonArray;
+    }
+
+    public void delBrigadista(Long idCabec){
+        BrigadistaItemBean brigadistaItemBean = new BrigadistaItemBean();
+        List<BrigadistaItemBean> brigadistaItemList = brigadistaItemBean.get("idCabec", idCabec);
+        for (BrigadistaItemBean brigadistaItemBD : brigadistaItemList) {
+            brigadistaItemBD.delete();
+        }
+        brigadistaItemList.clear();
+    }
+
+    private EspecificaPesquisa getPesqIdFunc(Long idFuncBrigadista){
+        EspecificaPesquisa pesquisa = new EspecificaPesquisa();
+        pesquisa.setCampo("idFuncBrigadista");
+        pesquisa.setValor(idFuncBrigadista);
+        pesquisa.setTipo(1);
+        return pesquisa;
+    }
+
+    private EspecificaPesquisa getPesqIdCabec(Long idCabec){
+        EspecificaPesquisa pesquisa = new EspecificaPesquisa();
+        pesquisa.setCampo("idCabec");
+        pesquisa.setValor(idCabec);
+        pesquisa.setTipo(1);
+        return pesquisa;
     }
 
 }

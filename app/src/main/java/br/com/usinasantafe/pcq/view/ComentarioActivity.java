@@ -31,9 +31,17 @@ public class ComentarioActivity extends ActivityGeneric {
 
             @Override
             public void onClick(View v) {
-                Intent it = new Intent(ComentarioActivity.this, MsgCameraActivity.class);
-                startActivity(it);
-                finish();
+                if(pcqContext.getTipoTela() == 1) {
+                    Intent it = new Intent(ComentarioActivity.this, AceiroVegetNativaActivity.class);
+                    startActivity(it);
+                    finish();
+                }
+                else{
+                    Intent it = new Intent(ComentarioActivity.this, RelacaoCabecActivity.class);
+                    startActivity(it);
+                    finish();
+                }
+
             }
         });
 
@@ -44,20 +52,31 @@ public class ComentarioActivity extends ActivityGeneric {
 
                 if (!editTextComentario.getText().toString().equals("")) {
 
-                    pcqContext.getFormularioCTR().setComentCabec(editTextComentario.getText().toString());
+                    pcqContext.getFormularioCTR().setComentCabec(editTextComentario.getText().toString(), pcqContext.getTipoTela());
 
-                    if(pcqContext.getFormularioCTR().getCabecAbert().getTipoCabec() == 1L){
+                    if(pcqContext.getTipoTela() == 1) {
 
-                        pcqContext.getFormularioCTR().setPosCriterio(1);
-                        Intent it = new Intent(ComentarioActivity.this, CriterioActivity.class);
-                        startActivity(it);
-                        finish();
+                        if (pcqContext.getFormularioCTR().getCabecIniciado().getTipoCabec() == 1L) {
+
+                            pcqContext.getFormularioCTR().setPosCriterio(1);
+                            pcqContext.getFormularioCTR().abrirCabec();
+                            Intent it = new Intent(ComentarioActivity.this, CriterioActivity.class);
+                            startActivity(it);
+                            finish();
+
+                        } else {
+
+                            pcqContext.getFormularioCTR().fecharCabec(pcqContext.getFormularioCTR().getCabecIniciado().getTipoCabec());
+                            Intent it = new Intent(ComentarioActivity.this, RelacaoCabecActivity.class);
+                            startActivity(it);
+                            finish();
+
+                        }
 
                     }
                     else{
 
-                        pcqContext.getFormularioCTR().fecharCabec();
-                        Intent it = new Intent(ComentarioActivity.this, MenuInicialActivity.class);
+                        Intent it = new Intent(ComentarioActivity.this, RelacaoCabecActivity.class);
                         startActivity(it);
                         finish();
 

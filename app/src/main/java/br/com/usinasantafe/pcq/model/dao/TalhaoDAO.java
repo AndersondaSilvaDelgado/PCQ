@@ -21,11 +21,16 @@ public class TalhaoDAO {
     }
 
     public void setTalhaoCabec(ArrayList<Long> talhaoCabec, Long idCabec){
+        delTalhao(idCabec);
         for(int i = 0; i < talhaoCabec.size(); i++){
             TalhaoItemBean talhaoItemBean = new TalhaoItemBean();
             talhaoItemBean.setIdCabec(idCabec);
             talhaoItemBean.setIdTalhao(talhaoCabec.get(i));
             talhaoItemBean.setDthrTalhao(Tempo.getInstance().dataComHora());
+            talhaoItemBean.setTipoTalhao(1L);
+            talhaoItemBean.setHaIncCanaTalhao(0D);
+            talhaoItemBean.setAltCanaTalhao(1L);
+            talhaoItemBean.setHaIncPalhadaTalhao(0D);
             talhaoItemBean.insert();
         }
     }
@@ -72,8 +77,8 @@ public class TalhaoDAO {
         return talhaoItemBean;
     }
 
-    public void setStatusCanavialTalhao(Long statusCanavialTalhao, TalhaoItemBean talhaoItemBean){
-        talhaoItemBean.setStatusCanavialTalhao(statusCanavialTalhao);
+    public void setTipoTalhao(Long tipoTalhao, TalhaoItemBean talhaoItemBean){
+        talhaoItemBean.setTipoTalhao(tipoTalhao);
         talhaoItemBean.update();
     }
 
@@ -82,8 +87,8 @@ public class TalhaoDAO {
         talhaoItemBean.update();
     }
 
-    public void setTipoCanaTalhao(Long tipoCanaTalhao, TalhaoItemBean talhaoItemBean){
-        talhaoItemBean.setTipoCanaTalhao(tipoCanaTalhao);
+    public void setAltCanaTalhao(Long altCanaTalhao, TalhaoItemBean talhaoItemBean){
+        talhaoItemBean.setAltCanaTalhao(altCanaTalhao);
         talhaoItemBean.update();
     }
 

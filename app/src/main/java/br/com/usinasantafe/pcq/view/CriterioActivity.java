@@ -44,12 +44,12 @@ public class CriterioActivity extends ActivityGeneric {
 
         ColorStateList colorStateList = new ColorStateList(
                 new int[][]{
-                        new int[]{-android.R.attr.state_enabled}, //disabled
-                        new int[]{android.R.attr.state_enabled} //enabled
+                        new int[]{-android.R.attr.state_enabled},
+                        new int[]{android.R.attr.state_enabled}
                 },
                 new int[] {
-                        Color.BLACK //disabled
-                        ,Color.BLUE //enabled
+                        Color.BLACK
+                        ,Color.BLUE
                 }
         );
 
@@ -86,12 +86,20 @@ public class CriterioActivity extends ActivityGeneric {
 
             @Override
             public void onClick(View v) {
-                if(pcqContext.getFormularioCTR().getPosCriterio() > 1){
-                    pcqContext.getFormularioCTR().setPosCriterio(pcqContext.getFormularioCTR().getPosCriterio() - 1);
-                    Intent it = new Intent(CriterioActivity.this, CriterioActivity.class);
+                if((pcqContext.getTipoTela() == 1) || (pcqContext.getTipoTela() == 3)){
+                    if(pcqContext.getFormularioCTR().getPosCriterio() > 1){
+                        pcqContext.getFormularioCTR().setPosCriterio(pcqContext.getFormularioCTR().getPosCriterio() - 1);
+                        Intent it = new Intent(CriterioActivity.this, CriterioActivity.class);
+                        startActivity(it);
+                        finish();
+                    }
+                }
+                else{
+                    Intent it = new Intent(CriterioActivity.this, RelacaoCriterioActivity.class);
                     startActivity(it);
                     finish();
                 }
+
             }
         });
 
@@ -100,20 +108,32 @@ public class CriterioActivity extends ActivityGeneric {
             @Override
             public void onClick(View v) {
                 if(posicao > -1){
-                    RespBean respBean = (RespBean) respostaList.get(posicao);
-                    pcqContext.getFormularioCTR().setItemBean(questaoBean.getIdQuestao(), respBean.getIdResp());
+                    RespBean respBean = respostaList.get(posicao);
+                    pcqContext.getFormularioCTR().setItemBean(questaoBean.getIdQuestao(), respBean.getIdResp(), questaoBean.getSeqQuestao());
                     List<RespBean> subRespList = pcqContext.getFormularioCTR().respIdQuestaoList(respBean.getIdSubResp());
                     if(subRespList.size() == 0){
-                        pcqContext.getFormularioCTR().salvarItem(0L);
-                        if(questaoList.size() > pcqContext.getFormularioCTR().getPosCriterio()) {
-                            pcqContext.getFormularioCTR().setPosCriterio(pcqContext.getFormularioCTR().getPosCriterio() + 1);
-                            Intent it = new Intent(CriterioActivity.this, CriterioActivity.class);
-                            startActivity(it);
-                            finish();
+                        pcqContext.getFormularioCTR().salvarItem(0L, pcqContext.getTipoTela());
+                        if((pcqContext.getTipoTela() == 1) || (pcqContext.getTipoTela() == 3)){
+                            if(questaoList.size() > pcqContext.getFormularioCTR().getPosCriterio()) {
+                                pcqContext.getFormularioCTR().setPosCriterio(pcqContext.getFormularioCTR().getPosCriterio() + 1);
+                                Intent it = new Intent(CriterioActivity.this, CriterioActivity.class);
+                                startActivity(it);
+                                finish();
+                            }
+                            else{
+                                if(pcqContext.getTipoTela() == 1){
+                                    pcqContext.getFormularioCTR().fecharCabec(pcqContext.getFormularioCTR().getCabecAberto().getTipoCabec());
+                                }
+                                else{
+                                    pcqContext.getFormularioCTR().fecharRecebidoCabec();
+                                }
+                                Intent it = new Intent(CriterioActivity.this, RelacaoCabecActivity.class);
+                                startActivity(it);
+                                finish();
+                            }
                         }
                         else{
-                            pcqContext.getFormularioCTR().fecharCabec();
-                            Intent it = new Intent(CriterioActivity.this, MenuInicialActivity.class);
+                            Intent it = new Intent(CriterioActivity.this, RelacaoCriterioActivity.class);
                             startActivity(it);
                             finish();
                         }
@@ -129,6 +149,9 @@ public class CriterioActivity extends ActivityGeneric {
             }
         });
 
+    }
+
+    public void onBackPressed() {
     }
 
 }

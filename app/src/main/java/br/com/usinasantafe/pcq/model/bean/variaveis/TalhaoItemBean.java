@@ -21,11 +21,11 @@ public class TalhaoItemBean extends Entidade {
     @DatabaseField
     private Double haIncCanaTalhao;
     @DatabaseField
-    private Long tipoCanaTalhao;
+    private Long altCanaTalhao;
     @DatabaseField
     private Double haIncPalhadaTalhao;
     @DatabaseField
-    private Long statusCanavialTalhao;
+    private Long tipoTalhao;
 
     public TalhaoItemBean() {
     }
@@ -70,12 +70,12 @@ public class TalhaoItemBean extends Entidade {
         this.haIncCanaTalhao = haIncCanaTalhao;
     }
 
-    public Long getTipoCanaTalhao() {
-        return tipoCanaTalhao;
+    public Long getAltCanaTalhao() {
+        return altCanaTalhao;
     }
 
-    public void setTipoCanaTalhao(Long tipoCanaTalhao) {
-        this.tipoCanaTalhao = tipoCanaTalhao;
+    public void setAltCanaTalhao(Long altCanaTalhao) {
+        this.altCanaTalhao = altCanaTalhao;
     }
 
     public Double getHaIncPalhadaTalhao() {
@@ -86,11 +86,11 @@ public class TalhaoItemBean extends Entidade {
         this.haIncPalhadaTalhao = haIncPalhadaTalhao;
     }
 
-    public Long getStatusCanavialTalhao() {
-        return statusCanavialTalhao;
+    public Long getTipoTalhao() {
+        return tipoTalhao;
     }
 
-    public void setStatusCanavialTalhao(Long statusCanavialTalhao) {
-        this.statusCanavialTalhao = statusCanavialTalhao;
+    public void setTipoTalhao(Long tipoTalhao) {
+        this.tipoTalhao = tipoTalhao;
     }
 }

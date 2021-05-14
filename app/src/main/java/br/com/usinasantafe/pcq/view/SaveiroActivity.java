@@ -1,6 +1,7 @@
 package br.com.usinasantafe.pcq.view;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +15,8 @@ import java.util.List;
 import br.com.usinasantafe.pcq.PCQContext;
 import br.com.usinasantafe.pcq.R;
 import br.com.usinasantafe.pcq.model.bean.estaticas.EquipBean;
+import br.com.usinasantafe.pcq.model.bean.variaveis.EquipItemBean;
+import br.com.usinasantafe.pcq.util.ConexaoWeb;
 
 public class SaveiroActivity extends ActivityGeneric {
 
@@ -21,7 +24,9 @@ public class SaveiroActivity extends ActivityGeneric {
     private AdapterListChoice adapterListChoice;
     private ListView saveiroListView;
     private List<EquipBean> saveiroList;
+    private List<EquipItemBean> saveiroItemList;
     private PCQContext pcqContext;
+    private ProgressDialog progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,20 +35,34 @@ public class SaveiroActivity extends ActivityGeneric {
 
         Button buttonDesmarcarTodos = (Button) findViewById(R.id.buttonDesmarcarTodosSaveiro);
         Button buttonMarcarTodos = (Button) findViewById(R.id.buttonMarcarTodosSaveiro);
-        Button buttonRetTanque = (Button) findViewById(R.id.buttonRetSaveiro);
         Button buttonSalvarTanque = (Button) findViewById(R.id.buttonSalvarSaveiro);
+        Button buttonAtualizarBD = (Button) findViewById(R.id.buttonAtualizarBD);
 
         pcqContext = (PCQContext) getApplication();
         itens = new ArrayList<ViewHolderChoice>();
 
         saveiroList = pcqContext.getFormularioCTR().saveiroList();
+        if(pcqContext.getTipoTela() == 1) {
+            saveiroItemList = pcqContext.getFormularioCTR().saveiroItemCabecIniciadoList();
+        }
+        else {
+            saveiroItemList = pcqContext.getFormularioCTR().saveiroItemCabecAbertoList();
+        }
 
         for (EquipBean equipBean : saveiroList) {
             ViewHolderChoice viewHolderChoice = new ViewHolderChoice();
-            viewHolderChoice.setSelected(false);
+            boolean ver = false;
+            for(EquipItemBean equipItemBean : saveiroItemList){
+                if(equipBean.getIdEquip().equals(equipItemBean.getIdEquip())){
+                    ver = true;
+                }
+            }
+            viewHolderChoice.setSelected(ver);
             viewHolderChoice.setDescrCheckBox(String.valueOf(equipBean.getNroEquip()));
             itens.add(viewHolderChoice);
         }
+
+        saveiroItemList.clear();
 
         adapterListChoice = new AdapterListChoice(this, itens);
         saveiroListView = (ListView) findViewById(R.id.listSaveiro);
@@ -63,7 +82,7 @@ public class SaveiroActivity extends ActivityGeneric {
                 }
 
                 adapterListChoice = new AdapterListChoice( SaveiroActivity.this, itens);
-                saveiroListView = (ListView) findViewById(R.id.listTalhao);
+                saveiroListView = (ListView) findViewById(R.id.listSaveiro);
                 saveiroListView.setAdapter(adapterListChoice);
 
             }
@@ -83,19 +102,68 @@ public class SaveiroActivity extends ActivityGeneric {
                 }
 
                 adapterListChoice = new AdapterListChoice( SaveiroActivity.this, itens);
-                saveiroListView = (ListView) findViewById(R.id.listTalhao);
+                saveiroListView = (ListView) findViewById(R.id.listSaveiro);
                 saveiroListView.setAdapter(adapterListChoice);
 
             }
         });
 
-        buttonRetTanque.setOnClickListener(new View.OnClickListener() {
+        buttonAtualizarBD.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                Intent it = new Intent(SaveiroActivity.this, MsgCameraActivity.class);
-                startActivity(it);
-                finish();
+
+
+                AlertDialog.Builder alerta = new AlertDialog.Builder(SaveiroActivity.this);
+                alerta.setTitle("ATENÇÃO");
+                alerta.setMessage("DESEJA REALMENTE ATUALIZAR BASE DE DADOS?");
+                alerta.setNegativeButton("SIM", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        ConexaoWeb conexaoWeb = new ConexaoWeb();
+
+                        if (conexaoWeb.verificaConexao(SaveiroActivity.this)) {
+
+                            progressBar = new ProgressDialog(SaveiroActivity.this);
+                            progressBar.setCancelable(true);
+                            progressBar.setMessage("ATUALIZANDO ...");
+                            progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                            progressBar.setProgress(0);
+                            progressBar.setMax(100);
+                            progressBar.show();
+
+                            pcqContext.getFormularioCTR().atualDadosEquip(SaveiroActivity.this, SaveiroActivity.class, progressBar);
+
+                        } else {
+
+                            AlertDialog.Builder alerta = new AlertDialog.Builder(SaveiroActivity.this);
+                            alerta.setTitle("ATENÇÃO");
+                            alerta.setMessage("FALHA NA CONEXÃO DE DADOS. O CELULAR ESTA SEM SINAL. POR FAVOR, TENTE NOVAMENTE QUANDO O CELULAR ESTIVE COM SINAL.");
+                            alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            });
+
+                            alerta.show();
+
+                        }
+
+
+                    }
+                });
+
+                alerta.setPositiveButton("NÃO", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+
+                alerta.show();
+
             }
         });
 
@@ -110,18 +178,25 @@ public class SaveiroActivity extends ActivityGeneric {
                     ViewHolderChoice viewHolderChoice = itens.get(i);
                     if(viewHolderChoice.isSelected()){
                         EquipBean equipBean = (EquipBean) saveiroList.get(i);
-                        saveiroSelectedList.add(equipBean.getNroEquip());
+                        saveiroSelectedList.add(equipBean.getIdEquip());
                     }
                 }
 
                 if(saveiroSelectedList.size() > 0){
 
-                    pcqContext.getFormularioCTR().setSaveiroCabec(saveiroSelectedList);
+                    pcqContext.getFormularioCTR().setSaveiroCabec(saveiroSelectedList, pcqContext.getTipoTela());
                     saveiroSelectedList.clear();
 
-                    Intent it = new Intent(SaveiroActivity.this, BrigadistaActivity.class);
-                    startActivity(it);
-                    finish();
+                    if(pcqContext.getTipoTela() == 1) {
+                        Intent it = new Intent(SaveiroActivity.this, BrigadistaActivity.class);
+                        startActivity(it);
+                        finish();
+                    }
+                    else{
+                        Intent it = new Intent(SaveiroActivity.this, RelacaoCabecActivity.class);
+                        startActivity(it);
+                        finish();
+                    }
 
                 }
                 else{
@@ -133,9 +208,18 @@ public class SaveiroActivity extends ActivityGeneric {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
 
-                            Intent it = new Intent(SaveiroActivity.this, BrigadistaActivity.class);
-                            startActivity(it);
-                            finish();
+                            pcqContext.getFormularioCTR().delSaveiroCabec(pcqContext.getTipoTela());
+
+                            if(pcqContext.getTipoTela() == 1) {
+                                Intent it = new Intent(SaveiroActivity.this, BrigadistaActivity.class);
+                                startActivity(it);
+                                finish();
+                            }
+                            else{
+                                Intent it = new Intent(SaveiroActivity.this, RelacaoCabecActivity.class);
+                                startActivity(it);
+                                finish();
+                            }
 
                         }
                     });
@@ -143,7 +227,6 @@ public class SaveiroActivity extends ActivityGeneric {
                     alerta.setPositiveButton("NÃO", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-
                         }
                     });
 
@@ -160,6 +243,16 @@ public class SaveiroActivity extends ActivityGeneric {
     }
 
     public void onBackPressed() {
+        if(pcqContext.getTipoTela() == 1) {
+            Intent it = new Intent(SaveiroActivity.this, TanqueActivity.class);
+            startActivity(it);
+            finish();
+        }
+        else{
+            Intent it = new Intent(SaveiroActivity.this, RelacaoCabecActivity.class);
+            startActivity(it);
+            finish();
+        }
     }
 
 }

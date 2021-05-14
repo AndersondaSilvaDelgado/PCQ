@@ -68,9 +68,16 @@ public class AceiroCanavialActivity extends ActivityGeneric {
 
             @Override
             public void onClick(View v) {
-                Intent it = new Intent( AceiroCanavialActivity.this, MsgCameraActivity.class);
-                startActivity(it);
-                finish();
+                if(pcqContext.getTipoTela() == 1){
+                    Intent it = new Intent( AceiroCanavialActivity.this, TercCombActivity.class);
+                    startActivity(it);
+                    finish();
+                }
+                else{
+                    Intent it = new Intent( AceiroCanavialActivity.this, RelacaoCabecActivity.class);
+                    startActivity(it);
+                    finish();
+                }
             }
         });
 
@@ -82,17 +89,27 @@ public class AceiroCanavialActivity extends ActivityGeneric {
                 if(posicao > -1){
 
                     Long pos = posicao + 1L;
-                    pcqContext.getFormularioCTR().setAceiroCanavialCabec(pos);
+                    pcqContext.getFormularioCTR().setAceiroCanavialCabec(pos, pcqContext.getTipoTela());
 
-                    Intent it = new Intent( AceiroCanavialActivity.this, AceiroVegetNativaActivity.class);
-                    startActivity(it);
-                    finish();
+                    if(pcqContext.getTipoTela() == 1){
+                        Intent it = new Intent( AceiroCanavialActivity.this, AceiroVegetNativaActivity.class);
+                        startActivity(it);
+                        finish();
+                    }
+                    else{
+                        Intent it = new Intent( AceiroCanavialActivity.this, RelacaoCabecActivity.class);
+                        startActivity(it);
+                        finish();
+                    }
 
                 }
 
             }
         });
 
+    }
+
+    public void onBackPressed() {
     }
 
 }

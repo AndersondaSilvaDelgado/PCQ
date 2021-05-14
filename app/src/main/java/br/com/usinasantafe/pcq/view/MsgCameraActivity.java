@@ -31,7 +31,7 @@ public class MsgCameraActivity extends ActivityGeneric {
 
             @Override
             public void onClick(View v) {
-                pcqContext.setPosTela(2);
+                pcqContext.setPosCameraTela(2);
                 Intent it = new Intent(MsgCameraActivity.this, CameraActivity.class);
                 startActivity(it);
                 finish();

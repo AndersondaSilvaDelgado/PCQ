@@ -33,32 +33,52 @@ public class EnvioDadosServ {
 
     //////////////////////// ENVIAR DADOS ////////////////////////////////////////////
 
-    public void envioDados() {
+    public void envioFormComum() {
 
         UrlsConexaoHttp urlsConexaoHttp = new UrlsConexaoHttp();
 
-        String[] dados = new String[8];
+        String[] dados = new String[7];
 
         FormularioCTR formularioCTR = new FormularioCTR();
 
-        DadosEnvioBean dadosEnvioBean = formularioCTR.dadosCabecFechEnvio();
+        DadosEnvioBean dadosEnvioBean = formularioCTR.dadosCabecFinalizadoEnvio();
 
         Log.i("PST", "CABEC = " + dadosEnvioBean.getCabec());
         Log.i("PST", "ITEM = " + dadosEnvioBean.getItem());
         Log.i("PST", "BRIGADISTA = " + dadosEnvioBean.getBrigadista());
         Log.i("PST", "EQUIP = " + dadosEnvioBean.getEquip());
         Log.i("PST", "FOTO = " + dadosEnvioBean.getFoto());
-        Log.i("PST", "ORGAOAMB = " + dadosEnvioBean.getOrgaoAmb());
         Log.i("PST", "TALHAO = " + dadosEnvioBean.getTalhao());
 
-        dados[0] = urlsConexaoHttp.getsInserirDados();
+        dados[0] = urlsConexaoHttp.getsInserirFormCompleto();
         dados[1] = dadosEnvioBean.getCabec();
         dados[2] = dadosEnvioBean.getItem();
         dados[3] = dadosEnvioBean.getBrigadista();
         dados[4] = dadosEnvioBean.getEquip();
         dados[5] = dadosEnvioBean.getFoto();
-        dados[6] = dadosEnvioBean.getOrgaoAmb();
-        dados[7] = dadosEnvioBean.getTalhao();
+        dados[6] = dadosEnvioBean.getTalhao();
+
+        MultipartGenerico multipartGenerico = new MultipartGenerico();
+        multipartGenerico.execute(dados);
+
+    }
+
+    public void envioFormCompl() {
+
+        UrlsConexaoHttp urlsConexaoHttp = new UrlsConexaoHttp();
+
+        String[] dados = new String[3];
+
+        FormularioCTR formularioCTR = new FormularioCTR();
+
+        DadosEnvioBean dadosEnvioBean = formularioCTR.dadosCabecFinalRecebidoEnvio();
+
+        Log.i("PST", "CABEC = " + dadosEnvioBean.getCabec());
+        Log.i("PST", "ITEM = " + dadosEnvioBean.getItem());
+
+        dados[0] = urlsConexaoHttp.getsInserirFormComplementar();
+        dados[1] = dadosEnvioBean.getCabec();
+        dados[2] = dadosEnvioBean.getItem();
 
         MultipartGenerico multipartGenerico = new MultipartGenerico();
         multipartGenerico.execute(dados);
@@ -89,14 +109,19 @@ public class EnvioDadosServ {
         return configCTR.verEnvioLogErro();
     }
 
-    public Boolean verifEnvioDados() {
+    public Boolean verEnvioFormComum() {
         FormularioCTR formularioCTR = new FormularioCTR();
-        return formularioCTR.verEnvioDados();
+        return formularioCTR.verEnvioFormComum();
+    }
+
+    public Boolean verEnvioFormCompl() {
+        FormularioCTR formularioCTR = new FormularioCTR();
+        return formularioCTR.verEnvioFormComplementar();
     }
 
     /////////////////////////MECANISMO DE ENVIO//////////////////////////////////
 
-    public void envioDados(Context context) {
+    public void envioFormComum(Context context) {
         enviando = true;
         ConexaoWeb conexaoWeb = new ConexaoWeb();
         if (conexaoWeb.verificaConexao(context)) {
@@ -114,15 +139,20 @@ public class EnvioDadosServ {
             envioLogErro();
         }
         else{
-            if(verifEnvioDados()){
-                envioDados();
+            if(verEnvioFormCompl()){
+                envioFormCompl();
+            }
+            else{
+                if(verEnvioFormComum()){
+                    envioFormComum();
+                }
             }
         }
 
     }
 
     public boolean verifDadosEnvio() {
-        if (!verifEnvioDados()
+        if (!verEnvioFormComum()
             && !verifLogErro()){
             enviando = false;
             return false;

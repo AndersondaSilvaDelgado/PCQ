@@ -1,6 +1,7 @@
 package br.com.usinasantafe.pcq.view;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import java.util.List;
 import br.com.usinasantafe.pcq.PCQContext;
 import br.com.usinasantafe.pcq.R;
 import br.com.usinasantafe.pcq.model.bean.estaticas.TalhaoBean;
+import br.com.usinasantafe.pcq.util.ConexaoWeb;
 
 public class TalhaoActivity extends ActivityGeneric {
 
@@ -22,6 +24,7 @@ public class TalhaoActivity extends ActivityGeneric {
     private ListView talhaoListView;
     private List<TalhaoBean> talhaoList;
     private PCQContext pcqContext;
+    private ProgressDialog progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +35,8 @@ public class TalhaoActivity extends ActivityGeneric {
 
         Button buttonDesmarcarTodos = (Button) findViewById(R.id.buttonDesmarcarTodosTalhao);
         Button buttonMarcarTodos = (Button) findViewById(R.id.buttonMarcarTodosTalhao);
-        Button buttonRetTalhao = (Button) findViewById(R.id.buttonRetTalhao);
         Button buttonSalvarTalhao = (Button) findViewById(R.id.buttonSalvarTalhao);
+        Button buttonAtualizarBD = (Button) findViewById(R.id.buttonAtualizarBD);
 
         pcqContext = (PCQContext) getApplication();
         itens = new ArrayList<ViewHolderChoice>();
@@ -91,13 +94,61 @@ public class TalhaoActivity extends ActivityGeneric {
             }
         });
 
-        buttonRetTalhao.setOnClickListener(new View.OnClickListener() {
+        buttonAtualizarBD.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                Intent it = new Intent(TalhaoActivity.this, SecaoActivity.class);
-                startActivity(it);
-                finish();
+
+                AlertDialog.Builder alerta = new AlertDialog.Builder(TalhaoActivity.this);
+                alerta.setTitle("ATENÇÃO");
+                alerta.setMessage("DESEJA REALMENTE ATUALIZAR BASE DE DADOS?");
+                alerta.setNegativeButton("SIM", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        ConexaoWeb conexaoWeb = new ConexaoWeb();
+
+                        if (conexaoWeb.verificaConexao(TalhaoActivity.this)) {
+
+                            progressBar = new ProgressDialog(TalhaoActivity.this);
+                            progressBar.setCancelable(true);
+                            progressBar.setMessage("ATUALIZANDO ...");
+                            progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                            progressBar.setProgress(0);
+                            progressBar.setMax(100);
+                            progressBar.show();
+
+                            pcqContext.getFormularioCTR().atualDadosTalhao(TalhaoActivity.this, TalhaoActivity.class, progressBar);
+
+                        } else {
+
+                            AlertDialog.Builder alerta = new AlertDialog.Builder(TalhaoActivity.this);
+                            alerta.setTitle("ATENÇÃO");
+                            alerta.setMessage("FALHA NA CONEXÃO DE DADOS. O CELULAR ESTA SEM SINAL. POR FAVOR, TENTE NOVAMENTE QUANDO O CELULAR ESTIVE COM SINAL.");
+                            alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            });
+
+                            alerta.show();
+
+                        }
+
+
+                    }
+                });
+
+                alerta.setPositiveButton("NÃO", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+
+                alerta.show();
+
             }
         });
 
@@ -118,10 +169,11 @@ public class TalhaoActivity extends ActivityGeneric {
 
                 if(talhaoSelectedList.size() > 0){
 
-                    pcqContext.getFormularioCTR().setTalhaoCabec(talhaoSelectedList);
+                    pcqContext.getFormularioCTR().setSecaoCabec(pcqContext.getFormularioCTR().getCodSecao(pcqContext.getFormularioCTR().getSecao()).getIdSecao(), pcqContext.getTipoTela());
+                    pcqContext.getFormularioCTR().setTalhaoCabec(talhaoSelectedList, pcqContext.getTipoTela());
                     pcqContext.getFormularioCTR().setPosTalhao(1);
 
-                    Intent it = new Intent(TalhaoActivity.this, StatusCanavialActivity.class);
+                    Intent it = new Intent(TalhaoActivity.this, TipoTalhaoActivity.class);
                     startActivity(it);
                     finish();
 
@@ -148,6 +200,9 @@ public class TalhaoActivity extends ActivityGeneric {
     }
 
     public void onBackPressed() {
+        Intent it = new Intent(TalhaoActivity.this, SecaoActivity.class);
+        startActivity(it);
+        finish();
     }
 
 }

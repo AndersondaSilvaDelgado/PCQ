@@ -19,7 +19,6 @@ public class GetBDGenerico extends AsyncTask<String, Void, String> {
 	private UrlsConexaoHttp urlsConexaoHttp;
 
 	public GetBDGenerico() {
-
 	}
 
     public static GetBDGenerico getInstance() {
@@ -83,7 +82,6 @@ public class GetBDGenerico extends AsyncTask<String, Void, String> {
 				try {
 					bufferedReader.close();
 				} catch (Exception e) {
-					
 				}
 			}
 			

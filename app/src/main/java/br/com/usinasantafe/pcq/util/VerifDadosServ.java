@@ -26,11 +26,11 @@ import br.com.usinasantafe.pcq.model.pst.GenericRecordable;
 public class VerifDadosServ {
 
     private static VerifDadosServ instance = null;
-    private GenericRecordable genericRecordable;
     private UrlsConexaoHttp urlsConexaoHttp;
     private ProgressDialog progressDialog;
+    private Context telaAtual;
+    private Class telaProx;
     private String tipo;
-    private AtualAplicBean atualAplicBean;
     private MenuInicialActivity menuInicialActivity;
     private PostVerGenerico postVerGenerico;
     private boolean verTerm;
@@ -58,6 +58,9 @@ public class VerifDadosServ {
                 } else {
                     this.menuInicialActivity.startTimer();
                 }
+            }
+            else if(this.tipo.equals("Cabec")){
+
             }
         }
 
@@ -88,6 +91,30 @@ public class VerifDadosServ {
         String[] url = {urlsConexaoHttp.urlVerifica(tipo)};
         Map<String, Object> parametrosPost = new HashMap<String, Object>();
         parametrosPost.put("dado", json.toString());
+
+        postVerGenerico = new PostVerGenerico();
+        postVerGenerico.setParametrosPost(parametrosPost);
+        postVerGenerico.execute(url);
+
+    }
+
+    public void verDados(String tipo, Context telaAtual, Class telaProx, ProgressDialog progressDialog) {
+
+        this.urlsConexaoHttp = new UrlsConexaoHttp();
+        this.telaAtual = telaAtual;
+        this.telaProx = telaProx;
+        this.progressDialog = progressDialog;
+        this.tipo = tipo;
+
+        envioDados();
+
+    }
+
+    public void envioDados() {
+
+        this.urlsConexaoHttp = new UrlsConexaoHttp();
+        String[] url = {urlsConexaoHttp.urlVerifica(tipo)};
+        Map<String, Object> parametrosPost = new HashMap<String, Object>();
 
         postVerGenerico = new PostVerGenerico();
         postVerGenerico.setParametrosPost(parametrosPost);

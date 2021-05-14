@@ -2,7 +2,6 @@ package br.com.usinasantafe.pcq.view;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -15,7 +14,7 @@ import br.com.usinasantafe.pcq.PCQContext;
 import br.com.usinasantafe.pcq.R;
 import br.com.usinasantafe.pcq.model.bean.variaveis.TalhaoItemBean;
 
-public class StatusCanavialActivity extends ActivityGeneric {
+public class TipoTalhaoActivity extends ActivityGeneric {
 
     private ArrayList<ViewHolderChoice> itens;
     private AdapterListChoice adapterListChoice;
@@ -27,7 +26,7 @@ public class StatusCanavialActivity extends ActivityGeneric {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_status_canavial);
+        setContentView(R.layout.activity_tipo_talhao);
 
         TextView textViewTituloStatusCanavial = (TextView) findViewById(R.id.textViewTituloStatusCanavial);
         Button buttonRetStatusCanavial = (Button) findViewById(R.id.buttonRetStatusCanavial);
@@ -36,9 +35,7 @@ public class StatusCanavialActivity extends ActivityGeneric {
         pcqContext = (PCQContext) getApplication();
         itens = new ArrayList<ViewHolderChoice>();
 
-        Log.i("PCQ", "TALHAO = " + pcqContext.getFormularioCTR().getPosTalhao());
-
-        talhaoItemList = pcqContext.getFormularioCTR().talhaoItemCabecIniciadoList();
+        talhaoItemList = pcqContext.getFormularioCTR().talhaoItemList(pcqContext.getTipoTela());
         talhaoItemBean = talhaoItemList.get(pcqContext.getFormularioCTR().getPosTalhao() - 1);
         talhaoItemList.clear();
 
@@ -64,7 +61,7 @@ public class StatusCanavialActivity extends ActivityGeneric {
             @Override
             public void onClick(View v) {
                 if(pcqContext.getFormularioCTR().getPosTalhao() == 1){
-                    Intent it = new Intent( StatusCanavialActivity.this, TalhaoActivity.class);
+                    Intent it = new Intent( TipoTalhaoActivity.this, TalhaoActivity.class);
                     startActivity(it);
                     finish();
                 }
@@ -91,32 +88,32 @@ public class StatusCanavialActivity extends ActivityGeneric {
                     }
                 }
 
-                Long statusCanavial = 0L;
+                Long tipoTalhao = 0L;
 
                 if((tipoCana == 1) && (tipoPalhada == 0)){
-                    statusCanavial = 1L;
+                    tipoTalhao = 1L;
                 }
                 else if((tipoCana == 0) && (tipoPalhada == 1)){
-                    statusCanavial = 2L;
+                    tipoTalhao = 2L;
                 }
                 else if((tipoCana == 1) && (tipoPalhada == 1)){
-                    statusCanavial = 3L;
+                    tipoTalhao = 3L;
                 }
 
-                pcqContext.getFormularioCTR().setStatusCanavialTalhao(statusCanavial, talhaoItemBean);
+                pcqContext.getFormularioCTR().setTipoTalhao(tipoTalhao, talhaoItemBean);
 
-                if(statusCanavial == 1L){
-                    Intent it = new Intent( StatusCanavialActivity.this, HaIncCanaActivity.class);
+                if(tipoTalhao == 1L){
+                    Intent it = new Intent( TipoTalhaoActivity.this, HaIncCanaActivity.class);
                     startActivity(it);
                     finish();
                 }
-                else if(statusCanavial == 2L){
-                    Intent it = new Intent( StatusCanavialActivity.this, HaIncPalhadaActivity.class);
+                else if(tipoTalhao == 2L){
+                    Intent it = new Intent( TipoTalhaoActivity.this, HaIncPalhadaActivity.class);
                     startActivity(it);
                     finish();
                 }
-                else if(statusCanavial == 3L){
-                    Intent it = new Intent( StatusCanavialActivity.this, HaIncCanaActivity.class);
+                else if(tipoTalhao == 3L){
+                    Intent it = new Intent( TipoTalhaoActivity.this, HaIncCanaActivity.class);
                     startActivity(it);
                     finish();
                 }

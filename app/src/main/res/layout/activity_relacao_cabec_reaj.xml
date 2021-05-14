@@ -9,33 +9,32 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".view.StatusCanavialActivity">
+    tools:context=".view.RelacaoCabecReajActivity">
+
 
     <TextView
-        android:id="@+id/textViewTituloStatusCanavial"
+        android:id="@+id/textViewListaCabecReaj"
         style="@style/TextViewTituloLista"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/texto_status_canavial" />
+        android:text="@string/texto_infor_cabecalho" />
 
     <ListView
-        android:id="@+id/listStatusCanavial"
+        android:id="@+id/listaViewCabecReaj"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
 
     <Button
-        android:id="@+id/buttonRetStatusCanavial"
+        android:id="@+id/buttonTermCabecReaj"
+        style="@style/BotaoAvulso"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/texto_term_form" />
+
+    <Button
+        android:id="@+id/buttonRetCabecReaj"
         style="@style/BotaoAvulso"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/texto_padrao_retornar" />
-
-    <Button
-        android:id="@+id/buttonSalvarStatusCanavial"
-        style="@style/BotaoAvulso"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/texto_padrao_ok" />
 
 </LinearLayout>

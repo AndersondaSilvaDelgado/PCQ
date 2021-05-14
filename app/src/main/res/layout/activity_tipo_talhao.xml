@@ -9,56 +9,33 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".view.TanqueActivity">
+    tools:context=".view.TipoTalhaoActivity">
 
     <TextView
-        android:id="@+id/textViewTituloTanque"
+        android:id="@+id/textViewTituloStatusCanavial"
         style="@style/TextViewTituloLista"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/texto_tanque" />
+        android:text="@string/texto_status_canavial" />
 
     <ListView
-        android:id="@+id/listTanque"
+        android:id="@+id/listStatusCanavial"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
 
-    <LinearLayout
-        android:id="@+id/linerBotao"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-        <Button
-            android:id="@+id/buttonDesmarcarTodosTanque"
-            style="@style/BotaoAvulso"
-            android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/texto_desmarcar" />
-
-        <Button
-            android:id="@+id/buttonMarcarTodosTanque"
-            style="@style/BotaoAvulso"
-            android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/texto_marcar" />
-
-    </LinearLayout>
-
     <Button
-        android:id="@+id/buttonSalvarTanque"
+        android:id="@+id/buttonSalvarStatusCanavial"
         style="@style/BotaoAvulso"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/texto_padrao_ok" />
 
     <Button
-        android:id="@+id/buttonAtualizarBD"
+        android:id="@+id/buttonRetStatusCanavial"
         style="@style/BotaoAvulso"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/texto_atualizar_bd" />
+        android:text="@string/texto_padrao_retornar" />
 
 </LinearLayout>

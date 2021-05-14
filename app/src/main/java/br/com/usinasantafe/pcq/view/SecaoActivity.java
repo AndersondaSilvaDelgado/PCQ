@@ -95,7 +95,7 @@ public class SecaoActivity extends ActivityGeneric {
 
                     if (pcqContext.getFormularioCTR().verSecao(Long.parseLong(editTextPadrao.getText().toString().trim()))) {
 
-                        pcqContext.getFormularioCTR().setSecaoCabec(pcqContext.getFormularioCTR().getCodSecao(Long.parseLong(editTextPadrao.getText().toString().trim())).getIdSecao());
+                        pcqContext.getFormularioCTR().setSecao(Long.parseLong(editTextPadrao.getText().toString().trim()));
 
                         Intent it = new Intent(SecaoActivity.this, TalhaoActivity.class);
                         startActivity(it);
@@ -105,7 +105,7 @@ public class SecaoActivity extends ActivityGeneric {
 
                         AlertDialog.Builder alerta = new AlertDialog.Builder(SecaoActivity.this);
                         alerta.setTitle("ATENÇÃO");
-                        alerta.setMessage("NUMERAÇÃO DO FUNCIONARIO INEXISTENTE! FAVOR VERIFICA A MESMA.");
+                        alerta.setMessage("NUMERAÇÃO DE SEÇÃO INEXISTENTE! FAVOR VERIFICA A MESMA.");
                         alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -134,9 +134,16 @@ public class SecaoActivity extends ActivityGeneric {
     }
 
     public void onBackPressed() {
-        Intent it = new Intent(SecaoActivity.this, ColabActivity.class);
-        startActivity(it);
-        finish();
+        if(pcqContext.getTipoTela() == 1){
+            Intent it = new Intent(SecaoActivity.this, OrigemFogoActivity.class);
+            startActivity(it);
+            finish();
+        }
+        else{
+            Intent it = new Intent(SecaoActivity.this, RelacaoCabecActivity.class);
+            startActivity(it);
+            finish();
+        }
     }
 
 }

@@ -26,6 +26,7 @@
     <string name="texto_padrao_nao">NÃO</string>
     <string name="texto_padrao_sim">SIM</string>
     <string name="texto_tanque">CAMINHÃO(ÕES) TANQUE</string>
+    <string name="texto_saveiro">CAMINHÃO(ÕES) SAVEIRO</string>
     <string name="texto_brigadista">BRIGADISTA(S)</string>
     <string name="texto_terceiro">NOME DA EMPRESA</string>
     <string name="texto_org_ambiental">ORGÃO(ÕES) AMBIENTAL</string>
@@ -43,4 +44,10 @@
     <string name="texto_infor_cabecalho">CABEÇALHO</string>
     <string name="texto_padrao_avancar">AVANÇAR</string>
     <string name="texto_infor_criteiro">CRITÉRIOS</string>
+    <string name="texto_app">ÁREA QUEIMADA DE APP(HA)</string>
+    <string name="texto_fora_app">ÁREA QUEIMADA FORA DE APP(HA)</string>
+    <string name="texto_terc_combate">TERCEIRO QUE AUXILIOU COMBATE</string>
+    <string name="texto_excluir">EXCLUIR FORMULÁRIO</string>
+    <string name="texto_form_reaj">FORMULÁRIO(S) PARA REAJUSTE(S)</string>
+    <string name="texto_term_form">TERMINAR FORMULÁRIO</string>
 </resources>

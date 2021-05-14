@@ -73,12 +73,27 @@ public class MenuInicialActivity extends ActivityGeneric {
         verifEnvio();
         clearBD();
 
-        if(pcqContext.getFormularioCTR().verCabecAberto()){
+        if(pcqContext.getFormularioCTR().verCabecAberto()) {
 
             pcqContext.getFormularioCTR().delItemAberto();
             pcqContext.getFormularioCTR().setPosCriterio(1);
 
+            pcqContext.setTipoTela(1);
             Intent it = new Intent(MenuInicialActivity.this, CriterioActivity.class);
+            startActivity(it);
+            finish();
+
+        }
+        else if(pcqContext.getFormularioCTR().verCabecFechado()){
+
+            Intent it = new Intent(MenuInicialActivity.this, RelacaoCabecActivity.class);
+            startActivity(it);
+            finish();
+
+        }
+        else if(pcqContext.getFormularioCTR().verCabecFechRecebido()){
+
+            Intent it = new Intent(MenuInicialActivity.this, RelacaoCriterioActivity.class);
             startActivity(it);
             finish();
 
@@ -97,6 +112,7 @@ public class MenuInicialActivity extends ActivityGeneric {
 
         itens.add("FORMULÁRIO COMPLETO");
         itens.add("FORMULÁRIO SIMPLIFICADO");
+        itens.add("FORMULÁRIO(S) PARA REAJUSTE");
         itens.add("CONFIGURAÇÃO");
         itens.add("ATUALIZAR DADOS");
         itens.add("SAIR");
@@ -119,6 +135,7 @@ public class MenuInicialActivity extends ActivityGeneric {
                     if (pcqContext.getFormularioCTR().hasElemColab() && pcqContext.getConfigCTR().hasElements()) {
                         customHandler.removeCallbacks(updateTimerThread);
                         pcqContext.getFormularioCTR().salvarCabecIniciado(1L);
+                        pcqContext.setTipoTela(1);
                         Intent it = new Intent(MenuInicialActivity.this, ColabActivity.class);
                         startActivity(it);
                         finish();
@@ -144,6 +161,7 @@ public class MenuInicialActivity extends ActivityGeneric {
                     if (pcqContext.getFormularioCTR().hasElemColab() && pcqContext.getConfigCTR().hasElements()) {
                         customHandler.removeCallbacks(updateTimerThread);
                         pcqContext.getFormularioCTR().salvarCabecIniciado(2L);
+                        pcqContext.setTipoTela(1);
                         Intent it = new Intent(MenuInicialActivity.this, ColabActivity.class);
                         startActivity(it);
                         finish();
@@ -162,6 +180,13 @@ public class MenuInicialActivity extends ActivityGeneric {
                         alerta.show();
 
                     }
+
+                }
+                else if (text.equals("FORMULÁRIO(S) PARA REAJUSTE")) {
+
+                    Intent it = new Intent(MenuInicialActivity.this, ListaFormReajActivity.class);
+                    startActivity(it);
+                    finish();
 
                 }
                 else if (text.equals("CONFIGURAÇÃO")) {
@@ -286,7 +311,7 @@ public class MenuInicialActivity extends ActivityGeneric {
 
         if (alarmeAtivo) {
 
-            Log.i("PST", "NOVO TIMER");
+            Log.i("PCQ", "NOVO TIMER");
 
             Intent intent = new Intent(this, TimerAlarme.class);
             PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0,
@@ -305,7 +330,7 @@ public class MenuInicialActivity extends ActivityGeneric {
             alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), 60000, pendingIntent);
 
         } else {
-            Log.i("PMM", "TIMER já ativo");
+            Log.i("PCQ", "TIMER já ativo");
         }
     }
 

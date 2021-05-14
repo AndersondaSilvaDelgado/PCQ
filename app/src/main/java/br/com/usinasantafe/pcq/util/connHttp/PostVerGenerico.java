@@ -61,12 +61,12 @@ public class PostVerGenerico extends AsyncTask<String, Void, String> {
             connection.disconnect();
 
         } catch (Exception e) {
-            Log.i("PMM", "Erro = " + e);
+            Log.i("PCQ", "Erro = " + e);
             if(bufferedReader != null){
                 try {
                     bufferedReader.close();
                 } catch (Exception er) {
-                    Log.i("PMM", "Erro = " + er);
+                    Log.i("PCQ", "Erro = " + er);
                 }
 
             }
@@ -77,7 +77,7 @@ public class PostVerGenerico extends AsyncTask<String, Void, String> {
                 try {
                     bufferedReader.close();
                 } catch (Exception e) {
-                    Log.i("PMM", "Erro = " + e);
+                    Log.i("PCQ", "Erro = " + e);
                 }
 
             }
@@ -89,10 +89,10 @@ public class PostVerGenerico extends AsyncTask<String, Void, String> {
     protected void onPostExecute(String result) {
 
         try {
-            Log.i("ECM", "VALOR RECEBIDO --> " + result);
+            Log.i("PCQ", "VALOR RECEBIDO --> " + result);
             VerifDadosServ.getInstance().manipularDadosHttp(result);
         } catch (Exception e) {
-            Log.i("PMM", "Erro2 = " + e);
+            Log.i("PCQ", "Erro2 = " + e);
         }
 
     }

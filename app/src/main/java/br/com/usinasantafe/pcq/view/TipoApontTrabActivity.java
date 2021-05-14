@@ -16,28 +16,28 @@ import java.util.List;
 
 import br.com.usinasantafe.pcq.PCQContext;
 import br.com.usinasantafe.pcq.R;
-import br.com.usinasantafe.pcq.model.bean.estaticas.TercCombBean;
+import br.com.usinasantafe.pcq.model.bean.estaticas.TipoApontBean;
 import br.com.usinasantafe.pcq.util.ConexaoWeb;
 
-public class TercCombActivity extends ActivityGeneric {
+public class TipoApontTrabActivity extends ActivityGeneric {
 
-    private List<TercCombBean> tercCombList;
+    private List<TipoApontBean> tipoApontList;
     private PCQContext pcqContext;
-    private RadioGroup radioGroupItemTercComb;
+    private RadioGroup radioGroupItemTipoApont;
     private int posicao;
     private ProgressDialog progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_terc_comb);
+        setContentView(R.layout.activity_tipo_apont_trab);
 
         pcqContext = (PCQContext) getApplication();
 
-        Button buttonRetTercComb = (Button) findViewById(R.id.buttonRetTercComb);
-        Button buttonAvancaTercComb = (Button) findViewById(R.id.buttonAvancaTercComb);
         Button buttonAtualizarBD = (Button) findViewById(R.id.buttonAtualizarBD);
-        radioGroupItemTercComb = (RadioGroup) findViewById(R.id.radioGroupItemTercComb);
+        Button buttonRetTipoApont = (Button) findViewById(R.id.buttonRetTipoApont);
+        Button buttonAvancaTipoApont = (Button) findViewById(R.id.buttonAvancaTipoApont);
+        radioGroupItemTipoApont = (RadioGroup) findViewById(R.id.radioGroupItemTipoApont);
 
         posicao = -1;
 
@@ -52,18 +52,18 @@ public class TercCombActivity extends ActivityGeneric {
                 }
         );
 
-        tercCombList = pcqContext.getFormularioCTR().tercCombList();
+        tipoApontList = pcqContext.getFormularioCTR().tipoApontList();
 
-        for (TercCombBean tercCombBean : tercCombList) {
+        for (TipoApontBean tipoApontBean : tipoApontList) {
             RadioButton radioButtonItem = new RadioButton(getApplicationContext());
-            radioButtonItem.setText(tercCombBean.getDescrTercComb());
+            radioButtonItem.setText(tipoApontBean.getDescrTipoApont());
             radioButtonItem.setTextColor(Color.BLACK);
             radioButtonItem.setTextSize(22F);
             radioButtonItem.setButtonTintList(colorStateList);
-            radioGroupItemTercComb.addView(radioButtonItem);
+            radioGroupItemTipoApont.addView(radioButtonItem);
         }
 
-        radioGroupItemTercComb.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        radioGroupItemTipoApont.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 View radioButton = radioGroup.findViewById(i);
@@ -72,12 +72,10 @@ public class TercCombActivity extends ActivityGeneric {
         });
 
         buttonAtualizarBD.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
 
-
-                AlertDialog.Builder alerta = new AlertDialog.Builder(TercCombActivity.this);
+                AlertDialog.Builder alerta = new AlertDialog.Builder(TipoApontTrabActivity.this);
                 alerta.setTitle("ATENÇÃO");
                 alerta.setMessage("DESEJA REALMENTE ATUALIZAR BASE DE DADOS?");
                 alerta.setNegativeButton("SIM", new DialogInterface.OnClickListener() {
@@ -86,9 +84,9 @@ public class TercCombActivity extends ActivityGeneric {
 
                         ConexaoWeb conexaoWeb = new ConexaoWeb();
 
-                        if (conexaoWeb.verificaConexao(TercCombActivity.this)) {
+                        if (conexaoWeb.verificaConexao(TipoApontTrabActivity.this)) {
 
-                            progressBar = new ProgressDialog(TercCombActivity.this);
+                            progressBar = new ProgressDialog(TipoApontTrabActivity.this);
                             progressBar.setCancelable(true);
                             progressBar.setMessage("ATUALIZANDO ...");
                             progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
@@ -96,11 +94,11 @@ public class TercCombActivity extends ActivityGeneric {
                             progressBar.setMax(100);
                             progressBar.show();
 
-                            pcqContext.getFormularioCTR().atualDadosTercComb(TercCombActivity.this, TercCombActivity.class, progressBar);
+                            pcqContext.getFormularioCTR().atualDadosTipoApont(TipoApontTrabActivity.this, TipoApontTrabActivity.class, progressBar);
 
                         } else {
 
-                            AlertDialog.Builder alerta = new AlertDialog.Builder(TercCombActivity.this);
+                            AlertDialog.Builder alerta = new AlertDialog.Builder(TipoApontTrabActivity.this);
                             alerta.setTitle("ATENÇÃO");
                             alerta.setMessage("FALHA NA CONEXÃO DE DADOS. O CELULAR ESTA SEM SINAL. POR FAVOR, TENTE NOVAMENTE QUANDO O CELULAR ESTIVE COM SINAL.");
                             alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -128,52 +126,49 @@ public class TercCombActivity extends ActivityGeneric {
                 alerta.show();
 
             }
+
         });
 
-        buttonRetTercComb.setOnClickListener(new View.OnClickListener() {
+        buttonRetTipoApont.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 if(pcqContext.getTipoTela() == 1){
-                    Intent it = new Intent(TercCombActivity.this, BrigadistaActivity.class);
+                    Intent it = new Intent(TipoApontTrabActivity.this, ColabActivity.class);
                     startActivity(it);
                     finish();
                 }
                 else{
-                    Intent it = new Intent(TercCombActivity.this, RelacaoCabecActivity.class);
+                    Intent it = new Intent(TipoApontTrabActivity.this, RelacaoCabecActivity.class);
                     startActivity(it);
                     finish();
                 }
+
             }
         });
 
-        buttonAvancaTercComb.setOnClickListener(new View.OnClickListener() {
+        buttonAvancaTipoApont.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
 
-                TercCombBean tercCombBean = new TercCombBean();
-
                 if(posicao > -1) {
-                    tercCombBean = tercCombList.get(posicao);
-                }
-                else {
-                    tercCombBean.setIdTercComb(0L);
-                }
 
-                pcqContext.getFormularioCTR().setTercCombCabec(tercCombBean.getIdTercComb(), pcqContext.getTipoTela());
+                    TipoApontBean tipoApontBean = tipoApontList.get(posicao);
+                    pcqContext.getFormularioCTR().setTipoApontTrabCabec(tipoApontBean.getIdTipoApont(), pcqContext.getTipoTela());
 
-                if(pcqContext.getTipoTela() == 1) {
-                    Intent it = new Intent(TercCombActivity.this, AceiroCanavialActivity.class);
-                    startActivity(it);
-                    finish();
-                }
-                else{
-                    Intent it = new Intent(TercCombActivity.this, RelacaoCabecActivity.class);
-                    startActivity(it);
-                    finish();
-                }
+                    if(pcqContext.getTipoTela() == 1) {
+                        Intent it = new Intent(TipoApontTrabActivity.this, OrigemFogoActivity.class);
+                        startActivity(it);
+                        finish();
+                    }
+                    else{
+                        Intent it = new Intent(TipoApontTrabActivity.this, RelacaoCabecActivity.class);
+                        startActivity(it);
+                        finish();
+                    }
 
+                }
             }
         });
 

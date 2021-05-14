@@ -16,7 +16,7 @@
         style="@style/TextViewTituloLista"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/texto_tanque" />
+        android:text="@string/texto_saveiro" />
 
     <ListView
         android:id="@+id/listSaveiro"
@@ -48,17 +48,17 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/buttonRetSaveiro"
-        style="@style/BotaoAvulso"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/texto_padrao_retornar" />
-
-    <Button
         android:id="@+id/buttonSalvarSaveiro"
         style="@style/BotaoAvulso"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/texto_padrao_ok" />
+
+    <Button
+        android:id="@+id/buttonAtualizarBD"
+        style="@style/BotaoAvulso"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/texto_atualizar_bd" />
 
 </LinearLayout>

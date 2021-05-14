@@ -31,7 +31,7 @@ public class HaIncCanaActivity extends ActivityGeneric {
         Button buttonOkPadrao = (Button) findViewById(R.id.buttonOkPadrao);
         Button buttonCancPadrao = (Button) findViewById(R.id.buttonCancPadrao);
 
-        talhaoItemList = pcqContext.getFormularioCTR().talhaoItemCabecIniciadoList();
+        talhaoItemList = pcqContext.getFormularioCTR().talhaoItemList(pcqContext.getTipoTela());
         talhaoItemBean = talhaoItemList.get(pcqContext.getFormularioCTR().getPosTalhao() - 1);
         talhaoItemList.clear();
 
@@ -52,7 +52,7 @@ public class HaIncCanaActivity extends ActivityGeneric {
 
                         pcqContext.getFormularioCTR().setHaIncCanaTalhao(haIncendioDouble, talhaoItemBean);
 
-                        Intent it = new Intent(HaIncCanaActivity.this, TipoCanaActivity.class);
+                        Intent it = new Intent(HaIncCanaActivity.this, AltCanavialActivity.class);
                         startActivity(it);
                         finish();
 
@@ -77,7 +77,6 @@ public class HaIncCanaActivity extends ActivityGeneric {
                     alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-
                         }
 
                     });
@@ -101,7 +100,7 @@ public class HaIncCanaActivity extends ActivityGeneric {
     }
 
     public void onBackPressed() {
-        Intent it = new Intent(HaIncCanaActivity.this, StatusCanavialActivity.class);
+        Intent it = new Intent(HaIncCanaActivity.this, TipoTalhaoActivity.class);
         startActivity(it);
         finish();
     }

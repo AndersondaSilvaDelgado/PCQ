@@ -95,11 +95,18 @@ public class ColabActivity extends ActivityGeneric {
 
                     if (pcqContext.getFormularioCTR().verColab(Long.parseLong(editTextPadrao.getText().toString().trim()))) {
 
-                        pcqContext.getFormularioCTR().setIdFuncCabec(pcqContext.getFormularioCTR().getMatricColab(Long.parseLong(editTextPadrao.getText().toString().trim())).getIdFuncColab());
+                        pcqContext.getFormularioCTR().setIdFuncCabec(pcqContext.getFormularioCTR().getMatricColab(Long.parseLong(editTextPadrao.getText().toString().trim())).getIdFuncColab(), pcqContext.getTipoTela());
 
-                        Intent it = new Intent(ColabActivity.this, TipoApontTrabalhoActivity.class);
-                        startActivity(it);
-                        finish();
+                        if(pcqContext.getTipoTela() == 1) {
+                            Intent it = new Intent(ColabActivity.this, TipoApontTrabActivity.class);
+                            startActivity(it);
+                            finish();
+                        }
+                        else{
+                            Intent it = new Intent(ColabActivity.this, RelacaoCabecActivity.class);
+                            startActivity(it);
+                            finish();
+                        }
 
                     } else {
 
@@ -136,9 +143,16 @@ public class ColabActivity extends ActivityGeneric {
     }
 
     public void onBackPressed() {
-        Intent it = new Intent(ColabActivity.this, MenuInicialActivity.class);
-        startActivity(it);
-        finish();
+        if(pcqContext.getTipoTela() == 1){
+            Intent it = new Intent(ColabActivity.this, MenuInicialActivity.class);
+            startActivity(it);
+            finish();
+        }
+        else{
+            Intent it = new Intent(ColabActivity.this, RelacaoCabecActivity.class);
+            startActivity(it);
+            finish();
+        }
     }
 
 }

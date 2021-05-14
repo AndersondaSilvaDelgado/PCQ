@@ -36,28 +36,36 @@ public class MultipartGenerico extends AsyncTask<String, Void, String>   {
 
         String answer = "";
 
-        String url = params[0];
-        String cabec = params[1];
-        String item = params[2];
-        String brigadista = params[3];
-		String equip = params[4];
-		String foto = params[5];
-		String orgaoamb = params[6];
-		String talhao = params[7];
-
 		try{
 
+			String url = params[0];
 			HttpClient httpClient = new DefaultHttpClient();
 			HttpPost httpPost = new HttpPost(url);
 
             ArrayList<NameValuePair> valores = new ArrayList<NameValuePair>();
+
+			String cabec = params[1];
             valores.add(new BasicNameValuePair("cabec", cabec));
-			valores.add(new BasicNameValuePair("item", item));
-			valores.add(new BasicNameValuePair("brigadista", brigadista));
-            valores.add(new BasicNameValuePair("equip", equip));
-			valores.add(new BasicNameValuePair("foto", foto));
-			valores.add(new BasicNameValuePair("orgaoamb", orgaoamb));
-			valores.add(new BasicNameValuePair("talhao", talhao));
+
+			String item = params[2];
+            valores.add(new BasicNameValuePair("item", item));
+
+            UrlsConexaoHttp urlsConexaoHttp = new UrlsConexaoHttp();
+            if(url.equals(urlsConexaoHttp.getsInserirFormCompleto())){
+
+				String brigadista = params[3];
+				valores.add(new BasicNameValuePair("brigadista", brigadista));
+
+				String equip = params[4];
+				valores.add(new BasicNameValuePair("equip", equip));
+
+				String foto = params[5];
+				valores.add(new BasicNameValuePair("foto", foto));
+
+				String talhao = params[6];
+				valores.add(new BasicNameValuePair("talhao", talhao));
+
+			}
 
             httpPost.setEntity(new UrlEncodedFormEntity(valores));
             HttpResponse resposta = httpClient.execute(httpPost);
@@ -74,10 +82,14 @@ public class MultipartGenerico extends AsyncTask<String, Void, String>   {
 
 		try {
 
-			Log.i("ECM", "VALOR RECEBIDO --> " + result);
-			if(result.trim().equals("GRAVOU")){
+			Log.i("PCQ", "VALOR RECEBIDO --> " + result);
+			if(result.trim().equals("GRAVOU-COMPLETO")){
 				FormularioCTR formularioCTR = new FormularioCTR();
-				formularioCTR.delForm();
+				formularioCTR.delFormFinalizado();
+			}
+			else if(result.trim().equals("GRAVOU-COMPLEMENTAR")){
+				FormularioCTR formularioCTR = new FormularioCTR();
+				formularioCTR.delFormFinalRecebido();
 			}
 			else{
 				EnvioDadosServ.getInstance().setEnviando(false);

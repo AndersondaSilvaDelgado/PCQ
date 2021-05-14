@@ -16,7 +16,7 @@ import br.com.usinasantafe.pcq.PCQContext;
 import br.com.usinasantafe.pcq.R;
 import br.com.usinasantafe.pcq.model.bean.variaveis.TalhaoItemBean;
 
-public class TipoCanaActivity extends ActivityGeneric {
+public class AltCanavialActivity extends ActivityGeneric {
 
     private List<TalhaoItemBean> talhaoItemList;
     private PCQContext pcqContext;
@@ -27,7 +27,7 @@ public class TipoCanaActivity extends ActivityGeneric {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tipo_cana);
+        setContentView(R.layout.activity_alt_canavial);
 
         pcqContext = (PCQContext) getApplication();
 
@@ -36,7 +36,7 @@ public class TipoCanaActivity extends ActivityGeneric {
         Button buttonAvancaTipoApont = (Button) findViewById(R.id.buttonAvancaTipoCana);
         radioGroupItemTipoApont = (RadioGroup) findViewById(R.id.radioGroupItemTipoCana);
 
-        talhaoItemList = pcqContext.getFormularioCTR().talhaoItemCabecIniciadoList();
+        talhaoItemList = pcqContext.getFormularioCTR().talhaoItemList(pcqContext.getTipoTela());
         talhaoItemBean = talhaoItemList.get(pcqContext.getFormularioCTR().getPosTalhao() - 1);
 
         textViewTituloTipoCana.setText("TALHÃO " + pcqContext.getFormularioCTR().getTalhao(talhaoItemBean.getIdTalhao()).getCodTalhao() + "\n" +
@@ -81,7 +81,7 @@ public class TipoCanaActivity extends ActivityGeneric {
 
             @Override
             public void onClick(View v) {
-                Intent it = new Intent(TipoCanaActivity.this, HaIncCanaActivity.class);
+                Intent it = new Intent(AltCanavialActivity.this, HaIncCanaActivity.class);
                 startActivity(it);
                 finish();
             }
@@ -95,27 +95,34 @@ public class TipoCanaActivity extends ActivityGeneric {
                 if(posicao > -1){
 
                     Long pos = posicao + 1L;
-                    pcqContext.getFormularioCTR().setTipoCanaTalhao(pos, talhaoItemBean);
+                    pcqContext.getFormularioCTR().setAltCanaTalhao(pos, talhaoItemBean);
 
-                    if(talhaoItemBean.getStatusCanavialTalhao() == 1L){
+                    if(talhaoItemBean.getTipoTalhao() == 1L){
 
                         if(pcqContext.getFormularioCTR().getPosTalhao() == talhaoItemList.size()){
-                            pcqContext.setPosTela(1);
-                            Intent it = new Intent( TipoCanaActivity.this, CameraActivity.class);
-                            startActivity(it);
-                            finish();
+                            if(pcqContext.getTipoTela() == 1){
+                                pcqContext.setPosCameraTela(1);
+                                Intent it = new Intent( AltCanavialActivity.this, CameraActivity.class);
+                                startActivity(it);
+                                finish();
+                            }
+                            else{
+                                Intent it = new Intent( AltCanavialActivity.this, RelacaoCabecActivity.class);
+                                startActivity(it);
+                                finish();
+                            }
                         }
                         else{
                             pcqContext.getFormularioCTR().setPosTalhao(pcqContext.getFormularioCTR().getPosTalhao() + 1);
-                            Intent it = new Intent( TipoCanaActivity.this, StatusCanavialActivity.class);
+                            Intent it = new Intent( AltCanavialActivity.this, TipoTalhaoActivity.class);
                             startActivity(it);
                             finish();
                         }
                         talhaoItemList.clear();
 
                     }
-                    else if(talhaoItemBean.getStatusCanavialTalhao() == 3L){
-                        Intent it = new Intent( TipoCanaActivity.this, HaIncPalhadaActivity.class);
+                    else if(talhaoItemBean.getTipoTalhao() == 3L){
+                        Intent it = new Intent( AltCanavialActivity.this, HaIncPalhadaActivity.class);
                         startActivity(it);
                         finish();
                     }
@@ -125,6 +132,9 @@ public class TipoCanaActivity extends ActivityGeneric {
             }
         });
 
+    }
+
+    public void onBackPressed() {
     }
 
 }
