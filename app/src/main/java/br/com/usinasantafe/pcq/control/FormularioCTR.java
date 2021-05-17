@@ -94,7 +94,7 @@ public class FormularioCTR {
 
     public void finalRecebidoCabec(){
         CabecDAO cabecDAO = new CabecDAO();
-        cabecDAO.finalizarCabec(cabecDAO.getCabecFechRecebido());
+        cabecDAO.finalRecebidoCabec(cabecDAO.getCabecFechRecebido());
     }
 
     public Boolean verEnvioFormComum(){
@@ -125,6 +125,11 @@ public class FormularioCTR {
     public List<CabecBean> cabecRecebidoList() {
         CabecDAO cabecDAO = new CabecDAO();
         return cabecDAO.cabecRecebidoList();
+    }
+
+    public void receberCabecReaj(Context telaAtual, Class telaProx, ProgressDialog progressDialog){
+        CabecDAO cabecDAO = new CabecDAO();
+        cabecDAO.receberCabecReaj(telaAtual, telaProx, progressDialog);
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////

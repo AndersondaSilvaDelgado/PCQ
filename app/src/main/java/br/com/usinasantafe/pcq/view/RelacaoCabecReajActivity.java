@@ -21,7 +21,7 @@ import br.com.usinasantafe.pcq.model.bean.variaveis.EquipItemBean;
 import br.com.usinasantafe.pcq.model.bean.variaveis.TalhaoItemBean;
 import br.com.usinasantafe.pcq.util.Tempo;
 
-public class RelacaoCabecReajActivity extends AppCompatActivity {
+public class RelacaoCabecReajActivity extends ActivityGeneric {
 
     private PCQContext pcqContext;
 
@@ -48,8 +48,8 @@ public class RelacaoCabecReajActivity extends AppCompatActivity {
                 + pcqContext.getFormularioCTR().getIdSecao(cabecBean.getSecaoCabec()).getDescrSecao());
 
         AdapterList adapterList = new AdapterList(this, itens);
-        ListView listaViewFormReaj= (ListView) findViewById(R.id.listaViewFormReaj);
-        listaViewFormReaj.setAdapter(adapterList);
+        ListView listaViewCabecReaj = (ListView) findViewById(R.id.listaViewCabecReaj);
+        listaViewCabecReaj.setAdapter(adapterList);
 
         buttonTermCabecReaj.setOnClickListener(new View.OnClickListener() {
 

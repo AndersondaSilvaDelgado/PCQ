@@ -190,7 +190,7 @@ public class Tempo {
 
         }
         catch (Exception e) {
-            Log.i("PMM", "Erro Manip = " + e);
+            Log.i("PCQ", "Erro Manip = " + e);
         }
 
         return data;

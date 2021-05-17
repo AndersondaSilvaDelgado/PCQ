@@ -30,8 +30,8 @@ public class ListaFormReajActivity extends ActivityGeneric {
         Button buttonRetornarFormReaj = (Button) findViewById(R.id.buttonRetornarFormReaj);
 
         ListView listaViewFormReaj = (ListView) findViewById(R.id.listaViewFormReaj);
-        AdapterListCriterio adapterListCriterio = new AdapterListCriterio(this, pcqContext.getFormularioCTR().cabecRecebidoList());
-        listaViewFormReaj.setAdapter(adapterListCriterio);
+        AdapterListFormReaj adapterListFormReaj = new AdapterListFormReaj(this, pcqContext.getFormularioCTR().cabecRecebidoList());
+        listaViewFormReaj.setAdapter(adapterListFormReaj);
 
         listaViewFormReaj.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -65,7 +65,7 @@ public class ListaFormReajActivity extends ActivityGeneric {
                     progressBar.setMax(100);
                     progressBar.show();
 
-//                    pmmContext.getBoletimCTR().atualDadosParada(ListaParadaActivity.this, ListaParadaActivity.class, progressBar);
+                    pcqContext.getFormularioCTR().receberCabecReaj(ListaFormReajActivity.this, ListaFormReajActivity.class, progressBar);
 
                 } else {
 

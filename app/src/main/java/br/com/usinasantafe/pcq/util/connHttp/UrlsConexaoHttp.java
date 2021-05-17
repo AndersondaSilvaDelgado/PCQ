@@ -4,8 +4,8 @@ import br.com.usinasantafe.pcq.PCQContext;
 
 public class UrlsConexaoHttp {
 
-    public static String urlPrincipal = "http://www.usinasantafe.com.br/pcqdev/view/";
-    public static String urlPrincEnvio = "http://www.usinasantafe.com.br/pcqdev/view/";
+    public static String urlPrincipal = "http://www.usinasantafe.com.br/pcqqa/view/";
+    public static String urlPrincEnvio = "http://www.usinasantafe.com.br/pcqqa/view/";
 
     public static String localPSTEstatica = "br.com.usinasantafe.pcq.model.bean.estaticas.";
     public static String localUrl = "br.com.usinasantafe.pcq.util.connHttp.UrlsConexaoHttp";
@@ -42,7 +42,7 @@ public class UrlsConexaoHttp {
         String retorno = "";
         if (classe.equals("Atualiza")) {
             retorno = urlPrincipal + "atualaplic.php" + put;
-        } else if (classe.equals("Form")) {
+        } else if (classe.equals("Cabec")) {
             retorno = urlPrincipal + "formreaj.php" + put;
         }
         return retorno;

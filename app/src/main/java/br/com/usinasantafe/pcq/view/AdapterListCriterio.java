@@ -49,6 +49,7 @@ public class AdapterListCriterio extends BaseAdapter {
         TextView textViewSubResp = (TextView) view.findViewById(R.id.textViewSubResp);
 
         FormularioCTR formularioCTR = new FormularioCTR();
+
         RespItemBean respItemBean = (RespItemBean) itens.get(position);
 
         textViewCriteiro.setText("CRITÉRIO " + (position + 1));

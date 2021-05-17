@@ -123,13 +123,16 @@ public class CriterioActivity extends ActivityGeneric {
                             else{
                                 if(pcqContext.getTipoTela() == 1){
                                     pcqContext.getFormularioCTR().fecharCabec(pcqContext.getFormularioCTR().getCabecAberto().getTipoCabec());
+                                    Intent it = new Intent(CriterioActivity.this, RelacaoCabecActivity.class);
+                                    startActivity(it);
+                                    finish();
                                 }
                                 else{
                                     pcqContext.getFormularioCTR().fecharRecebidoCabec();
+                                    Intent it = new Intent(CriterioActivity.this, RelacaoCriterioActivity.class);
+                                    startActivity(it);
+                                    finish();
                                 }
-                                Intent it = new Intent(CriterioActivity.this, RelacaoCabecActivity.class);
-                                startActivity(it);
-                                finish();
                             }
                         }
                         else{

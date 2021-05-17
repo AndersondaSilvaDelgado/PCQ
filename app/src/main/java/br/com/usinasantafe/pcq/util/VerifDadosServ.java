@@ -1,7 +1,10 @@
 package br.com.usinasantafe.pcq.util;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -13,6 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import br.com.usinasantafe.pcq.control.ConfigCTR;
+import br.com.usinasantafe.pcq.model.dao.CabecDAO;
 import br.com.usinasantafe.pcq.model.dao.ConfigDAO;
 import br.com.usinasantafe.pcq.util.connHttp.PostVerGenerico;
 import br.com.usinasantafe.pcq.util.connHttp.UrlsConexaoHttp;
@@ -60,7 +64,8 @@ public class VerifDadosServ {
                 }
             }
             else if(this.tipo.equals("Cabec")){
-
+                CabecDAO cabecDAO = new CabecDAO();
+                cabecDAO.recDadosCabecReaj(result);
             }
         }
 
@@ -115,6 +120,7 @@ public class VerifDadosServ {
         this.urlsConexaoHttp = new UrlsConexaoHttp();
         String[] url = {urlsConexaoHttp.urlVerifica(tipo)};
         Map<String, Object> parametrosPost = new HashMap<String, Object>();
+        parametrosPost.put("dado", "");
 
         postVerGenerico = new PostVerGenerico();
         postVerGenerico.setParametrosPost(parametrosPost);
@@ -128,6 +134,27 @@ public class VerifDadosServ {
             postVerGenerico.cancel(true);
         }
     }
+
+
+    public void pulaTelaSemTerm(){
+        this.progressDialog.dismiss();
+        Intent it = new Intent(telaAtual, telaProx);
+        telaAtual.startActivity(it);
+    }
+
+    public void msgSemTerm(String texto){
+        this.progressDialog.dismiss();
+        AlertDialog.Builder alerta = new AlertDialog.Builder(telaAtual);
+        alerta.setTitle("ATENÇÃO");
+        alerta.setMessage(texto);
+        alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        alerta.show();
+    }
+
 
     public boolean isVerTerm() {
         return verTerm;

@@ -1,11 +1,20 @@
 package br.com.usinasantafe.pcq.model.dao;
 
+import android.app.ProgressDialog;
+import android.content.Context;
+
+import com.google.gson.Gson;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import br.com.usinasantafe.pcq.model.bean.variaveis.CabecBean;
 import br.com.usinasantafe.pcq.model.pst.EspecificaPesquisa;
 import br.com.usinasantafe.pcq.util.Tempo;
+import br.com.usinasantafe.pcq.util.VerifDadosServ;
 
 public class CabecDAO {
 
@@ -53,6 +62,11 @@ public class CabecDAO {
     public void fecharRecebidoCabec(int pos){
         CabecBean cabecBean = getCabecRecebido(pos);
         cabecBean.setStatusCabec(5L);
+        cabecBean.update();
+    }
+
+    public void finalRecebidoCabec(CabecBean cabecBean){
+        cabecBean.setStatusCabec(6L);
         cabecBean.update();
     }
 
@@ -376,6 +390,48 @@ public class CabecDAO {
         pesquisa.setValor(1L);
         pesquisa.setTipo(1);
         return pesquisa;
+    }
+
+    public void receberCabecReaj(Context telaAtual, Class telaProx, ProgressDialog progressDialog){
+        VerifDadosServ.getInstance().setVerTerm(true);
+        VerifDadosServ.getInstance().verDados("Cabec", telaAtual, telaProx, progressDialog);
+
+    }
+
+    public void recDadosCabecReaj(String result) {
+
+        try {
+
+            if (!result.contains("exceeded")) {
+
+                JSONObject jObj = new JSONObject(result);
+                JSONArray jsonArray = jObj.getJSONArray("dados");
+
+                List<CabecBean> cabecList = cabecRecebidoList();
+                for(CabecBean cabecBean : cabecList){
+                    delCabec(cabecBean);
+                }
+
+                for (int j = 0; j < jsonArray.length(); j++) {
+
+                    JSONObject objeto = jsonArray.getJSONObject(j);
+                    Gson gson = new Gson();
+                    CabecBean cabecBean = gson.fromJson(objeto.toString(), CabecBean.class);
+                    cabecBean.insert();
+
+                }
+
+                VerifDadosServ.getInstance().pulaTelaSemTerm();
+
+            } else {
+                VerifDadosServ.getInstance().msgSemTerm("EXCEDEU TEMPO LIMITE DE PESQUISA! POR FAVOR, PROCURE UM PONTO MELHOR DE CONEXÃO DOS DADOS.");
+            }
+
+        } catch (Exception e) {
+            LogErroDAO.getInstance().insert(e);
+            VerifDadosServ.getInstance().msgSemTerm("FALHA DE PESQUISA DE FORMULÁRIOS! POR FAVOR, TENTAR NOVAMENTE COM UM SINAL MELHOR.");
+        }
+
     }
 
 }

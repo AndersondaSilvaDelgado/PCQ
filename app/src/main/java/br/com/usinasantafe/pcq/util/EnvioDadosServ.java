@@ -153,6 +153,7 @@ public class EnvioDadosServ {
 
     public boolean verifDadosEnvio() {
         if (!verEnvioFormComum()
+            && !verEnvioFormCompl()
             && !verifLogErro()){
             enviando = false;
             return false;
