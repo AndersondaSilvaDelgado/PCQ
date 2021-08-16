@@ -18,7 +18,7 @@ import br.com.usinasantafe.pcq.R;
 import br.com.usinasantafe.pcq.control.FormularioCTR;
 import br.com.usinasantafe.pcq.model.bean.variaveis.FotoItemBean;
 
-public class AdapterListFoto extends RecyclerView.Adapter<ImagemViewHolder> {
+public class AdapterListFoto extends RecyclerView.Adapter<ViewHolderImage> {
 
     private Context context;
     private List imagemList;
@@ -32,13 +32,13 @@ public class AdapterListFoto extends RecyclerView.Adapter<ImagemViewHolder> {
 
     @NonNull
     @Override
-    public ImagemViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View mView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_item_foto, viewGroup, false);
-        return new ImagemViewHolder(mView);
+    public ViewHolderImage onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        View mView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.activity_item_lista_foto, viewGroup, false);
+        return new ViewHolderImage(mView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ImagemViewHolder holder, @SuppressLint("RecyclerView") int i) {
+    public void onBindViewHolder(@NonNull ViewHolderImage holder, @SuppressLint("RecyclerView") int i) {
 
         pos = i;
 

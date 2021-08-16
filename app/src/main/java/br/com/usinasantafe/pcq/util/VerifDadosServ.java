@@ -21,8 +21,7 @@ import br.com.usinasantafe.pcq.model.dao.ConfigDAO;
 import br.com.usinasantafe.pcq.util.connHttp.PostVerGenerico;
 import br.com.usinasantafe.pcq.util.connHttp.UrlsConexaoHttp;
 import br.com.usinasantafe.pcq.view.MenuInicialActivity;
-import br.com.usinasantafe.pcq.model.bean.variaveis.AtualAplicBean;
-import br.com.usinasantafe.pcq.model.pst.GenericRecordable;
+import br.com.usinasantafe.pcq.model.bean.AtualAplicBean;
 
 /**
  * Created by anderson on 16/11/2015.

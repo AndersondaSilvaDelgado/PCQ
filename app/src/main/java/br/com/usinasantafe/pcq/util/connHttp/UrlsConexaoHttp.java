@@ -4,8 +4,8 @@ import br.com.usinasantafe.pcq.PCQContext;
 
 public class UrlsConexaoHttp {
 
-    public static String urlPrincipal = "http://www.usinasantafe.com.br/pcqqa/view/";
-    public static String urlPrincEnvio = "http://www.usinasantafe.com.br/pcqqa/view/";
+    public static String urlPrincipal = "http://www.usinasantafe.com.br/pcq/view/";
+    public static String urlPrincEnvio = "http://www.usinasantafe.com.br/pcq/view/";
 
     public static String localPSTEstatica = "br.com.usinasantafe.pcq.model.bean.estaticas.";
     public static String localUrl = "br.com.usinasantafe.pcq.util.connHttp.UrlsConexaoHttp";

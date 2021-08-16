@@ -56,6 +56,13 @@ public class AceiroVegetNativaActivity extends ActivityGeneric {
         radioButtonItem2.setButtonTintList(colorStateList);
         radioGroupItemAceiroVegetNativa.addView(radioButtonItem2);
 
+        RadioButton radioButtonItem3 = new RadioButton(getApplicationContext());
+        radioButtonItem3.setText("NÃO SE APLICA");
+        radioButtonItem3.setTextColor(Color.BLACK);
+        radioButtonItem3.setTextSize(22F);
+        radioButtonItem3.setButtonTintList(colorStateList);
+        radioGroupItemAceiroVegetNativa.addView(radioButtonItem3);
+
         radioGroupItemAceiroVegetNativa.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {

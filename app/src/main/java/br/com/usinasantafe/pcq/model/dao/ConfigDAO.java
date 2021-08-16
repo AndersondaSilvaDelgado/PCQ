@@ -7,7 +7,7 @@ import org.json.JSONObject;
 
 import java.util.List;
 
-import br.com.usinasantafe.pcq.model.bean.variaveis.AtualAplicBean;
+import br.com.usinasantafe.pcq.model.bean.AtualAplicBean;
 import br.com.usinasantafe.pcq.model.bean.variaveis.ConfigBean;
 
 public class ConfigDAO {

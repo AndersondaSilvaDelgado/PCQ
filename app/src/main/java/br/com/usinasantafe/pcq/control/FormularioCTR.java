@@ -507,6 +507,11 @@ public class FormularioCTR {
 
     //////////////////////////////////set Cabecalho////////////////////////////////////////////////
 
+    public void setDataInsCabec(String dataInsCabec, int tipoTela){
+        CabecDAO cabecDAO = new CabecDAO();
+        cabecDAO.setDataInsCabec(dataInsCabec, tipoTela);
+    }
+
     public void setIdFuncCabec(Long matricColabFunc, int tipoTela){
         CabecDAO cabecDAO = new CabecDAO();
         cabecDAO.setIdFuncCabec(matricColabFunc, tipoTela);

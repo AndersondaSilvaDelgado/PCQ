@@ -28,7 +28,7 @@ public class BrigadistaDAO {
 
     public List<BrigadistaBean> brigadistaList(){
         BrigadistaBean brigadistaBean = new BrigadistaBean();
-        return brigadistaBean.all();
+        return brigadistaBean.orderBy("nomeBrigadista", true);
     }
 
     public List<BrigadistaItemBean> brigadistaItemList(Long idCabec){

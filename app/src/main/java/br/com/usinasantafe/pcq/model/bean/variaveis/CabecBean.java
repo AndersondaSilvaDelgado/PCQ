@@ -39,6 +39,8 @@ public class CabecBean extends Entidade {
     @DatabaseField
     private String dthrCabec;
     @DatabaseField
+    private String dataInsCabec;
+    @DatabaseField
     private Long tipoCabec;
     @DatabaseField
     private Long statusCabec; // 0 - Iniciado; 1 - Aberto; 2 - Fechado; 3-Finalizado; 4 - Recebido; 5 - Fechado; 6 - Finalizado;
@@ -156,6 +158,14 @@ public class CabecBean extends Entidade {
 
     public void setDthrCabec(String dthrCabec) {
         this.dthrCabec = dthrCabec;
+    }
+
+    public String getDataInsCabec() {
+        return dataInsCabec;
+    }
+
+    public void setDataInsCabec(String dataInsCabec) {
+        this.dataInsCabec = dataInsCabec;
     }
 
     public Long getTipoCabec() {

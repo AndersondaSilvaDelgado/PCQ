@@ -7,12 +7,12 @@ import android.widget.ImageView;
 
 import br.com.usinasantafe.pcq.R;
 
-public class ImagemViewHolder extends RecyclerView.ViewHolder {
+public class ViewHolderImage extends RecyclerView.ViewHolder {
 
     ImageView imagem;
     CardView cardView;
 
-    ImagemViewHolder(View itemView) {
+    ViewHolderImage(View itemView) {
         super(itemView);
 
         imagem = itemView.findViewById(R.id.ivImage);

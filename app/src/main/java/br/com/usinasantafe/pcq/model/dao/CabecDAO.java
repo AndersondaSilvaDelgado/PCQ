@@ -207,6 +207,19 @@ public class CabecDAO {
         return cabecBean.get(pesqArrayList);
     }
 
+
+    public void setDataInsCabec(String dataInsCabec, int tipoTela){
+        CabecBean cabecBean;
+        if(tipoTela == 1){
+            cabecBean = getCabecIniciado();
+        }
+        else{
+            cabecBean = getCabecFechado();
+        }
+        cabecBean.setDataInsCabec(dataInsCabec);
+        cabecBean.update();
+    }
+
     public void setIdFuncCabec(Long matricColabCabec, int tipoTela){
         CabecBean cabecBean;
         if(tipoTela == 1){

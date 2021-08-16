@@ -16,7 +16,7 @@
         style="@style/TextViewTituloLista"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/texto_saveiro" />
+        android:text="@string/texto_veic_apoio" />
 
     <ListView
         android:id="@+id/listSaveiro"

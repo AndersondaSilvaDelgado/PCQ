@@ -3,9 +3,14 @@ package br.com.usinasantafe.pcq.view;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.RequiresApi;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -37,6 +42,7 @@ public class CameraActivity extends ActivityGeneric {
         Button buttonCapturaFoto = (Button) findViewById(R.id.buttonCapturaFoto);
         Button buttonAvancaFoto = (Button) findViewById(R.id.buttonAvancaFoto);
         Button buttonRetFoto = (Button) findViewById(R.id.buttonRetFoto);
+        Button buttonAbrirGaleria = (Button) findViewById(R.id.buttonAbrirGaleria);
 
         mRecyclerView = findViewById(R.id.recyclerview);
         GridLayoutManager mGridLayoutManager = new GridLayoutManager(CameraActivity.this, 2);
@@ -55,11 +61,40 @@ public class CameraActivity extends ActivityGeneric {
         AdapterListFoto adapterListFoto = new AdapterListFoto(CameraActivity.this, fotoList);
         mRecyclerView.setAdapter(adapterListFoto);
 
+        buttonAbrirGaleria.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                pcqContext.setTipoFoto(2);
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, 1);
+
+            }
+        });
+
         buttonCapturaFoto.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                tirarFoto();
+
+                if(fotoList.size() < 3){
+                    pcqContext.setTipoFoto(1);
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(intent, 1);
+                }
+                else{
+                    AlertDialog.Builder alerta = new AlertDialog.Builder(CameraActivity.this);
+                    alerta.setTitle("ATENÇÃO");
+                    alerta.setMessage("CADA ABORDAGEM PODEM TER APENAS 3 FOTOS. POR FAVOR, EXCLUA UMA FOTO PARA PODE TIRA UMA NOVA FOTO.");
+                    alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    });
+                    alerta.show();
+                }
+
             }
         });
 
@@ -142,31 +177,32 @@ public class CameraActivity extends ActivityGeneric {
 
     }
 
-    public void tirarFoto(){
-        if(fotoList.size() < 3){
-            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            startActivityForResult(intent, 1);
-        }
-        else{
-            AlertDialog.Builder alerta = new AlertDialog.Builder(CameraActivity.this);
-            alerta.setTitle("ATENÇÃO");
-            alerta.setMessage("CADA ABORDAGEM PODEM TER APENAS 3 FOTOS. POR FAVOR, EXCLUA UMA FOTO PARA PODE TIRA UMA NOVA FOTO.");
-            alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-
-                }
-            });
-            alerta.show();
-        }
-    }
-
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if(requestCode == 1 && resultCode == RESULT_OK){
 
-            Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+            Bitmap bitmap;
+            if(pcqContext.getTipoFoto() == 1){
+
+                bitmap = (Bitmap) data.getExtras().get("data");
+
+            }
+            else{
+
+                Uri selectedImage = data.getData();
+                String[] filePath = {MediaStore.Images.Media.DATA};
+                Cursor c = getContentResolver().query(selectedImage, filePath, null, null, MediaStore.Images.Media.DATA);
+                c.moveToFirst();
+                int columnIndex = c.getColumnIndex(filePath[0]);
+                String picturePath = c.getString(columnIndex);
+                c.close();
+
+                bitmap = (BitmapFactory.decodeFile(picturePath));
+
+            }
+
             fotoList.add(pcqContext.getFormularioCTR().salvarFoto(bitmap, tipoFoto, pcqContext.getTipoTela()));
 
             Intent it = new Intent(CameraActivity.this, CameraActivity.class);

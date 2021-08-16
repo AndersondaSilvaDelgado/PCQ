@@ -176,7 +176,7 @@ public class TanqueActivity extends ActivityGeneric {
                 for (int i = 0; i < itens.size(); i++) {
                     ViewHolderChoice viewHolderChoice = itens.get(i);
                     if(viewHolderChoice.isSelected()){
-                        EquipBean equipBean = (EquipBean) tanqueList.get(i);
+                        EquipBean equipBean = tanqueList.get(i);
                         tanqueSelectedList.add(equipBean.getIdEquip());
                     }
                 }
@@ -241,7 +241,7 @@ public class TanqueActivity extends ActivityGeneric {
 
     public void onBackPressed() {
         if(pcqContext.getTipoTela() == 1) {
-            Intent it = new Intent(TanqueActivity.this, CameraActivity.class);
+            Intent it = new Intent(TanqueActivity.this, MsgCameraActivity.class);
             startActivity(it);
             finish();
         }

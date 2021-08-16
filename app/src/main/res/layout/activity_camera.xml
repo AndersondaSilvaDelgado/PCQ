@@ -11,7 +11,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".view.CameraActivity">
 
-
     <TextView
         android:id="@+id/textViewFoto"
         style="@style/TextViewTituloLista"
@@ -32,6 +31,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/texto_capturar" />
+
+    <Button
+        android:id="@+id/buttonAbrirGaleria"
+        style="@style/BotaoAvulso"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/texto_abrir_galeria" />
 
     <LinearLayout
         android:id="@+id/rightRelativeLayout"

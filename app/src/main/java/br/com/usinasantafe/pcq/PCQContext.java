@@ -7,17 +7,21 @@ import br.com.usinasantafe.pcq.control.FormularioCTR;
 
 public class PCQContext extends Application {
 
-    public static String versaoAplic = "1.00";
+    public static String versaoAplic = "1.01";
     private FormularioCTR formularioCTR;
     private ConfigCTR configCTR;
     private int posCameraTela;
     // 1 - Camera Queima de Cana
     // 2 - Camera Queima de Vegetação Nativa
+    private int tipoFoto;
+    // 1 - Foto da Camera
+    // 2 - Foto da Galeria
     private int tipoTela;
     // 1 - Fluxo Normal
     // 2 - Relação
     // 3 - Formulário para Reajuste
     // 4 - Relação de Formulário para Reajuste
+
 
     @Override
     public void onCreate() {
@@ -50,5 +54,13 @@ public class PCQContext extends Application {
 
     public void setTipoTela(int tipoTela) {
         this.tipoTela = tipoTela;
+    }
+
+    public int getTipoFoto() {
+        return tipoFoto;
+    }
+
+    public void setTipoFoto(int tipoFoto) {
+        this.tipoFoto = tipoFoto;
     }
 }

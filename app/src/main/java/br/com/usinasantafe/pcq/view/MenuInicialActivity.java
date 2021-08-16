@@ -136,7 +136,7 @@ public class MenuInicialActivity extends ActivityGeneric {
                         customHandler.removeCallbacks(updateTimerThread);
                         pcqContext.getFormularioCTR().salvarCabecIniciado(1L);
                         pcqContext.setTipoTela(1);
-                        Intent it = new Intent(MenuInicialActivity.this, ColabActivity.class);
+                        Intent it = new Intent(MenuInicialActivity.this, DataActivity.class);
                         startActivity(it);
                         finish();
                     }
@@ -162,7 +162,7 @@ public class MenuInicialActivity extends ActivityGeneric {
                         customHandler.removeCallbacks(updateTimerThread);
                         pcqContext.getFormularioCTR().salvarCabecIniciado(2L);
                         pcqContext.setTipoTela(1);
-                        Intent it = new Intent(MenuInicialActivity.this, ColabActivity.class);
+                        Intent it = new Intent(MenuInicialActivity.this, DataActivity.class);
                         startActivity(it);
                         finish();
                     }
