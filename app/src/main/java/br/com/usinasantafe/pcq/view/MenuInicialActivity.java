@@ -11,8 +11,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Handler;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -294,7 +294,7 @@ public class MenuInicialActivity extends ActivityGeneric {
                 progressBar.setMessage("BUSCANDO ATUALIZAÇÃO...");
                 progressBar.show();
                 customHandler.postDelayed(updateTimerThread, 10000);
-                VerifDadosServ.getInstance().verAtualAplic(pcqContext.versaoAplic, this, progressBar);
+                VerifDadosServ.getInstance().verAtualAplic(pcqContext.versaoAPP, this, progressBar);
             }
         } else {
             startTimer();

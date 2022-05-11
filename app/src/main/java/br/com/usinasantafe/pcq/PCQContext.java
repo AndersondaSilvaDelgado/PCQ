@@ -7,7 +7,6 @@ import br.com.usinasantafe.pcq.control.FormularioCTR;
 
 public class PCQContext extends Application {
 
-    public static String versaoAplic = "1.01";
     private FormularioCTR formularioCTR;
     private ConfigCTR configCTR;
     private int posCameraTela;
@@ -22,6 +21,8 @@ public class PCQContext extends Application {
     // 3 - Formulário para Reajuste
     // 4 - Relação de Formulário para Reajuste
 
+    public static String versaoWS = "1.02";
+    public static String versaoAPP = "1.02";
 
     @Override
     public void onCreate() {

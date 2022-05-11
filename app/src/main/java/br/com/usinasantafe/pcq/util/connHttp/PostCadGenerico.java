@@ -11,8 +11,10 @@ import java.net.URL;
 import java.util.Iterator;
 import java.util.Map;
 
-public class PostCadGenerico extends AsyncTask<String, Void, String> {
+import br.com.usinasantafe.pcq.control.FormularioCTR;
+import br.com.usinasantafe.pcq.util.EnvioDadosServ;
 
+public class PostCadGenerico extends AsyncTask<String, Void, String> {
 
 	private static PostCadGenerico instance = null;
 	private Map<String, Object> parametrosPost = null;
@@ -94,11 +96,20 @@ public class PostCadGenerico extends AsyncTask<String, Void, String> {
 	protected void onPostExecute(String result) {
 
 		try {
-//			EnvioDadosServ.getInstance().setEnviando(false);
-//			Log.i("ECM", "VALOR RECEBIDO --> " + result);
-//			if(result.trim().equals("GRAVOU-CHECKLIST")){
-//				EnvioDadosServ.getInstance().delChecklist();
-//			}
+
+			Log.i("PCQ", "VALOR RECEBIDO --> " + result);
+			if(result.trim().equals("GRAVOU-COMPLETO")){
+				FormularioCTR formularioCTR = new FormularioCTR();
+				formularioCTR.delFormFinalizado();
+			}
+			else if(result.trim().equals("GRAVOU-COMPLEMENTAR")){
+				FormularioCTR formularioCTR = new FormularioCTR();
+				formularioCTR.delFormFinalRecebido();
+			}
+			else{
+				EnvioDadosServ.getInstance().setEnviando(false);
+			}
+
 		} catch (Exception e) {
 
 			Log.i("PMM", "Erro2 = " + e);

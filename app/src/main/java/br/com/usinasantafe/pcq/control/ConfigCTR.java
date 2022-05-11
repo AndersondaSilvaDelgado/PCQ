@@ -5,7 +5,6 @@ import android.content.Context;
 
 import br.com.usinasantafe.pcq.model.bean.variaveis.ConfigBean;
 import br.com.usinasantafe.pcq.model.dao.ConfigDAO;
-import br.com.usinasantafe.pcq.model.dao.LogErroDAO;
 import br.com.usinasantafe.pcq.util.AtualDadosServ;
 
 public class ConfigCTR {
@@ -37,21 +36,5 @@ public class ConfigCTR {
         ConfigDAO configDAO = new ConfigDAO();
         configDAO.salvarConfig(nroAparelho);
     }
-
-    public boolean verEnvioLogErro(){
-        LogErroDAO logErroDAO = new LogErroDAO();
-        return logErroDAO.verEnvioLogErro();
-    }
-
-    public String dadosEnvioLogErro(){
-        LogErroDAO logErroDAO = new LogErroDAO();
-        return logErroDAO.dadosEnvio();
-    }
-
-    public void updLogErro(String retorno){
-        LogErroDAO logErroDAO = new LogErroDAO();
-        logErroDAO.updLogErro(retorno);
-    }
-
 
 }

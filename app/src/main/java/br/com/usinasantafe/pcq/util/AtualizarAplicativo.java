@@ -3,11 +3,9 @@ package br.com.usinasantafe.pcq.util;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -148,11 +146,6 @@ public class AtualizarAplicativo extends AsyncTask<String ,Integer ,Boolean> {
 
     public void setContext(Context context) {
         this.context = context;
-    }
-
-    public boolean checkPermission(String permission){
-        int check = ContextCompat.checkSelfPermission(this.context, permission);
-        return (check == PackageManager.PERMISSION_GRANTED);
     }
 
 }

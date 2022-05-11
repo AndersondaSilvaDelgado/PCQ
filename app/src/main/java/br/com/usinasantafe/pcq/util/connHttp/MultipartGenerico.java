@@ -4,14 +4,14 @@ package br.com.usinasantafe.pcq.util.connHttp;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.EntityUtils;
+//import org.apache.http.HttpResponse;
+//import org.apache.http.NameValuePair;
+//import org.apache.http.client.HttpClient;
+//import org.apache.http.client.entity.UrlEncodedFormEntity;
+//import org.apache.http.client.methods.HttpPost;
+//import org.apache.http.impl.client.DefaultHttpClient;
+//import org.apache.http.message.BasicNameValuePair;
+//import org.apache.http.util.EntityUtils;
 
 import java.util.ArrayList;
 
@@ -39,37 +39,37 @@ public class MultipartGenerico extends AsyncTask<String, Void, String>   {
 		try{
 
 			String url = params[0];
-			HttpClient httpClient = new DefaultHttpClient();
-			HttpPost httpPost = new HttpPost(url);
-
-            ArrayList<NameValuePair> valores = new ArrayList<NameValuePair>();
-
-			String cabec = params[1];
-            valores.add(new BasicNameValuePair("cabec", cabec));
-
-			String item = params[2];
-            valores.add(new BasicNameValuePair("item", item));
-
-            UrlsConexaoHttp urlsConexaoHttp = new UrlsConexaoHttp();
-            if(url.equals(urlsConexaoHttp.getsInserirFormCompleto())){
-
-				String brigadista = params[3];
-				valores.add(new BasicNameValuePair("brigadista", brigadista));
-
-				String equip = params[4];
-				valores.add(new BasicNameValuePair("equip", equip));
-
-				String foto = params[5];
-				valores.add(new BasicNameValuePair("foto", foto));
-
-				String talhao = params[6];
-				valores.add(new BasicNameValuePair("talhao", talhao));
-
-			}
-
-            httpPost.setEntity(new UrlEncodedFormEntity(valores));
-            HttpResponse resposta = httpClient.execute(httpPost);
-            answer = EntityUtils.toString(resposta.getEntity());
+//			HttpClient httpClient = new DefaultHttpClient();
+//			HttpPost httpPost = new HttpPost(url);
+//
+//            ArrayList<NameValuePair> valores = new ArrayList<NameValuePair>();
+//
+//			String cabec = params[1];
+//            valores.add(new BasicNameValuePair("cabec", cabec));
+//
+//			String item = params[2];
+//            valores.add(new BasicNameValuePair("item", item));
+//
+//            UrlsConexaoHttp urlsConexaoHttp = new UrlsConexaoHttp();
+//            if(url.equals(urlsConexaoHttp.getsInserirFormCompleto())){
+//
+//				String brigadista = params[3];
+//				valores.add(new BasicNameValuePair("brigadista", brigadista));
+//
+//				String equip = params[4];
+//				valores.add(new BasicNameValuePair("equip", equip));
+//
+//				String foto = params[5];
+//				valores.add(new BasicNameValuePair("foto", foto));
+//
+//				String talhao = params[6];
+//				valores.add(new BasicNameValuePair("talhao", talhao));
+//
+//			}
+//
+//            httpPost.setEntity(new UrlEncodedFormEntity(valores));
+//            HttpResponse resposta = httpClient.execute(httpPost);
+//            answer = EntityUtils.toString(resposta.getEntity());
 
 		} catch (Exception e) {
 			EnvioDadosServ.getInstance().setEnviando(false);

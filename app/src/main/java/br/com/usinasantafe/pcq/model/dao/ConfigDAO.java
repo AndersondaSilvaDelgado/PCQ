@@ -79,7 +79,6 @@ public class ConfigDAO {
             }
 
         } catch (Exception e) {
-            LogErroDAO.getInstance().insert(e);
         }
 
         return atualAplicBean;

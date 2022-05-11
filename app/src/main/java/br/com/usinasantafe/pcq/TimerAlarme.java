@@ -28,7 +28,7 @@ public class TimerAlarme extends BroadcastReceiver {
 			new DatabaseHelper(context);
 		}
 
-		teste();
+//		teste();
 		Log.i("PST", "DATA HORA = " + Tempo.getInstance().dataComHora());
 		if(EnvioDadosServ.getInstance().verifDadosEnvio()){
 			Log.i("PST", "ENVIANDO");

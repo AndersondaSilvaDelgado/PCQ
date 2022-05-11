@@ -36,11 +36,7 @@ public class EnvioDadosServ {
     public void envioFormComum() {
 
         UrlsConexaoHttp urlsConexaoHttp = new UrlsConexaoHttp();
-
-        String[] dados = new String[7];
-
         FormularioCTR formularioCTR = new FormularioCTR();
-
         DadosEnvioBean dadosEnvioBean = formularioCTR.dadosCabecFinalizadoEnvio();
 
         Log.i("PST", "CABEC = " + dadosEnvioBean.getCabec());
@@ -50,49 +46,32 @@ public class EnvioDadosServ {
         Log.i("PST", "FOTO = " + dadosEnvioBean.getFoto());
         Log.i("PST", "TALHAO = " + dadosEnvioBean.getTalhao());
 
-        dados[0] = urlsConexaoHttp.getsInserirFormCompleto();
-        dados[1] = dadosEnvioBean.getCabec();
-        dados[2] = dadosEnvioBean.getItem();
-        dados[3] = dadosEnvioBean.getBrigadista();
-        dados[4] = dadosEnvioBean.getEquip();
-        dados[5] = dadosEnvioBean.getFoto();
-        dados[6] = dadosEnvioBean.getTalhao();
+        String dados = dadosEnvioBean.getCabec() + "_" + dadosEnvioBean.getItem() + "_" + dadosEnvioBean.getBrigadista()
+                        + "_" + dadosEnvioBean.getEquip() + "_" + dadosEnvioBean.getFoto()
+                        + "_" + dadosEnvioBean.getTalhao();
 
-        MultipartGenerico multipartGenerico = new MultipartGenerico();
-        multipartGenerico.execute(dados);
+        String[] url = {urlsConexaoHttp.getsInserirFormCompleto()};
+        Map<String, Object> parametrosPost = new HashMap<String, Object>();
+        parametrosPost.put("dado", dados);
+
+        PostCadGenerico postCadGenerico = new PostCadGenerico();
+        postCadGenerico.setParametrosPost(parametrosPost);
+        postCadGenerico.execute(url);
 
     }
 
     public void envioFormCompl() {
 
         UrlsConexaoHttp urlsConexaoHttp = new UrlsConexaoHttp();
-
-        String[] dados = new String[3];
-
         FormularioCTR formularioCTR = new FormularioCTR();
-
         DadosEnvioBean dadosEnvioBean = formularioCTR.dadosCabecFinalRecebidoEnvio();
 
         Log.i("PST", "CABEC = " + dadosEnvioBean.getCabec());
         Log.i("PST", "ITEM = " + dadosEnvioBean.getItem());
 
-        dados[0] = urlsConexaoHttp.getsInserirFormComplementar();
-        dados[1] = dadosEnvioBean.getCabec();
-        dados[2] = dadosEnvioBean.getItem();
+        String dados = dadosEnvioBean.getCabec() + "_" + dadosEnvioBean.getItem();
 
-        MultipartGenerico multipartGenerico = new MultipartGenerico();
-        multipartGenerico.execute(dados);
-
-    }
-
-    public void envioLogErro() {
-
-        ConfigCTR configCTR = new ConfigCTR();
-        String dados = configCTR.dadosEnvioLogErro();
-
-        Log.i("PMM", "LOG ERRO = " + dados);
-
-        String[] url = {urlsConexaoHttp.getsInsertLogErro()};
+        String[] url = {urlsConexaoHttp.getsInserirFormComplementar()};
         Map<String, Object> parametrosPost = new HashMap<String, Object>();
         parametrosPost.put("dado", dados);
 
@@ -103,11 +82,6 @@ public class EnvioDadosServ {
     }
 
     //////////////////////VERIFICAÇÃO DE DADOS///////////////////////////
-
-    public Boolean verifLogErro() {
-        ConfigCTR configCTR = new ConfigCTR();
-        return configCTR.verEnvioLogErro();
-    }
 
     public Boolean verEnvioFormComum() {
         FormularioCTR formularioCTR = new FormularioCTR();
@@ -134,27 +108,19 @@ public class EnvioDadosServ {
     }
 
     public void envioDadosPrinc(){
-
-        if(verifLogErro()){
-            envioLogErro();
+        if(verEnvioFormCompl()){
+            envioFormCompl();
         }
         else{
-            if(verEnvioFormCompl()){
-                envioFormCompl();
-            }
-            else{
-                if(verEnvioFormComum()){
-                    envioFormComum();
-                }
+            if(verEnvioFormComum()){
+                envioFormComum();
             }
         }
-
     }
 
     public boolean verifDadosEnvio() {
         if (!verEnvioFormComum()
-            && !verEnvioFormCompl()
-            && !verifLogErro()){
+            && !verEnvioFormCompl()){
             enviando = false;
             return false;
         } else {

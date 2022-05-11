@@ -14,7 +14,6 @@ import org.json.JSONObject;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
-import br.com.usinasantafe.pcq.model.dao.LogErroDAO;
 import br.com.usinasantafe.pcq.model.pst.GenericRecordable;
 import br.com.usinasantafe.pcq.util.connHttp.GetBDGenerico;
 import br.com.usinasantafe.pcq.util.connHttp.UrlsConexaoHttp;
@@ -116,7 +115,6 @@ public class AtualDadosServ {
 			getBDGenerico.execute(url);
 
 		} catch (Exception e) {
-			LogErroDAO.getInstance().insert(e);
 		}
 
 	}

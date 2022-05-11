@@ -1,24 +1,16 @@
 package br.com.usinasantafe.pcq.view;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import br.com.usinasantafe.pcq.PCQContext;
 import br.com.usinasantafe.pcq.R;
-import br.com.usinasantafe.pcq.model.bean.variaveis.BrigadistaItemBean;
 import br.com.usinasantafe.pcq.model.bean.variaveis.CabecBean;
-import br.com.usinasantafe.pcq.model.bean.variaveis.EquipItemBean;
-import br.com.usinasantafe.pcq.model.bean.variaveis.TalhaoItemBean;
 import br.com.usinasantafe.pcq.util.Tempo;
 
 public class RelacaoCabecReajActivity extends ActivityGeneric {

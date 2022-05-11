@@ -1,6 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="1.8 (4)" project-jdk-type="JavaSDK">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/anderson/Documents/Android/PCQ/app/src/main/res/layout/activity_aceiro_canavial.xml" value="0.14427083333333332" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCQ/app/src/main/res/layout/activity_aceiro_veget_nativa.xml" value="0.14427083333333332" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCQ/app/src/main/res/layout/activity_alt_canavial.xml" value="0.14427083333333332" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCQ/app/src/main/res/layout/activity_brigadista.xml" value="0.14427083333333332" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCQ/app/src/main/res/layout/activity_camera.xml" value="0.14427083333333332" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCQ/app/src/main/res/layout/activity_colab.xml" value="0.14427083333333332" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCQ/app/src/main/res/layout/activity_comentario.xml" value="0.14427083333333332" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCQ/app/src/main/res/layout/activity_config.xml" value="0.14427083333333332" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCQ/app/src/main/res/layout/activity_criterio.xml" value="0.14427083333333332" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCQ/app/src/main/res/layout/activity_data.xml" value="0.14427083333333332" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCQ/app/src/main/res/layout/activity_ha_inc_app.xml" value="0.14427083333333332" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCQ/app/src/main/res/layout/activity_ha_inc_cana.xml" value="0.14427083333333332" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCQ/app/src/main/res/layout/activity_ha_inc_fora_app.xml" value="0.14427083333333332" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCQ/app/src/main/res/layout/activity_ha_inc_palhada.xml" value="0.14427083333333332" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCQ/app/src/main/res/layout/activity_item_criteiro.xml" value="0.14427083333333332" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCQ/app/src/main/res/layout/activity_item_form_reaj.xml" value="0.14427083333333332" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCQ/app/src/main/res/layout/activity_item_lista.xml" value="0.14427083333333332" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCQ/app/src/main/res/layout/activity_item_lista_choice.xml" value="0.14427083333333332" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCQ/app/src/main/res/layout/activity_item_lista_foto.xml" value="0.14427083333333332" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCQ/app/src/main/res/layout/activity_lista_form_reaj.xml" value="0.14427083333333332" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCQ/app/src/main/res/layout/activity_menu_inicial.xml" value="0.14427083333333332" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCQ/app/src/main/res/layout/activity_msg_camera.xml" value="0.14427083333333332" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCQ/app/src/main/res/layout/activity_origem_fogo.xml" value="0.14427083333333332" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCQ/app/src/main/res/layout/activity_relacao_cabec.xml" value="0.14427083333333332" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCQ/app/src/main/res/layout/activity_relacao_cabec_reaj.xml" value="0.14427083333333332" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCQ/app/src/main/res/layout/activity_relacao_criterio.xml" value="0.14427083333333332" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCQ/app/src/main/res/layout/activity_saveiro.xml" value="0.14427083333333332" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCQ/app/src/main/res/layout/activity_secao.xml" value="0.14427083333333332" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCQ/app/src/main/res/layout/activity_status_criterio.xml" value="0.14427083333333332" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCQ/app/src/main/res/layout/activity_talhao.xml" value="0.14427083333333332" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCQ/app/src/main/res/layout/activity_tanque.xml" value="0.14427083333333332" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCQ/app/src/main/res/layout/activity_terc_comb.xml" value="0.14427083333333332" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCQ/app/src/main/res/layout/activity_tipo_apont_trab.xml" value="0.11875" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCQ/app/src/main/res/layout/activity_tipo_talhao.xml" value="0.14427083333333332" />
+        <entry key="..\:/Users/anderson/Google Drive/Projetos Android/PCQ/app/src/main/res/layout/activity_saveiro.xml" value="0.1" />
+        <entry key="..\:/Users/anderson/Google Drive/Projetos Android/PCQ/app/src/main/res/layout/activity_tanque.xml" value="0.1" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
