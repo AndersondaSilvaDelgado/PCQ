@@ -22,6 +22,7 @@ import br.com.usinasantafe.pcq.util.connHttp.PostVerGenerico;
 import br.com.usinasantafe.pcq.util.connHttp.UrlsConexaoHttp;
 import br.com.usinasantafe.pcq.view.MenuInicialActivity;
 import br.com.usinasantafe.pcq.model.bean.AtualAplicBean;
+import br.com.usinasantafe.pcq.view.TelaInicialActivity;
 
 /**
  * Created by anderson on 16/11/2015.
@@ -34,9 +35,9 @@ public class VerifDadosServ {
     private Context telaAtual;
     private Class telaProx;
     private String tipo;
-    private MenuInicialActivity menuInicialActivity;
+    private TelaInicialActivity telaInicialActivity;
     private PostVerGenerico postVerGenerico;
-    private boolean verTerm;
+    public static int status;
 
     public VerifDadosServ() {
     }
@@ -51,31 +52,30 @@ public class VerifDadosServ {
 
         if (!result.equals("")) {
             if (this.tipo.equals("Atualiza")) {
-                setVerTerm(true);
+                status = 3;
                 ConfigDAO configDAO = new ConfigDAO();
                 AtualAplicBean atualAplicBean = configDAO.recAtual(result.trim());
                 if (atualAplicBean.getFlagAtualApp().equals(1L)) {
                     AtualizarAplicativo atualizarAplicativo = new AtualizarAplicativo();
-                    atualizarAplicativo.setContext(this.menuInicialActivity);
+                    atualizarAplicativo.setContext(this.telaInicialActivity);
                     atualizarAplicativo.execute();
                 } else {
-                    this.menuInicialActivity.startTimer();
+                    this.telaInicialActivity.goMenuInicial();
                 }
             }
             else if(this.tipo.equals("Cabec")){
                 CabecDAO cabecDAO = new CabecDAO();
-                cabecDAO.recDadosCabecReaj(result);
+                cabecDAO.receberDadosCabec(result);
             }
         }
 
     }
 
-    public void verAtualAplic(String versaoAplic, MenuInicialActivity menuInicialActivity, ProgressDialog progressDialog) {
+    public void verAtualAplic(String versaoAplic, TelaInicialActivity telaInicialActivity, String activity) {
 
         urlsConexaoHttp = new UrlsConexaoHttp();
-        this.progressDialog = progressDialog;
         this.tipo = "Atualiza";
-        this.menuInicialActivity = menuInicialActivity;
+        this.telaInicialActivity = telaInicialActivity;
 
         AtualAplicBean atualAplicBean = new AtualAplicBean();
         ConfigCTR configCTR = new ConfigCTR();
@@ -127,13 +127,12 @@ public class VerifDadosServ {
 
     }
 
-    public void cancelVer() {
-        verTerm = true;
+    public void cancel() {
+        status = 3;
         if (postVerGenerico.getStatus() == AsyncTask.Status.RUNNING) {
             postVerGenerico.cancel(true);
         }
     }
-
 
     public void pulaTelaSemTerm(){
         this.progressDialog.dismiss();
@@ -154,12 +153,4 @@ public class VerifDadosServ {
         alerta.show();
     }
 
-
-    public boolean isVerTerm() {
-        return verTerm;
-    }
-
-    public void setVerTerm(boolean verTerm) {
-        this.verTerm = verTerm;
-    }
 }

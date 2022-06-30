@@ -16,7 +16,7 @@
     <string name="texto_padrao_ok">OK</string>
     <string name="texto_atualizar_bd">ATUALIZAR DADOS</string>
     <string name="texto_responsavel">MATRIC. RESPONSÁVEL</string>
-    <string name="texto_menu_principal">PRINCIPAL - V 1.01</string>
+    <string name="texto_menu_principal">PRINCIPAL - V 1.02</string>
     <string name="texto_item_default">TESTE</string>
     <string name="texto_secao">NUM. SEÇÃO</string>
     <string name="texto_desmarcar">DESMARCAR TODOS</string>
@@ -48,9 +48,17 @@
     <string name="texto_app">ÁREA QUEIMADA DE APP(HA)</string>
     <string name="texto_fora_app">ÁREA QUEIMADA FORA DE APP(HA)</string>
     <string name="texto_terc_combate">TERCEIRO QUE AUXILIOU COMBATE</string>
-    <string name="texto_excluir">EXCLUIR FORMULÁRIO</string>
+    <string name="texto_excluir">EXCLUIR</string>
     <string name="texto_form_reaj">FORMULÁRIO(S) PARA REAJUSTE(S)</string>
     <string name="texto_term_form">TERMINAR FORMULÁRIO</string>
     <string name="texto_data">DATA</string>
     <string name="texto_abrir_galeria">ABRIR GALERIA</string>
+    <string name="texto_hist_apont">PARADA: VERIFICACAO INICIAL</string>
+    <string name="texto_hist_horario">10:08</string>
+    <string name="texto_hist_impl_transb">TRANSBORDO: 1001</string>
+    <string name="texto_titulo_log_proc">LOG - PROCESSO</string>
+    <string name="texto_titulo_log_base_dado">LOG - BASE DADO</string>
+    <string name="texto_titulo_log_erro">LOG - ERRO</string>
+    <string name="texto_senha">SENHA:</string>
+    <string name="texto_inicio">INICIANDO O APLICATIVO...</string>
 </resources>

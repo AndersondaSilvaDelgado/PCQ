@@ -19,10 +19,17 @@
         <entry key="..\:/Users/anderson/Documents/Android/PCQ/app/src/main/res/layout/activity_ha_inc_palhada.xml" value="0.14427083333333332" />
         <entry key="..\:/Users/anderson/Documents/Android/PCQ/app/src/main/res/layout/activity_item_criteiro.xml" value="0.14427083333333332" />
         <entry key="..\:/Users/anderson/Documents/Android/PCQ/app/src/main/res/layout/activity_item_form_reaj.xml" value="0.14427083333333332" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCQ/app/src/main/res/layout/activity_item_form_recebido.xml" value="0.19114583333333332" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCQ/app/src/main/res/layout/activity_item_historico.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/anderson/Documents/Android/PCQ/app/src/main/res/layout/activity_item_lista.xml" value="0.14427083333333332" />
         <entry key="..\:/Users/anderson/Documents/Android/PCQ/app/src/main/res/layout/activity_item_lista_choice.xml" value="0.14427083333333332" />
         <entry key="..\:/Users/anderson/Documents/Android/PCQ/app/src/main/res/layout/activity_item_lista_foto.xml" value="0.14427083333333332" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCQ/app/src/main/res/layout/activity_item_log_erro.xml" value="0.27291666666666664" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCQ/app/src/main/res/layout/activity_item_log_processo.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/anderson/Documents/Android/PCQ/app/src/main/res/layout/activity_lista_form_reaj.xml" value="0.14427083333333332" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCQ/app/src/main/res/layout/activity_log_base_dado.xml" value="0.27291666666666664" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCQ/app/src/main/res/layout/activity_log_erro.xml" value="0.27291666666666664" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCQ/app/src/main/res/layout/activity_log_processo.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/anderson/Documents/Android/PCQ/app/src/main/res/layout/activity_menu_inicial.xml" value="0.14427083333333332" />
         <entry key="..\:/Users/anderson/Documents/Android/PCQ/app/src/main/res/layout/activity_msg_camera.xml" value="0.14427083333333332" />
         <entry key="..\:/Users/anderson/Documents/Android/PCQ/app/src/main/res/layout/activity_origem_fogo.xml" value="0.14427083333333332" />
@@ -31,9 +38,11 @@
         <entry key="..\:/Users/anderson/Documents/Android/PCQ/app/src/main/res/layout/activity_relacao_criterio.xml" value="0.14427083333333332" />
         <entry key="..\:/Users/anderson/Documents/Android/PCQ/app/src/main/res/layout/activity_saveiro.xml" value="0.14427083333333332" />
         <entry key="..\:/Users/anderson/Documents/Android/PCQ/app/src/main/res/layout/activity_secao.xml" value="0.14427083333333332" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCQ/app/src/main/res/layout/activity_senha.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/anderson/Documents/Android/PCQ/app/src/main/res/layout/activity_status_criterio.xml" value="0.14427083333333332" />
         <entry key="..\:/Users/anderson/Documents/Android/PCQ/app/src/main/res/layout/activity_talhao.xml" value="0.14427083333333332" />
         <entry key="..\:/Users/anderson/Documents/Android/PCQ/app/src/main/res/layout/activity_tanque.xml" value="0.14427083333333332" />
+        <entry key="..\:/Users/anderson/Documents/Android/PCQ/app/src/main/res/layout/activity_tela_inicial.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/anderson/Documents/Android/PCQ/app/src/main/res/layout/activity_terc_comb.xml" value="0.14427083333333332" />
         <entry key="..\:/Users/anderson/Documents/Android/PCQ/app/src/main/res/layout/activity_tipo_apont_trab.xml" value="0.11875" />
         <entry key="..\:/Users/anderson/Documents/Android/PCQ/app/src/main/res/layout/activity_tipo_talhao.xml" value="0.14427083333333332" />

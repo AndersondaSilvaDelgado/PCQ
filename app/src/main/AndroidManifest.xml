@@ -24,17 +24,38 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".view.DataActivity"
+        <activity
+            android:name=".view.SenhaActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".view.RelacaoCabecReajActivity"
+            android:name=".view.LogProcessoActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
         <activity
-            android:name=".view.ListaFormReajActivity"
+            android:name=".view.LogErroActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".view.LogBaseDadoActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".view.MenuInicialActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".view.DataActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".view.ListaFormRecebidoActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity" />
@@ -169,7 +190,7 @@
             android:required="false" />
 
         <activity
-            android:name=".view.MenuInicialActivity"
+            android:name=".view.TelaInicialActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity">
@@ -179,7 +200,8 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".TimerAlarme"
+        <receiver
+            android:name=".NetworkChangeListerner"
             android:exported="true">
             <intent-filter>
                 <action android:name="EXECUTAR_ALARME" />

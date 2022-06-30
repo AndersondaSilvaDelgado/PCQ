@@ -13,6 +13,7 @@ import java.util.List;
 import br.com.usinasantafe.pcq.PCQContext;
 import br.com.usinasantafe.pcq.R;
 import br.com.usinasantafe.pcq.model.bean.variaveis.TalhaoItemBean;
+import br.com.usinasantafe.pcq.model.dao.LogProcessoDAO;
 
 public class HaIncPalhadaActivity extends ActivityGeneric {
 
@@ -27,72 +28,94 @@ public class HaIncPalhadaActivity extends ActivityGeneric {
 
         pcqContext = (PCQContext) getApplication();
 
-        TextView textViewPadrao = (TextView) findViewById(R.id.textViewPadrao);
-        Button buttonOkPadrao = (Button) findViewById(R.id.buttonOkPadrao);
-        Button buttonCancPadrao = (Button) findViewById(R.id.buttonCancPadrao);
+        TextView textViewPadrao = findViewById(R.id.textViewPadrao);
+        Button buttonOkPadrao = findViewById(R.id.buttonOkPadrao);
+        Button buttonCancPadrao = findViewById(R.id.buttonCancPadrao);
 
-        talhaoItemList = pcqContext.getFormularioCTR().talhaoItemList(pcqContext.getTipoTela());
+        LogProcessoDAO.getInstance().insertLogProcesso("talhaoItemList = pcqContext.getFormularioCTR().talhaoItemList();\n" +
+                "        talhaoItemBean = talhaoItemList.get(pcqContext.getFormularioCTR().getPosTalhao() - 1);\n" +
+                "        textViewPadrao.setText(\"TALHÃO \" + pcqContext.getFormularioCTR().getTalhao(talhaoItemBean.getIdTalhao()).getCodTalhao() + \"\\n\" +\n" +
+                "                \"ÁREA QUEIMADA DE PALHADA(HA)\");", getLocalClassName());
+        talhaoItemList = pcqContext.getFormularioCTR().talhaoItemList();
         talhaoItemBean = talhaoItemList.get(pcqContext.getFormularioCTR().getPosTalhao() - 1);
 
         textViewPadrao.setText("TALHÃO " + pcqContext.getFormularioCTR().getTalhao(talhaoItemBean.getIdTalhao()).getCodTalhao() + "\n" +
                 "ÁREA QUEIMADA DE PALHADA(HA)");
 
         buttonOkPadrao.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
-
+                LogProcessoDAO.getInstance().insertLogProcesso("buttonOkPadrao.setOnClickListener(new View.OnClickListener() {\n" +
+                        "            @Override\n" +
+                        "            public void onClick(View v) {", getLocalClassName());
                 if (!editTextPadrao.getText().toString().equals("")) {
-
+                    LogProcessoDAO.getInstance().insertLogProcesso("if (!editTextPadrao.getText().toString().equals(\"\")) {\n" +
+                            "                    String haIncendioString = editTextPadrao.getText().toString();\n" +
+                            "                    Double haIncendioDouble = Double.valueOf(haIncendioString.replace(\",\", \".\"));", getLocalClassName());
                     String haIncendioString = editTextPadrao.getText().toString();
                     Double haIncendioDouble = Double.valueOf(haIncendioString.replace(",", "."));
-
                     if (haIncendioDouble > 0) {
-
+                        LogProcessoDAO.getInstance().insertLogProcesso("if (haIncendioDouble > 0) {\n" +
+                                "                        pcqContext.getFormularioCTR().setHaIncPalhadaTalhao(haIncendioDouble, talhaoItemBean);", getLocalClassName());
                         pcqContext.getFormularioCTR().setHaIncPalhadaTalhao(haIncendioDouble, talhaoItemBean);
-
                         if(pcqContext.getFormularioCTR().getPosTalhao() == talhaoItemList.size()){
-                            if(pcqContext.getTipoTela() == 1){
+                            LogProcessoDAO.getInstance().insertLogProcesso("if(pcqContext.getFormularioCTR().getPosTalhao() == talhaoItemList.size()){", getLocalClassName());
+                            if(pcqContext.getFormularioCTR().verCabecAberto()){
+                                LogProcessoDAO.getInstance().insertLogProcesso("if(pcqContext.getFormularioCTR().verCabecAberto()){\n" +
+                                        "                                pcqContext.setPosCameraTela(1);\n" +
+                                        "                                Intent it = new Intent(HaIncPalhadaActivity.this, CameraActivity.class);", getLocalClassName());
                                 pcqContext.setPosCameraTela(1);
                                 Intent it = new Intent(HaIncPalhadaActivity.this, CameraActivity.class);
                                 startActivity(it);
-                                finish();
-                            }
-                            else{
+                            } else {
+                                LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                                        "                                Intent it = new Intent(HaIncPalhadaActivity.this, RelacaoCabecActivity.class);", getLocalClassName());
                                 Intent it = new Intent(HaIncPalhadaActivity.this, RelacaoCabecActivity.class);
                                 startActivity(it);
-                                finish();
                             }
-                        }
-                        else{
+                        } else {
+                            LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                                    "                            pcqContext.getFormularioCTR().setPosTalhao(pcqContext.getFormularioCTR().getPosTalhao() + 1);\n" +
+                                    "                            Intent it = new Intent(HaIncPalhadaActivity.this, TipoTalhaoActivity.class);", getLocalClassName());
                             pcqContext.getFormularioCTR().setPosTalhao(pcqContext.getFormularioCTR().getPosTalhao() + 1);
                             Intent it = new Intent(HaIncPalhadaActivity.this, TipoTalhaoActivity.class);
                             startActivity(it);
-                            finish();
                         }
                         talhaoItemList.clear();
-
+                        finish();
                     } else {
+                        LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                                "                        AlertDialog.Builder alerta = new AlertDialog.Builder(HaIncPalhadaActivity.this);\n" +
+                                "                        alerta.setTitle(\"ATENÇÃO\");\n" +
+                                "                        alerta.setMessage(\"POR FAVOR, DIGITE A QUANTIDADE DE AREA QUEIMADA DE CANA EM HECTARE!\");", getLocalClassName());
                         AlertDialog.Builder alerta = new AlertDialog.Builder(HaIncPalhadaActivity.this);
                         alerta.setTitle("ATENÇÃO");
                         alerta.setMessage("POR FAVOR, DIGITE A QUANTIDADE DE AREA QUEIMADA DE CANA EM HECTARE!");
                         alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-
+                                LogProcessoDAO.getInstance().insertLogProcesso("alerta.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\n" +
+                                        "                            @Override\n" +
+                                        "                            public void onClick(DialogInterface dialog, int which) {", getLocalClassName());
                             }
                         });
 
                         alerta.show();
                     }
-                }
-                else{
+                } else {
                     AlertDialog.Builder alerta = new AlertDialog.Builder(HaIncPalhadaActivity.this);
                     alerta.setTitle("ATENÇÃO");
                     alerta.setMessage("POR FAVOR, DIGITE A QUANTIDADE DE AREA QUEIMADA DE CANA EM HECTARE!");
+                    LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                            "                    AlertDialog.Builder alerta = new AlertDialog.Builder(HaIncPalhadaActivity.this);\n" +
+                            "                    alerta.setTitle(\"ATENÇÃO\");\n" +
+                            "                    alerta.setMessage(\"POR FAVOR, DIGITE A QUANTIDADE DE AREA QUEIMADA DE CANA EM HECTARE!\");", getLocalClassName());
                     alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            LogProcessoDAO.getInstance().insertLogProcesso("alerta.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\n" +
+                                    "                        @Override\n" +
+                                    "                        public void onClick(DialogInterface dialog, int which) {", getLocalClassName());
                         }
 
                     });
@@ -104,10 +127,14 @@ public class HaIncPalhadaActivity extends ActivityGeneric {
         });
 
         buttonCancPadrao.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
+                LogProcessoDAO.getInstance().insertLogProcesso("buttonCancPadrao.setOnClickListener(new View.OnClickListener() {\n" +
+                        "            @Override\n" +
+                        "            public void onClick(View v) {", getLocalClassName());
                 if (editTextPadrao.getText().toString().length() > 0) {
+                    LogProcessoDAO.getInstance().insertLogProcesso("if (editTextPadrao.getText().toString().length() > 0) {\n" +
+                            "                    editTextPadrao.setText(editTextPadrao.getText().toString().substring(0, editTextPadrao.getText().toString().length() - 1));", getLocalClassName());
                     editTextPadrao.setText(editTextPadrao.getText().toString().substring(0, editTextPadrao.getText().toString().length() - 1));
                 }
             }
@@ -116,14 +143,17 @@ public class HaIncPalhadaActivity extends ActivityGeneric {
     }
 
     public void onBackPressed() {
-
+        LogProcessoDAO.getInstance().insertLogProcesso("public void onBackPressed() {", getLocalClassName());
         if(talhaoItemBean.getTipoTalhao() == 2){
+            LogProcessoDAO.getInstance().insertLogProcesso("if(talhaoItemBean.getTipoTalhao() == 2){\n" +
+                    "            Intent it = new Intent(HaIncPalhadaActivity.this, TipoTalhaoActivity.class);", getLocalClassName());
             Intent it = new Intent(HaIncPalhadaActivity.this, TipoTalhaoActivity.class);
             startActivity(it);
             finish();
-        }
-        else if(talhaoItemBean.getTipoTalhao() == 3){
+        } else if(talhaoItemBean.getTipoTalhao() == 3){
             Intent it = new Intent( HaIncPalhadaActivity.this, AltCanavialActivity.class);
+            LogProcessoDAO.getInstance().insertLogProcesso("if(talhaoItemBean.getTipoTalhao() == 2){\n" +
+                    "            Intent it = new Intent(HaIncPalhadaActivity.this, TipoTalhaoActivity.class);", getLocalClassName());
             startActivity(it);
             finish();
         }

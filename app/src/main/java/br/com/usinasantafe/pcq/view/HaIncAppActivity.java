@@ -9,6 +9,7 @@ import android.widget.Button;
 
 import br.com.usinasantafe.pcq.PCQContext;
 import br.com.usinasantafe.pcq.R;
+import br.com.usinasantafe.pcq.model.dao.LogProcessoDAO;
 
 public class HaIncAppActivity extends ActivityGeneric {
 
@@ -21,8 +22,8 @@ public class HaIncAppActivity extends ActivityGeneric {
 
         pcqContext = (PCQContext) getApplication();
 
-        Button buttonOkPadrao = (Button) findViewById(R.id.buttonOkPadrao);
-        Button buttonCancPadrao = (Button) findViewById(R.id.buttonCancPadrao);
+        Button buttonOkPadrao = findViewById(R.id.buttonOkPadrao);
+        Button buttonCancPadrao = findViewById(R.id.buttonCancPadrao);
 
         buttonOkPadrao.setOnClickListener(new View.OnClickListener() {
 
@@ -30,49 +31,61 @@ public class HaIncAppActivity extends ActivityGeneric {
             public void onClick(View v) {
 
                 if (!editTextPadrao.getText().toString().equals("")) {
-
+                    LogProcessoDAO.getInstance().insertLogProcesso("if (!editTextPadrao.getText().toString().equals(\"\")) {\n" +
+                            "                    String haIncendioString = editTextPadrao.getText().toString();\n" +
+                            "                    Double haIncendioDouble = Double.valueOf(haIncendioString.replace(\",\", \".\"));", getLocalClassName());
                     String haIncendioString = editTextPadrao.getText().toString();
                     Double haIncendioDouble = Double.valueOf(haIncendioString.replace(",", "."));
-
                     if (haIncendioDouble > 0) {
-
-                        pcqContext.getFormularioCTR().setHaIncAppCabec(haIncendioDouble, pcqContext.getTipoTela());
-
-                        if(pcqContext.getTipoTela() == 1) {
+                        LogProcessoDAO.getInstance().insertLogProcesso("if (haIncendioDouble > 0) {\n" +
+                                "                        pcqContext.getFormularioCTR().setHaIncAppCabec(haIncendioDouble);", getLocalClassName());
+                        pcqContext.getFormularioCTR().setHaIncAppCabec(haIncendioDouble);
+                        if(pcqContext.getFormularioCTR().verCabecAberto()){
+                            LogProcessoDAO.getInstance().insertLogProcesso("if(pcqContext.getFormularioCTR().verCabecAberto()){\n" +
+                                    "                            Intent it = new Intent(HaIncAppActivity.this, HaIncForaAppActivity.class);", getLocalClassName());
                             Intent it = new Intent(HaIncAppActivity.this, HaIncForaAppActivity.class);
                             startActivity(it);
                             finish();
-                        }
-                        else{
+                        } else {
+                            LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                                    "                            Intent it = new Intent(HaIncAppActivity.this, RelacaoCabecActivity.class);", getLocalClassName());
                             Intent it = new Intent(HaIncAppActivity.this, RelacaoCabecActivity.class);
                             startActivity(it);
                             finish();
                         }
 
                     } else {
+                        LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                                "                        AlertDialog.Builder alerta = new AlertDialog.Builder(HaIncAppActivity.this);\n" +
+                                "                        alerta.setTitle(\"ATENÇÃO\");\n" +
+                                "                        alerta.setMessage(\"POR FAVOR, DIGITE A QUANTIDADE DE AREA QUEIMADA DE CANA EM HECTARE!\");", getLocalClassName());
                         AlertDialog.Builder alerta = new AlertDialog.Builder(HaIncAppActivity.this);
                         alerta.setTitle("ATENÇÃO");
                         alerta.setMessage("POR FAVOR, DIGITE A QUANTIDADE DE AREA QUEIMADA DE CANA EM HECTARE!");
                         alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-
+                                LogProcessoDAO.getInstance().insertLogProcesso("alerta.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\n" +
+                                        "                            @Override\n" +
+                                        "                            public void onClick(DialogInterface dialog, int which) {", getLocalClassName());
                             }
                         });
 
                         alerta.show();
                     }
-                }
-                else{
-
-                    pcqContext.getFormularioCTR().setHaIncAppCabec(0D, pcqContext.getTipoTela());
-
-                    if(pcqContext.getTipoTela() == 1) {
+                } else {
+                    LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                            "                    pcqContext.getFormularioCTR().setHaIncAppCabec(0D);", getLocalClassName());
+                    pcqContext.getFormularioCTR().setHaIncAppCabec(0D);
+                    if(pcqContext.getFormularioCTR().verCabecAberto()){
+                        LogProcessoDAO.getInstance().insertLogProcesso("if(pcqContext.getFormularioCTR().verCabecAberto()){\n" +
+                                "                        Intent it = new Intent(HaIncAppActivity.this, HaIncForaAppActivity.class);", getLocalClassName());
                         Intent it = new Intent(HaIncAppActivity.this, HaIncForaAppActivity.class);
                         startActivity(it);
                         finish();
-                    }
-                    else{
+                    } else {
+                        LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                                "                        Intent it = new Intent(HaIncAppActivity.this, RelacaoCabecActivity.class);", getLocalClassName());
                         Intent it = new Intent(HaIncAppActivity.this, RelacaoCabecActivity.class);
                         startActivity(it);
                         finish();
@@ -84,10 +97,14 @@ public class HaIncAppActivity extends ActivityGeneric {
         });
 
         buttonCancPadrao.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
+                LogProcessoDAO.getInstance().insertLogProcesso("buttonCancPadrao.setOnClickListener(new View.OnClickListener() {\n" +
+                        "            @Override\n" +
+                        "            public void onClick(View v) {", getLocalClassName());
                 if (editTextPadrao.getText().toString().length() > 0) {
+                    LogProcessoDAO.getInstance().insertLogProcesso("if (editTextPadrao.getText().toString().length() > 0) {\n" +
+                            "                    editTextPadrao.setText(editTextPadrao.getText().toString().substring(0, editTextPadrao.getText().toString().length() - 1));", getLocalClassName());
                     editTextPadrao.setText(editTextPadrao.getText().toString().substring(0, editTextPadrao.getText().toString().length() - 1));
                 }
             }
@@ -96,12 +113,16 @@ public class HaIncAppActivity extends ActivityGeneric {
     }
 
     public void onBackPressed() {
-        if(pcqContext.getTipoTela() == 1) {
+        LogProcessoDAO.getInstance().insertLogProcesso("public void onBackPressed() {", getLocalClassName());
+        if(pcqContext.getFormularioCTR().verCabecAberto()){
             Intent it = new Intent(HaIncAppActivity.this, CameraActivity.class);
+            LogProcessoDAO.getInstance().insertLogProcesso("if(pcqContext.getFormularioCTR().verCabecAberto()){\n" +
+                    "            Intent it = new Intent(HaIncAppActivity.this, CameraActivity.class);", getLocalClassName());
             startActivity(it);
             finish();
-        }
-        else{
+        } else {
+            LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                    "            Intent it = new Intent(HaIncAppActivity.this, RelacaoCabecActivity.class);", getLocalClassName());
             Intent it = new Intent(HaIncAppActivity.this, RelacaoCabecActivity.class);
             startActivity(it);
             finish();

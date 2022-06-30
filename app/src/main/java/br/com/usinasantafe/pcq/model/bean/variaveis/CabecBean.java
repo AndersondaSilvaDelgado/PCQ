@@ -3,6 +3,8 @@ package br.com.usinasantafe.pcq.model.bean.variaveis;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.util.List;
+
 import br.com.usinasantafe.pcq.model.pst.Entidade;
 
 @DatabaseTable(tableName="tbcabecvar")
@@ -39,11 +41,27 @@ public class CabecBean extends Entidade {
     @DatabaseField
     private String dthrCabec;
     @DatabaseField
+    private Long dthrCabecLong;
+    @DatabaseField
     private String dataInsCabec;
     @DatabaseField
     private Long tipoCabec;
+    // 1 - Simplificado
+    // 2 - Completo;
+    // 3 - Recebido;
     @DatabaseField
-    private Long statusCabec; // 0 - Iniciado; 1 - Aberto; 2 - Fechado; 3-Finalizado; 4 - Recebido; 5 - Fechado; 6 - Finalizado;
+    private Long statusCabec;
+    // 1 - Aberto;
+    // 2 - Finalizado Cabeçalho;
+    // 3 - Finalizado Critério;
+    // 4 - Envio;
+    // 5 - Recebido;
+    // 6 - Enviado;
+    private List<RespItemBean> respItemBeanList;
+    private List<BrigadistaItemBean> brigadistaItemBeanList;
+    private List<EquipItemBean> equipItemBeanList;
+    private List<FotoItemBean> fotoItemBeanList;
+    private List<TalhaoItemBean> talhaoItemBeanList;
 
     public CabecBean() {
     }
@@ -182,5 +200,53 @@ public class CabecBean extends Entidade {
 
     public void setStatusCabec(Long statusCabec) {
         this.statusCabec = statusCabec;
+    }
+
+    public List<RespItemBean> getRespItemBeanList() {
+        return respItemBeanList;
+    }
+
+    public void setRespItemBeanList(List<RespItemBean> respItemBeanList) {
+        this.respItemBeanList = respItemBeanList;
+    }
+
+    public List<BrigadistaItemBean> getBrigadistaItemBeanList() {
+        return brigadistaItemBeanList;
+    }
+
+    public void setBrigadistaItemBeanList(List<BrigadistaItemBean> brigadistaItemBeanList) {
+        this.brigadistaItemBeanList = brigadistaItemBeanList;
+    }
+
+    public List<EquipItemBean> getEquipItemBeanList() {
+        return equipItemBeanList;
+    }
+
+    public void setEquipItemBeanList(List<EquipItemBean> equipItemBeanList) {
+        this.equipItemBeanList = equipItemBeanList;
+    }
+
+    public List<FotoItemBean> getFotoItemBeanList() {
+        return fotoItemBeanList;
+    }
+
+    public void setFotoItemBeanList(List<FotoItemBean> fotoItemBeanList) {
+        this.fotoItemBeanList = fotoItemBeanList;
+    }
+
+    public List<TalhaoItemBean> getTalhaoItemBeanList() {
+        return talhaoItemBeanList;
+    }
+
+    public void setTalhaoItemBeanList(List<TalhaoItemBean> talhaoItemBeanList) {
+        this.talhaoItemBeanList = talhaoItemBeanList;
+    }
+
+    public Long getDthrCabecLong() {
+        return dthrCabecLong;
+    }
+
+    public void setDthrCabecLong(Long dthrCabecLong) {
+        this.dthrCabecLong = dthrCabecLong;
     }
 }

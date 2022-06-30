@@ -17,7 +17,7 @@ import java.util.List;
 import br.com.usinasantafe.pcq.PCQContext;
 import br.com.usinasantafe.pcq.R;
 import br.com.usinasantafe.pcq.model.bean.estaticas.OrigemFogoBean;
-import br.com.usinasantafe.pcq.util.ConexaoWeb;
+import br.com.usinasantafe.pcq.model.dao.LogProcessoDAO;
 
 public class OrigemFogoActivity extends ActivityGeneric {
 
@@ -34,12 +34,10 @@ public class OrigemFogoActivity extends ActivityGeneric {
 
         pcqContext = (PCQContext) getApplication();
 
-        Button buttonAtualizarBD = (Button) findViewById(R.id.buttonAtualizarBD);
-        Button buttonRetOrigemFogo = (Button) findViewById(R.id.buttonRetOrigemFogo);
-        Button buttonAvancaOrigemFogo = (Button) findViewById(R.id.buttonAvancaOrigemFogo);
-        radioGroupItemOrigemFogo = (RadioGroup) findViewById(R.id.radioGroupItemOrigemFogo);
-
-        posicao = -1;
+        Button buttonAtualizarBD = findViewById(R.id.buttonAtualizarBD);
+        Button buttonRetOrigemFogo = findViewById(R.id.buttonRetOrigemFogo);
+        Button buttonAvancaOrigemFogo = findViewById(R.id.buttonAvancaOrigemFogo);
+        radioGroupItemOrigemFogo = findViewById(R.id.radioGroupItemOrigemFogo);
 
         ColorStateList colorStateList = new ColorStateList(
                 new int[][]{
@@ -52,8 +50,20 @@ public class OrigemFogoActivity extends ActivityGeneric {
                 }
         );
 
-        origemFogoList = pcqContext.getFormularioCTR().origemFogoList();
 
+        LogProcessoDAO.getInstance().insertLogProcesso("posicao = -1;", getLocalClassName());
+        posicao = -1;
+
+        LogProcessoDAO.getInstance().insertLogProcesso("origemFogoList = pcqContext.getFormularioCTR().origemFogoList();\n" +
+                "        for (OrigemFogoBean origemFogoBean : origemFogoList) {\n" +
+                "            RadioButton radioButtonItem = new RadioButton(getApplicationContext());\n" +
+                "            radioButtonItem.setText(origemFogoBean.getDescrOrigemFogo());\n" +
+                "            radioButtonItem.setTextColor(Color.BLACK);\n" +
+                "            radioButtonItem.setTextSize(22F);\n" +
+                "            radioButtonItem.setButtonTintList(colorStateList);\n" +
+                "            radioGroupItemOrigemFogo.addView(radioButtonItem);\n" +
+                "        }", getLocalClassName());
+        origemFogoList = pcqContext.getFormularioCTR().origemFogoList();
         for (OrigemFogoBean origemFogoBean : origemFogoList) {
             RadioButton radioButtonItem = new RadioButton(getApplicationContext());
             radioButtonItem.setText(origemFogoBean.getDescrOrigemFogo());
@@ -66,6 +76,11 @@ public class OrigemFogoActivity extends ActivityGeneric {
         radioGroupItemOrigemFogo.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                LogProcessoDAO.getInstance().insertLogProcesso("radioGroupItemOrigemFogo.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {\n" +
+                        "            @Override\n" +
+                        "            public void onCheckedChanged(RadioGroup radioGroup, int i) {\n" +
+                        "                View radioButton = radioGroup.findViewById(i);\n" +
+                        "                posicao = radioGroup.indexOfChild(radioButton);", getLocalClassName());
                 View radioButton = radioGroup.findViewById(i);
                 posicao = radioGroup.indexOfChild(radioButton);
             }
@@ -74,18 +89,32 @@ public class OrigemFogoActivity extends ActivityGeneric {
         buttonAtualizarBD.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                LogProcessoDAO.getInstance().insertLogProcesso("buttonAtualizarBD.setOnClickListener(new View.OnClickListener() {\n" +
+                        "            @Override\n" +
+                        "            public void onClick(View v) {\n" +
+                        "                AlertDialog.Builder alerta = new AlertDialog.Builder(OrigemFogoActivity.this);\n" +
+                        "                alerta.setTitle(\"ATENÇÃO\");\n" +
+                        "                alerta.setMessage(\"DESEJA REALMENTE ATUALIZAR BASE DE DADOS?\");", getLocalClassName());
                 AlertDialog.Builder alerta = new AlertDialog.Builder(OrigemFogoActivity.this);
                 alerta.setTitle("ATENÇÃO");
                 alerta.setMessage("DESEJA REALMENTE ATUALIZAR BASE DE DADOS?");
                 alerta.setNegativeButton("SIM", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        LogProcessoDAO.getInstance().insertLogProcesso("alerta.setNegativeButton(\"SIM\", new DialogInterface.OnClickListener() {\n" +
+                                "                    @Override\n" +
+                                "                    public void onClick(DialogInterface dialog, int which) {", getLocalClassName());
+                        if (connectNetwork) {
 
-                        ConexaoWeb conexaoWeb = new ConexaoWeb();
-
-                        if (conexaoWeb.verificaConexao(OrigemFogoActivity.this)) {
-
+                            LogProcessoDAO.getInstance().insertLogProcesso("if (connectNetwork) {\n" +
+                                    "                            progressBar = new ProgressDialog(OrigemFogoActivity.this);\n" +
+                                    "                            progressBar.setCancelable(true);\n" +
+                                    "                            progressBar.setMessage(\"ATUALIZANDO ...\");\n" +
+                                    "                            progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);\n" +
+                                    "                            progressBar.setProgress(0);\n" +
+                                    "                            progressBar.setMax(100);\n" +
+                                    "                            progressBar.show();\n" +
+                                    "                            pcqContext.getFormularioCTR().atualDadosOrigemFogo(OrigemFogoActivity.this, OrigemFogoActivity.class, progressBar);", getLocalClassName());
                             progressBar = new ProgressDialog(OrigemFogoActivity.this);
                             progressBar.setCancelable(true);
                             progressBar.setMessage("ATUALIZANDO ...");
@@ -97,14 +126,19 @@ public class OrigemFogoActivity extends ActivityGeneric {
                             pcqContext.getFormularioCTR().atualDadosOrigemFogo(OrigemFogoActivity.this, OrigemFogoActivity.class, progressBar);
 
                         } else {
-
+                            LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                                    "                            AlertDialog.Builder alerta = new AlertDialog.Builder(OrigemFogoActivity.this);\n" +
+                                    "                            alerta.setTitle(\"ATENÇÃO\");\n" +
+                                    "                            alerta.setMessage(\"FALHA NA CONEXÃO DE DADOS. O CELULAR ESTA SEM SINAL. POR FAVOR, TENTE NOVAMENTE QUANDO O CELULAR ESTIVE COM SINAL.\");", getLocalClassName());
                             AlertDialog.Builder alerta = new AlertDialog.Builder(OrigemFogoActivity.this);
                             alerta.setTitle("ATENÇÃO");
                             alerta.setMessage("FALHA NA CONEXÃO DE DADOS. O CELULAR ESTA SEM SINAL. POR FAVOR, TENTE NOVAMENTE QUANDO O CELULAR ESTIVE COM SINAL.");
                             alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-
+                                    LogProcessoDAO.getInstance().insertLogProcesso("alerta.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\n" +
+                                            "                                @Override\n" +
+                                            "                                public void onClick(DialogInterface dialog, int which) {", getLocalClassName());
                                 }
                             });
 
@@ -119,7 +153,9 @@ public class OrigemFogoActivity extends ActivityGeneric {
                 alerta.setPositiveButton("NÃO", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        LogProcessoDAO.getInstance().insertLogProcesso("alerta.setPositiveButton(\"NÃO\", new DialogInterface.OnClickListener() {\n" +
+                                "                    @Override\n" +
+                                "                    public void onClick(DialogInterface dialog, int which) {", getLocalClassName());
                     }
                 });
 
@@ -130,15 +166,20 @@ public class OrigemFogoActivity extends ActivityGeneric {
         });
 
         buttonRetOrigemFogo.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
-                if(pcqContext.getTipoTela() == 1) {
+                LogProcessoDAO.getInstance().insertLogProcesso("buttonRetOrigemFogo.setOnClickListener(new View.OnClickListener() {\n" +
+                        "            @Override\n" +
+                        "            public void onClick(View v) {", getLocalClassName());
+                if(pcqContext.getFormularioCTR().verCabecAberto()){
+                    LogProcessoDAO.getInstance().insertLogProcesso("if(pcqContext.getFormularioCTR().verCabecAberto()){\n" +
+                            "                    Intent it = new Intent(OrigemFogoActivity.this, TipoApontTrabActivity.class);", getLocalClassName());
                     Intent it = new Intent(OrigemFogoActivity.this, TipoApontTrabActivity.class);
                     startActivity(it);
                     finish();
-                }
-                else{
+                } else {
+                    LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                            "                    Intent it = new Intent(OrigemFogoActivity.this, RelacaoCabecActivity.class);", getLocalClassName());
                     Intent it = new Intent(OrigemFogoActivity.this, RelacaoCabecActivity.class);
                     startActivity(it);
                     finish();
@@ -147,21 +188,26 @@ public class OrigemFogoActivity extends ActivityGeneric {
         });
 
         buttonAvancaOrigemFogo.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
-
+                LogProcessoDAO.getInstance().insertLogProcesso("buttonAvancaOrigemFogo.setOnClickListener(new View.OnClickListener() {\n" +
+                        "            @Override\n" +
+                        "            public void onClick(View v) {", getLocalClassName());
                 if(posicao > -1) {
-
+                    LogProcessoDAO.getInstance().insertLogProcesso("if(posicao > -1) {\n" +
+                            "                    OrigemFogoBean origemFogoBean = origemFogoList.get(posicao);\n" +
+                            "                    pcqContext.getFormularioCTR().setOrigemFogoCabec(origemFogoBean.getIdOrigemFogo());", getLocalClassName());
                     OrigemFogoBean origemFogoBean = origemFogoList.get(posicao);
-                    pcqContext.getFormularioCTR().setOrigemFogoCabec(origemFogoBean.getIdOrigemFogo(), pcqContext.getTipoTela());
-
-                    if(pcqContext.getTipoTela() == 1) {
+                    pcqContext.getFormularioCTR().setOrigemFogoCabec(origemFogoBean.getIdOrigemFogo());
+                    if(pcqContext.getFormularioCTR().verCabecAberto()){
+                        LogProcessoDAO.getInstance().insertLogProcesso("if(pcqContext.getFormularioCTR().verCabecAberto()){\n" +
+                                "                        Intent it = new Intent(OrigemFogoActivity.this, SecaoActivity.class);", getLocalClassName());
                         Intent it = new Intent(OrigemFogoActivity.this, SecaoActivity.class);
                         startActivity(it);
                         finish();
-                    }
-                    else{
+                    } else {
+                        LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                                "                        Intent it = new Intent(OrigemFogoActivity.this, RelacaoCabecActivity.class);", getLocalClassName());
                         Intent it = new Intent(OrigemFogoActivity.this, RelacaoCabecActivity.class);
                         startActivity(it);
                         finish();

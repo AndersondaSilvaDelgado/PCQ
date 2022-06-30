@@ -8,6 +8,7 @@ import java.util.List;
 
 import br.com.usinasantafe.pcq.model.bean.estaticas.QuestaoBean;
 import br.com.usinasantafe.pcq.model.bean.estaticas.RespBean;
+import br.com.usinasantafe.pcq.model.bean.variaveis.CabecBean;
 import br.com.usinasantafe.pcq.model.bean.variaveis.RespItemBean;
 import br.com.usinasantafe.pcq.model.pst.EspecificaPesquisa;
 import br.com.usinasantafe.pcq.util.Tempo;
@@ -47,10 +48,17 @@ public class RespostaDAO {
         return respBean;
     }
 
-
-    public void salvarItem(RespItemBean respItemBean, Long idCabec){
+    public void salvarAtualizarItem(RespItemBean respItemBean, Long idCabec){
+        ArrayList pesqArrayList = new ArrayList();
+        pesqArrayList.add(getPesqIdCabec(idCabec));
+        pesqArrayList.add(getPesqIdQuestao(respItemBean.getIdQuestao()));
+        List<RespItemBean> itemList = respItemBean.get(pesqArrayList);
+        for (RespItemBean respItemBeanBD : itemList) {
+            respItemBeanBD.delete();
+        }
+        itemList.clear();
         respItemBean.setIdCabec(idCabec);
-        respItemBean.setDthrItem(Tempo.getInstance().dataComHora());
+        respItemBean.setDthrItem(Tempo.getInstance().dthrAtualString());
         respItemBean.insert();
     }
 
@@ -61,32 +69,10 @@ public class RespostaDAO {
         return respItemBean.getAndOrderBy(pesqArrayList, "seqQuestao",true);
     }
 
-    public JsonArray dadosEnvioItem(Long idCabec){
-        List<RespItemBean> itemList = respItemList(idCabec);
-        JsonArray itemJsonArray = new JsonArray();
-        for (RespItemBean respItemBeanBD : itemList) {
-            Gson itemGson = new Gson();
-            itemJsonArray.add(itemGson.toJsonTree(respItemBeanBD, respItemBeanBD.getClass()));
-        }
-        itemList.clear();
-        return itemJsonArray;
-    }
-
     public void delItem(Long idCabec){
         ArrayList pesqArrayList = new ArrayList();
         pesqArrayList.add(getPesqIdCabec(idCabec));
         RespItemBean respItemBean = new RespItemBean();
-        List<RespItemBean> itemList = respItemBean.get(pesqArrayList);
-        for (RespItemBean respItemBeanBD : itemList) {
-            respItemBeanBD.delete();
-        }
-        itemList.clear();
-    }
-
-    public void delItem(RespItemBean respItemBean, Long idCabec){
-        ArrayList pesqArrayList = new ArrayList();
-        pesqArrayList.add(getPesqIdCabec(idCabec));
-        pesqArrayList.add(getPesqIdQuestao(respItemBean.getIdQuestao()));
         List<RespItemBean> itemList = respItemBean.get(pesqArrayList);
         for (RespItemBean respItemBeanBD : itemList) {
             respItemBeanBD.delete();
@@ -108,6 +94,22 @@ public class RespostaDAO {
         pesquisa.setValor(idQuestao);
         pesquisa.setTipo(1);
         return pesquisa;
+    }
+
+    public ArrayList<String> respostaAllArrayList(ArrayList<String> dadosArrayList){
+        dadosArrayList.add("RESPOSTA");
+        RespBean respBean = new RespBean();
+        List<RespBean> cabecList = respBean.orderBy("idResp", true);
+        for (RespBean respBeanBD : cabecList) {
+            dadosArrayList.add(dadosResp(respBeanBD));
+        }
+        cabecList.clear();
+        return dadosArrayList;
+    }
+
+    private String dadosResp(RespBean respBean){
+        Gson gsonCabec = new Gson();
+        return gsonCabec.toJsonTree(respBean, respBean.getClass()).toString();
     }
 
 }

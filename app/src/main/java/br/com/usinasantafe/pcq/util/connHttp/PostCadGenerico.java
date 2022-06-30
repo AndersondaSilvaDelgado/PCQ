@@ -97,22 +97,22 @@ public class PostCadGenerico extends AsyncTask<String, Void, String> {
 
 		try {
 
-			Log.i("PCQ", "VALOR RECEBIDO --> " + result);
-			if(result.trim().equals("GRAVOU-COMPLETO")){
-				FormularioCTR formularioCTR = new FormularioCTR();
-				formularioCTR.delFormFinalizado();
-			}
-			else if(result.trim().equals("GRAVOU-COMPLEMENTAR")){
-				FormularioCTR formularioCTR = new FormularioCTR();
-				formularioCTR.delFormFinalRecebido();
-			}
-			else{
-				EnvioDadosServ.getInstance().setEnviando(false);
-			}
+//			Log.i("PCQ", "VALOR RECEBIDO --> " + result);
+//			if(result.trim().equals("GRAVOU-COMPLETO")){
+//				FormularioCTR formularioCTR = new FormularioCTR();
+//				formularioCTR.delFormFinalizado();
+//			}
+//			else if(result.trim().equals("GRAVOU-COMPLEMENTAR")){
+//				FormularioCTR formularioCTR = new FormularioCTR();
+//				formularioCTR.delFormFinalRecebido();
+//			}
+//			else{
+//				EnvioDadosServ.getInstance().setEnviando(false);
+//			}
 
 		} catch (Exception e) {
-
 			Log.i("PMM", "Erro2 = " + e);
+			EnvioDadosServ.getInstance().setEnviando(false);
 		}
 		
     }

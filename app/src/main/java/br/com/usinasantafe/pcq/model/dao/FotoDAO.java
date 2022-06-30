@@ -12,6 +12,7 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.usinasantafe.pcq.model.bean.variaveis.EquipItemBean;
 import br.com.usinasantafe.pcq.model.bean.variaveis.FotoItemBean;
 import br.com.usinasantafe.pcq.model.pst.EspecificaPesquisa;
 import br.com.usinasantafe.pcq.util.Tempo;
@@ -25,7 +26,7 @@ public class FotoDAO {
         FotoItemBean fotoItemBean = new FotoItemBean();
         fotoItemBean.setIdCabec(idCabAbord);
         fotoItemBean.setFoto(getBitmapString(bitmap));
-        fotoItemBean.setDthrFoto(Tempo.getInstance().dataComHora());
+        fotoItemBean.setDthrFoto(Tempo.getInstance().dthrAtualString());
         fotoItemBean.setTipoFoto(tipoFoto);
         fotoItemBean.insert();
         return fotoItemBean;
@@ -73,6 +74,11 @@ public class FotoDAO {
         }
     }
 
+    public List<FotoItemBean> fotoItemList(Long idCabec){
+        FotoItemBean fotoItemBean = new FotoItemBean();
+        return fotoItemBean.get("idCabec", idCabec);
+    }
+
     public JsonArray dadosEnvioFoto(Long idCabec){
         FotoItemBean fotoItemBean = new FotoItemBean();
         List<FotoItemBean> fotoList = fotoItemBean.get("idCabec", idCabec);
@@ -100,6 +106,22 @@ public class FotoDAO {
         especificaPesquisa.setValor(tipoFoto);
         especificaPesquisa.setTipo(1);
         return especificaPesquisa;
+    }
+
+    public ArrayList<String> fotoItemAllArrayList(ArrayList<String> dadosArrayList){
+        dadosArrayList.add("FOTO");
+        FotoItemBean fotoItemBean = new FotoItemBean();
+        List<FotoItemBean> fotoItemList = fotoItemBean.orderBy("idFotoItem", true);
+        for (FotoItemBean fotoItemBeanBD : fotoItemList) {
+            dadosArrayList.add(dadosFoto(fotoItemBeanBD));
+        }
+        fotoItemList.clear();
+        return dadosArrayList;
+    }
+
+    private String dadosFoto(FotoItemBean fotoItemBean){
+        Gson gsonCabec = new Gson();
+        return gsonCabec.toJsonTree(fotoItemBean, fotoItemBean.getClass()).toString();
     }
 
 }

@@ -15,7 +15,7 @@ public class PCQContext extends Application {
     private int tipoFoto;
     // 1 - Foto da Camera
     // 2 - Foto da Galeria
-    private int tipoTela;
+//    private int tipoTela;
     // 1 - Fluxo Normal
     // 2 - Relação
     // 3 - Formulário para Reajuste
@@ -49,13 +49,13 @@ public class PCQContext extends Application {
         this.posCameraTela = posCameraTela;
     }
 
-    public int getTipoTela() {
-        return tipoTela;
-    }
-
-    public void setTipoTela(int tipoTela) {
-        this.tipoTela = tipoTela;
-    }
+//    public int getTipoTela() {
+//        return tipoTela;
+//    }
+//
+//    public void setTipoTela(int tipoTela) {
+//        this.tipoTela = tipoTela;
+//    }
 
     public int getTipoFoto() {
         return tipoFoto;

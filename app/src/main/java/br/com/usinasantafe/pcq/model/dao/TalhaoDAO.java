@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.usinasantafe.pcq.model.bean.estaticas.TalhaoBean;
+import br.com.usinasantafe.pcq.model.bean.variaveis.FotoItemBean;
 import br.com.usinasantafe.pcq.model.bean.variaveis.TalhaoItemBean;
 import br.com.usinasantafe.pcq.util.Tempo;
 
@@ -26,26 +27,13 @@ public class TalhaoDAO {
             TalhaoItemBean talhaoItemBean = new TalhaoItemBean();
             talhaoItemBean.setIdCabec(idCabec);
             talhaoItemBean.setIdTalhao(talhaoCabec.get(i));
-            talhaoItemBean.setDthrTalhao(Tempo.getInstance().dataComHora());
+            talhaoItemBean.setDthrTalhao(Tempo.getInstance().dthrAtualString());
             talhaoItemBean.setTipoTalhao(1L);
             talhaoItemBean.setHaIncCanaTalhao(0D);
             talhaoItemBean.setAltCanaTalhao(1L);
             talhaoItemBean.setHaIncPalhadaTalhao(0D);
             talhaoItemBean.insert();
         }
-    }
-
-    public JsonArray dadosEnvioTalhao(Long idCabec){
-        TalhaoItemBean talhaoBean = new TalhaoItemBean();
-        List<TalhaoItemBean> talhaoList = talhaoBean.get("idCabec", idCabec);
-        JsonArray talhaoJsonArray = new JsonArray();
-        for (int i = 0; i < talhaoList.size(); i++) {
-            talhaoBean = talhaoList.get(i);
-            Gson cabecGson = new Gson();
-            talhaoJsonArray.add(cabecGson.toJsonTree(talhaoBean, talhaoBean.getClass()));
-        }
-        talhaoList.clear();
-        return talhaoJsonArray;
     }
 
     public void delTalhao(Long idCabec){
@@ -69,14 +57,6 @@ public class TalhaoDAO {
         return talhaoBean;
     }
 
-    public TalhaoItemBean getTalhaoItem(Long idTalhaoItem){
-        TalhaoItemBean talhaoItemBean = new TalhaoItemBean();
-        List<TalhaoItemBean> talhaoItemList = talhaoItemBean.get("idTalhaoItem", idTalhaoItem);
-        talhaoItemBean = talhaoItemList.get(0);
-        talhaoItemList.clear();
-        return talhaoItemBean;
-    }
-
     public void setTipoTalhao(Long tipoTalhao, TalhaoItemBean talhaoItemBean){
         talhaoItemBean.setTipoTalhao(tipoTalhao);
         talhaoItemBean.update();
@@ -95,6 +75,22 @@ public class TalhaoDAO {
     public void setHaIncPalhadaTalhao(Double haIncPalhadaTalhao, TalhaoItemBean talhaoItemBean){
         talhaoItemBean.setHaIncPalhadaTalhao(haIncPalhadaTalhao);
         talhaoItemBean.update();
+    }
+
+    public ArrayList<String> talhaoItemAllArrayList(ArrayList<String> dadosArrayList){
+        dadosArrayList.add("FOTO");
+        TalhaoItemBean talhaoItemBean = new TalhaoItemBean();
+        List<TalhaoItemBean> fotoItemList = talhaoItemBean.orderBy("idTalhaoItem", true);
+        for (TalhaoItemBean talhaoItemBeanBD : fotoItemList) {
+            dadosArrayList.add(dadosTalhao(talhaoItemBeanBD));
+        }
+        fotoItemList.clear();
+        return dadosArrayList;
+    }
+
+    private String dadosTalhao(TalhaoItemBean talhaoItemBean){
+        Gson gsonCabec = new Gson();
+        return gsonCabec.toJsonTree(talhaoItemBean, talhaoItemBean.getClass()).toString();
     }
 
 }

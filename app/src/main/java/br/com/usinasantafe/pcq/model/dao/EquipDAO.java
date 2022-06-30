@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.usinasantafe.pcq.model.bean.estaticas.EquipBean;
+import br.com.usinasantafe.pcq.model.bean.variaveis.BrigadistaItemBean;
 import br.com.usinasantafe.pcq.model.bean.variaveis.EquipItemBean;
 import br.com.usinasantafe.pcq.model.pst.EspecificaPesquisa;
 import br.com.usinasantafe.pcq.util.Tempo;
@@ -63,7 +64,7 @@ public class EquipDAO {
             equipItemBean.setIdCabec(idCabec);
             equipItemBean.setIdEquip(idTanque);
             equipItemBean.setTipoEquip(1L);
-            equipItemBean.setDthrEquip(Tempo.getInstance().dataComHora());
+            equipItemBean.setDthrEquip(Tempo.getInstance().dthrAtualString());
             equipItemBean.insert();
         }
     }
@@ -75,9 +76,14 @@ public class EquipDAO {
             equipItemBean.setIdCabec(idCabec);
             equipItemBean.setIdEquip(idSaveiro);
             equipItemBean.setTipoEquip(2L);
-            equipItemBean.setDthrEquip(Tempo.getInstance().dataComHora());
+            equipItemBean.setDthrEquip(Tempo.getInstance().dthrAtualString());
             equipItemBean.insert();
         }
+    }
+
+    public List<EquipItemBean> equipItemList(Long idCabec){
+        EquipItemBean equipItemBean = new EquipItemBean();
+        return equipItemBean.get("idCabec", idCabec);
     }
 
     public JsonArray dadosEnvioEquip(Long idCabec){
@@ -149,4 +155,19 @@ public class EquipDAO {
         return pesquisa;
     }
 
+    public ArrayList<String> equipItemAllArrayList(ArrayList<String> dadosArrayList){
+        dadosArrayList.add("EQUIP");
+        EquipItemBean equipItemBean = new EquipItemBean();
+        List<EquipItemBean> equipItemList = equipItemBean.orderBy("idItemEquip", true);
+        for (EquipItemBean equipItemBeanBD : equipItemList) {
+            dadosArrayList.add(dadosEquip(equipItemBeanBD));
+        }
+        equipItemList.clear();
+        return dadosArrayList;
+    }
+
+    private String dadosEquip(EquipItemBean equipItemBean){
+        Gson gsonCabec = new Gson();
+        return gsonCabec.toJsonTree(equipItemBean, equipItemBean.getClass()).toString();
+    }
 }

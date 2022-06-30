@@ -13,12 +13,12 @@ import br.com.usinasantafe.pcq.R;
 import br.com.usinasantafe.pcq.control.FormularioCTR;
 import br.com.usinasantafe.pcq.model.bean.variaveis.CabecBean;
 
-public class AdapterListFormReaj extends BaseAdapter {
+public class AdapterListFormRecebido extends BaseAdapter {
 
     private List itens;
     private LayoutInflater layoutInflater;
 
-    public AdapterListFormReaj(Context context, List itens) {
+    public AdapterListFormRecebido(Context context, List itens) {
         this.itens = itens;
         layoutInflater = LayoutInflater.from(context);
     }
@@ -41,7 +41,7 @@ public class AdapterListFormReaj extends BaseAdapter {
     @Override
     public View getView(int position, View view, ViewGroup parent) {
 
-        view = layoutInflater.inflate(R.layout.activity_item_form_reaj, null);
+        view = layoutInflater.inflate(R.layout.activity_item_form_recebido, null);
         TextView textViewIdExtCabec = (TextView) view.findViewById(R.id.textViewIdExtCabec);
         TextView textViewFuncionario = (TextView) view.findViewById(R.id.textViewFuncionario);
         TextView textViewSecao = (TextView) view.findViewById(R.id.textViewSecao);

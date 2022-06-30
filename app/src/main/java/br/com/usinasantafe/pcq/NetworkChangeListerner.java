@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import com.j256.ormlite.field.DatabaseField;
-
 import java.util.List;
 
 import br.com.usinasantafe.pcq.model.bean.variaveis.BrigadistaItemBean;
@@ -15,24 +13,32 @@ import br.com.usinasantafe.pcq.model.bean.variaveis.EquipItemBean;
 import br.com.usinasantafe.pcq.model.bean.variaveis.FotoItemBean;
 import br.com.usinasantafe.pcq.model.bean.variaveis.RespItemBean;
 import br.com.usinasantafe.pcq.model.bean.variaveis.TalhaoItemBean;
+import br.com.usinasantafe.pcq.model.dao.LogProcessoDAO;
 import br.com.usinasantafe.pcq.model.pst.DatabaseHelper;
+import br.com.usinasantafe.pcq.util.ConnectNetwork;
 import br.com.usinasantafe.pcq.util.EnvioDadosServ;
 import br.com.usinasantafe.pcq.util.Tempo;
+import br.com.usinasantafe.pcq.view.ActivityGeneric;
 
-public class TimerAlarme extends BroadcastReceiver {
+public class NetworkChangeListerner extends BroadcastReceiver {
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
-
-		if(DatabaseHelper.getInstance() == null){
-			new DatabaseHelper(context);
+		Log.i("PST", "DATA HORA = " + Tempo.getInstance().dtAtualString());
+		if(ConnectNetwork.isConnected(context)){
+			ActivityGeneric.connectNetwork = true;
+			LogProcessoDAO.getInstance().insertLogProcesso("if(ConnectNetwork.isConnected(context)){\n" +
+					"            ActivityGeneric.connectNetwork = true;", context.getClass().getName());
+			if (EnvioDadosServ.status == 1) {
+				LogProcessoDAO.getInstance().insertLogProcesso("if (EnvioDadosServ.status == 1) {\n" +
+						"EnvioDadosServ.getInstance().envioDados(context.getClass().getName());", context.getClass().getName());
+				EnvioDadosServ.getInstance().envioDados(context.getClass().getName());
+			}
 		}
-
-//		teste();
-		Log.i("PST", "DATA HORA = " + Tempo.getInstance().dataComHora());
-		if(EnvioDadosServ.getInstance().verifDadosEnvio()){
-			Log.i("PST", "ENVIANDO");
-			EnvioDadosServ.getInstance().envioFormComum(context);
+		else{
+			LogProcessoDAO.getInstance().insertLogProcesso("else{\n" +
+					"            ActivityGeneric.connectNetwork = false;", context.getClass().getName());
+			ActivityGeneric.connectNetwork = false;
 		}
 	}
 

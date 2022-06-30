@@ -48,6 +48,7 @@ public class GetBDGenerico extends AsyncTask<String, Void, String> {
                }
             }
 
+			Log.i("PCQ", "URL = " + url);
 			URL urlCon = new URL(url);
 			HttpURLConnection connection = (HttpURLConnection) urlCon.openConnection();
 			connection.setRequestMethod("GET");

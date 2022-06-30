@@ -12,6 +12,7 @@ import java.util.Calendar;
 
 import br.com.usinasantafe.pcq.PCQContext;
 import br.com.usinasantafe.pcq.R;
+import br.com.usinasantafe.pcq.model.dao.LogProcessoDAO;
 
 public class DataActivity extends ActivityGeneric {
 
@@ -28,9 +29,9 @@ public class DataActivity extends ActivityGeneric {
         pcqContext = (PCQContext) getApplication();
 
         initDatePicker();
-        editTextData = (Button) findViewById(R.id.editTextData);
-        Button buttonSalvarData = (Button) findViewById(R.id.buttonSalvarData);
-        Button buttonCancData = (Button) findViewById(R.id.buttonCancData);
+        editTextData = findViewById(R.id.editTextData);
+        Button buttonSalvarData = findViewById(R.id.buttonSalvarData);
+        Button buttonCancData = findViewById(R.id.buttonCancData);
 
         editTextData.setText(getTodaysDate());
 
@@ -38,14 +39,20 @@ public class DataActivity extends ActivityGeneric {
             @Override
             public void onClick(View v) {
 
-                pcqContext.getFormularioCTR().setDataInsCabec(editTextData.getText().toString(), pcqContext.getTipoTela());
-
-                if(pcqContext.getTipoTela() == 1) {
+                LogProcessoDAO.getInstance().insertLogProcesso("buttonSalvarData.setOnClickListener(new View.OnClickListener() {\n" +
+                        "            @Override\n" +
+                        "            public void onClick(View v) {\n" +
+                        "                pcqContext.getFormularioCTR().setDataInsCabec(editTextData.getText().toString());", getLocalClassName());
+                pcqContext.getFormularioCTR().setDataInsCabec(editTextData.getText().toString());
+                if(pcqContext.getFormularioCTR().verCabecAberto()){
+                    LogProcessoDAO.getInstance().insertLogProcesso("if(pcqContext.getFormularioCTR().verCabecAberto()){\n" +
+                            "                    Intent it = new Intent(DataActivity.this, ColabActivity.class);", getLocalClassName());
                     Intent it = new Intent(DataActivity.this, ColabActivity.class);
                     startActivity(it);
                     finish();
-                }
-                else{
+                } else {
+                    LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                            "                    Intent it = new Intent(DataActivity.this, RelacaoCabecActivity.class);", getLocalClassName());
                     Intent it = new Intent(DataActivity.this, RelacaoCabecActivity.class);
                     startActivity(it);
                     finish();
@@ -57,13 +64,18 @@ public class DataActivity extends ActivityGeneric {
         buttonCancData.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if(pcqContext.getTipoTela() == 1){
+                LogProcessoDAO.getInstance().insertLogProcesso("buttonCancData.setOnClickListener(new View.OnClickListener() {\n" +
+                        "            @Override\n" +
+                        "            public void onClick(View v) {", getLocalClassName());
+                if(pcqContext.getFormularioCTR().verCabecAberto()){
+                    LogProcessoDAO.getInstance().insertLogProcesso("if(pcqContext.getFormularioCTR().verCabecAberto()){\n" +
+                            "                    Intent it = new Intent(DataActivity.this, MenuInicialActivity.class);", getLocalClassName());
                     Intent it = new Intent(DataActivity.this, MenuInicialActivity.class);
                     startActivity(it);
                     finish();
-                }
-                else{
+                } else {
+                    LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                            "                    Intent it = new Intent(DataActivity.this, RelacaoCabecActivity.class);", getLocalClassName());
                     Intent it = new Intent(DataActivity.this, RelacaoCabecActivity.class);
                     startActivity(it);
                     finish();
@@ -77,8 +89,14 @@ public class DataActivity extends ActivityGeneric {
     public void onBackPressed() {
     }
 
-    private String getTodaysDate()
-    {
+    private String getTodaysDate() {
+        LogProcessoDAO.getInstance().insertLogProcesso("private String getTodaysDate() {\n" +
+                "        Calendar cal = Calendar.getInstance();\n" +
+                "        int year = cal.get(Calendar.YEAR);\n" +
+                "        int month = cal.get(Calendar.MONTH);\n" +
+                "        month = month + 1;\n" +
+                "        int day = cal.get(Calendar.DAY_OF_MONTH);\n" +
+                "        return makeDateString(day, month, year);", getLocalClassName());
         Calendar cal = Calendar.getInstance();
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH);
@@ -87,19 +105,29 @@ public class DataActivity extends ActivityGeneric {
         return makeDateString(day, month, year);
     }
 
-    private void initDatePicker()
-    {
-        DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener()
-        {
+    private void initDatePicker() {
+        LogProcessoDAO.getInstance().insertLogProcesso("private void initDatePicker() {", getLocalClassName());
+        DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
-            public void onDateSet(DatePicker datePicker, int year, int month, int day)
-            {
+            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                LogProcessoDAO.getInstance().insertLogProcesso("DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {\n" +
+                        "            @Override\n" +
+                        "            public void onDateSet(DatePicker datePicker, int year, int month, int day) {\n" +
+                        "                month = month + 1;\n" +
+                        "                String date = makeDateString(day, month, year);\n" +
+                        "                editTextData.setText(date);", getLocalClassName());
                 month = month + 1;
                 String date = makeDateString(day, month, year);
                 editTextData.setText(date);
             }
         };
 
+        LogProcessoDAO.getInstance().insertLogProcesso("Calendar cal = Calendar.getInstance();\n" +
+                "        int year = cal.get(Calendar.YEAR);\n" +
+                "        int month = cal.get(Calendar.MONTH);\n" +
+                "        int day = cal.get(Calendar.DAY_OF_MONTH);\n" +
+                "        int style = AlertDialog.THEME_HOLO_LIGHT;\n" +
+                "        datePickerDialog = new DatePickerDialog(this, style, dateSetListener, year, month, day);", getLocalClassName());
         Calendar cal = Calendar.getInstance();
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH);
@@ -111,13 +139,15 @@ public class DataActivity extends ActivityGeneric {
 
     }
 
-    private String makeDateString(int day, int month, int year)
-    {
+    private String makeDateString(int day, int month, int year) {
+        LogProcessoDAO.getInstance().insertLogProcesso("private String makeDateString(int day, int month, int year) {\n" +
+                "        return String.format(\"%02d\", day) + \"/\" +  String.format(\"%02d\", month) + \"/\" + year;", getLocalClassName());
         return String.format("%02d", day) + "/" +  String.format("%02d", month) + "/" + year;
     }
 
-    public void openDatePicker(View view)
-    {
+    public void openDatePicker(View view) {
+        LogProcessoDAO.getInstance().insertLogProcesso("public void openDatePicker(View view) {\n" +
+                "        datePickerDialog.show();", getLocalClassName());
         datePickerDialog.show();
     }
 

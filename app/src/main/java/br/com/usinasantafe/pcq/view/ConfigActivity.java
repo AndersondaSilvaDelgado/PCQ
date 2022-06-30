@@ -11,7 +11,7 @@ import android.widget.EditText;
 
 import br.com.usinasantafe.pcq.PCQContext;
 import br.com.usinasantafe.pcq.R;
-import br.com.usinasantafe.pcq.util.ConexaoWeb;
+import br.com.usinasantafe.pcq.model.dao.LogProcessoDAO;
 
 public class ConfigActivity extends ActivityGeneric {
 
@@ -24,13 +24,16 @@ public class ConfigActivity extends ActivityGeneric {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_config);
 
-        Button buttonSalvarConfig =  (Button) findViewById(R.id.buttonSalvarConfig );
-        Button buttonCancConfig = (Button) findViewById(R.id.buttonCancConfig);
-        Button buttonAtualizarConfig = (Button) findViewById(R.id.buttonAtualizarBD);
-        editTextAparelhoConfig = (EditText)  findViewById(R.id.editTextAparelhoConfig);
+        Button buttonSalvarConfig =  findViewById(R.id.buttonSalvarConfig );
+        Button buttonCancConfig = findViewById(R.id.buttonCancConfig);
+        Button buttonAtualizarConfig = findViewById(R.id.buttonAtualizarBD);
+        editTextAparelhoConfig = findViewById(R.id.editTextAparelhoConfig);
 
         pcqContext = (PCQContext) getApplication();
 
+        LogProcessoDAO.getInstance().insertLogProcesso("if (pcqContext.getConfigCTR().hasElements()) {\n" +
+                "            editTextAparelhoConfig.setText(String.valueOf(pcqContext.getConfigCTR().getConfig().getNroAparelhoConfig()));\n" +
+                "        }", getLocalClassName());
         if (pcqContext.getConfigCTR().hasElements()) {
             editTextAparelhoConfig.setText(String.valueOf(pcqContext.getConfigCTR().getConfig().getNroAparelhoConfig()));
         }
@@ -38,11 +41,14 @@ public class ConfigActivity extends ActivityGeneric {
         buttonSalvarConfig.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                LogProcessoDAO.getInstance().insertLogProcesso("buttonSalvarConfig.setOnClickListener(new View.OnClickListener() {\n" +
+                        "            @Override\n" +
+                        "            public void onClick(View v) {", getLocalClassName());
                 if(!editTextAparelhoConfig.getText().toString().equals("")){
-
+                    LogProcessoDAO.getInstance().insertLogProcesso("if(!editTextAparelhoConfig.getText().toString().equals(\"\")){\n" +
+                            "                    pcqContext.getConfigCTR().salvarConfig(Long.parseLong(editTextAparelhoConfig.getText().toString()));\n" +
+                            "                    Intent it = new Intent(ConfigActivity.this, MenuInicialActivity.class);", getLocalClassName());
                     pcqContext.getConfigCTR().salvarConfig(Long.parseLong(editTextAparelhoConfig.getText().toString()));
-
                     Intent it = new Intent(ConfigActivity.this, MenuInicialActivity.class);
                     startActivity(it);
                     finish();
@@ -55,7 +61,10 @@ public class ConfigActivity extends ActivityGeneric {
         buttonCancConfig.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                LogProcessoDAO.getInstance().insertLogProcesso("buttonCancConfig.setOnClickListener(new View.OnClickListener() {\n" +
+                        "            @Override\n" +
+                        "            public void onClick(View v) {\n" +
+                        "                Intent it = new Intent(ConfigActivity.this, MenuInicialActivity.class);", getLocalClassName());
                 Intent it = new Intent(ConfigActivity.this, MenuInicialActivity.class);
                 startActivity(it);
                 finish();
@@ -66,11 +75,20 @@ public class ConfigActivity extends ActivityGeneric {
         buttonAtualizarConfig.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                LogProcessoDAO.getInstance().insertLogProcesso("buttonAtualizarConfig.setOnClickListener(new View.OnClickListener() {\n" +
+                        "            @Override\n" +
+                        "            public void onClick(View v) {", getLocalClassName());
+                if (connectNetwork) {
 
-                ConexaoWeb conexaoWeb = new ConexaoWeb();
-
-                if(conexaoWeb.verificaConexao(ConfigActivity.this)){
-
+                    LogProcessoDAO.getInstance().insertLogProcesso("if (connectNetwork) {\n" +
+                            "                    progressBar = new ProgressDialog(v.getContext());\n" +
+                            "                    progressBar.setCancelable(true);\n" +
+                            "                    progressBar.setMessage(\"ATUALIZANDO ...\");\n" +
+                            "                    progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);\n" +
+                            "                    progressBar.setProgress(0);\n" +
+                            "                    progressBar.setMax(100);\n" +
+                            "                    progressBar.show();\n" +
+                            "                    pcqContext.getConfigCTR().atualTodasTabelas(ConfigActivity.this, progressBar);", getLocalClassName());
                     progressBar = new ProgressDialog(v.getContext());
                     progressBar.setCancelable(true);
                     progressBar.setMessage("ATUALIZANDO ...");
@@ -81,15 +99,20 @@ public class ConfigActivity extends ActivityGeneric {
 
                     pcqContext.getConfigCTR().atualTodasTabelas(ConfigActivity.this, progressBar);
 
-                }
-                else{
+                } else {
+                    LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                            "                    AlertDialog.Builder alerta = new AlertDialog.Builder(ConfigActivity.this);\n" +
+                            "                    alerta.setTitle(\"ATENÇÃO\");\n" +
+                            "                    alerta.setMessage(\"FALHA NA CONEXÃO DE DADOS. O CELULAR ESTA SEM SINAL. POR FAVOR, TENTE NOVAMENTE QUANDO O CELULAR ESTIVE COM SINAL.\");", getLocalClassName());
                     AlertDialog.Builder alerta = new AlertDialog.Builder(ConfigActivity.this);
                     alerta.setTitle("ATENÇÃO");
                     alerta.setMessage("FALHA NA CONEXÃO DE DADOS. O CELULAR ESTA SEM SINAL. POR FAVOR, TENTE NOVAMENTE QUANDO O CELULAR ESTIVE COM SINAL.");
                     alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-
+                            LogProcessoDAO.getInstance().insertLogProcesso("alerta.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\n" +
+                                    "                        @Override\n" +
+                                    "                        public void onClick(DialogInterface dialog, int which) {", getLocalClassName());
                         }
                     });
 

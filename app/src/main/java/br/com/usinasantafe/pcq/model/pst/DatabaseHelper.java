@@ -24,13 +24,14 @@ import br.com.usinasantafe.pcq.model.bean.variaveis.ConfigBean;
 import br.com.usinasantafe.pcq.model.bean.variaveis.EquipItemBean;
 import br.com.usinasantafe.pcq.model.bean.variaveis.FotoItemBean;
 import br.com.usinasantafe.pcq.model.bean.variaveis.LogErroBean;
+import br.com.usinasantafe.pcq.model.bean.variaveis.LogProcessoBean;
 import br.com.usinasantafe.pcq.model.bean.variaveis.RespItemBean;
 import br.com.usinasantafe.pcq.model.bean.variaveis.TalhaoItemBean;
 
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
 	public static final String FORCA_DB_NAME = "pcq_db";
-	public static final int FORCA_BD_VERSION = 1;
+	public static final int FORCA_BD_VERSION = 2;
 
 	private static DatabaseHelper instance;
 
@@ -72,6 +73,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 			TableUtils.createTable(cs, EquipItemBean.class);
 			TableUtils.createTable(cs, FotoItemBean.class);
 			TableUtils.createTable(cs, LogErroBean.class);
+			TableUtils.createTable(cs, LogProcessoBean.class);
 			TableUtils.createTable(cs, RespItemBean.class);
 			TableUtils.createTable(cs, TalhaoItemBean.class);
 
@@ -93,8 +95,49 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 		try {
 			
 			if(oldVersion == 1 && newVersion == 2){
-//				TableUtils.createTable(cs, ConfigBean.class);
-				oldVersion = 2;
+
+				TableUtils.dropTable(cs, BrigadistaBean.class, true);
+				TableUtils.dropTable(cs, ColabBean.class, true);
+				TableUtils.dropTable(cs, EquipBean.class, true);
+				TableUtils.dropTable(cs, OrigemFogoBean.class, true);
+				TableUtils.dropTable(cs, QuestaoBean.class, true);
+				TableUtils.dropTable(cs, RespBean.class, true);
+				TableUtils.dropTable(cs, SecaoBean.class, true);
+				TableUtils.dropTable(cs, TalhaoBean.class, true);
+				TableUtils.dropTable(cs, TercCombBean.class, true);
+				TableUtils.dropTable(cs, TipoApontBean.class, true);
+
+				TableUtils.dropTable(cs, BrigadistaItemBean.class, true);
+				TableUtils.dropTable(cs, CabecBean.class, true);
+				TableUtils.dropTable(cs, ConfigBean.class, true);
+				TableUtils.dropTable(cs, EquipItemBean.class, true);
+				TableUtils.dropTable(cs, FotoItemBean.class, true);
+				TableUtils.dropTable(cs, LogErroBean.class, true);
+				TableUtils.dropTable(cs, LogProcessoBean.class, true);
+				TableUtils.dropTable(cs, RespItemBean.class, true);
+				TableUtils.dropTable(cs, TalhaoItemBean.class, true);
+
+				TableUtils.createTable(cs, BrigadistaBean.class);
+				TableUtils.createTable(cs, ColabBean.class);
+				TableUtils.createTable(cs, EquipBean.class);
+				TableUtils.createTable(cs, OrigemFogoBean.class);
+				TableUtils.createTable(cs, QuestaoBean.class);
+				TableUtils.createTable(cs, RespBean.class);
+				TableUtils.createTable(cs, SecaoBean.class);
+				TableUtils.createTable(cs, TalhaoBean.class);
+				TableUtils.createTable(cs, TercCombBean.class);
+				TableUtils.createTable(cs, TipoApontBean.class);
+
+				TableUtils.createTable(cs, BrigadistaItemBean.class);
+				TableUtils.createTable(cs, CabecBean.class);
+				TableUtils.createTable(cs, ConfigBean.class);
+				TableUtils.createTable(cs, EquipItemBean.class);
+				TableUtils.createTable(cs, FotoItemBean.class);
+				TableUtils.createTable(cs, LogErroBean.class);
+				TableUtils.createTable(cs, LogProcessoBean.class);
+				TableUtils.createTable(cs, RespItemBean.class);
+				TableUtils.createTable(cs, TalhaoItemBean.class);
+
 			}
 			
 			

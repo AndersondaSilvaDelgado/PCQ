@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.usinasantafe.pcq.model.bean.estaticas.BrigadistaBean;
+import br.com.usinasantafe.pcq.model.bean.estaticas.RespBean;
 import br.com.usinasantafe.pcq.model.bean.variaveis.BrigadistaItemBean;
 import br.com.usinasantafe.pcq.model.pst.EspecificaPesquisa;
 import br.com.usinasantafe.pcq.util.Tempo;
@@ -44,22 +45,9 @@ public class BrigadistaDAO {
             BrigadistaItemBean brigadistaItemBean = new BrigadistaItemBean();
             brigadistaItemBean.setIdCabec(idCabec);
             brigadistaItemBean.setIdFunc(brigadistaCabec.get(i));
-            brigadistaItemBean.setDthrBrigadista(Tempo.getInstance().dataComHora());
+            brigadistaItemBean.setDthrBrigadista(Tempo.getInstance().dthrAtualString());
             brigadistaItemBean.insert();
         }
-    }
-
-    public JsonArray dadosEnvioBrigadista(Long idCabec){
-        BrigadistaItemBean brigadistaItemBean = new BrigadistaItemBean();
-        List<BrigadistaItemBean> brigadistaList = brigadistaItemBean.get("idCabec", idCabec);
-        JsonArray brigadistaJsonArray = new JsonArray();
-        for (int i = 0; i < brigadistaList.size(); i++) {
-            brigadistaItemBean = brigadistaList.get(i);
-            Gson cabecGson = new Gson();
-            brigadistaJsonArray.add(cabecGson.toJsonTree(brigadistaItemBean, brigadistaItemBean.getClass()));
-        }
-        brigadistaList.clear();
-        return brigadistaJsonArray;
     }
 
     public void delBrigadista(Long idCabec){
@@ -85,6 +73,22 @@ public class BrigadistaDAO {
         pesquisa.setValor(idCabec);
         pesquisa.setTipo(1);
         return pesquisa;
+    }
+
+    public ArrayList<String> brigadistaItemAllArrayList(ArrayList<String> dadosArrayList){
+        dadosArrayList.add("BRIGADISTA");
+        BrigadistaItemBean brigadistaItemBean = new BrigadistaItemBean();
+        List<BrigadistaItemBean> brigadistaItemList = brigadistaItemBean.orderBy("idBrigadistaItem", true);
+        for (BrigadistaItemBean brigadistaItemBeanBD : brigadistaItemList) {
+            dadosArrayList.add(dadosBrigadista(brigadistaItemBeanBD));
+        }
+        brigadistaItemList.clear();
+        return dadosArrayList;
+    }
+
+    private String dadosBrigadista(BrigadistaItemBean brigadistaItemBean){
+        Gson gsonCabec = new Gson();
+        return gsonCabec.toJsonTree(brigadistaItemBean, brigadistaItemBean.getClass()).toString();
     }
 
 }

@@ -16,7 +16,7 @@ import br.com.usinasantafe.pcq.PCQContext;
 import br.com.usinasantafe.pcq.R;
 import br.com.usinasantafe.pcq.model.bean.estaticas.BrigadistaBean;
 import br.com.usinasantafe.pcq.model.bean.variaveis.BrigadistaItemBean;
-import br.com.usinasantafe.pcq.util.ConexaoWeb;
+import br.com.usinasantafe.pcq.model.dao.LogProcessoDAO;
 
 public class BrigadistaActivity extends ActivityGeneric {
 
@@ -24,7 +24,6 @@ public class BrigadistaActivity extends ActivityGeneric {
     private AdapterListChoice adapterListChoice;
     private ListView brigadistaListView;
     private List<BrigadistaBean> brigadistaList;
-    private List<BrigadistaItemBean> brigadistaItemList;
     private PCQContext pcqContext;
     private ProgressDialog progressBar;
 
@@ -33,23 +32,44 @@ public class BrigadistaActivity extends ActivityGeneric {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_brigadista);
 
-        Button buttonDesmarcarTodos = (Button) findViewById(R.id.buttonDesmarcarTodosBrigadista);
-        Button buttonMarcarTodos = (Button) findViewById(R.id.buttonMarcarTodosBrigadista);
-        Button buttonSalvarBrigadista = (Button) findViewById(R.id.buttonSalvarBrigadista);
-        Button buttonAtualizarBD = (Button) findViewById(R.id.buttonAtualizarBD);
+        Button buttonDesmarcarTodos = findViewById(R.id.buttonDesmarcarTodosBrigadista);
+        Button buttonMarcarTodos = findViewById(R.id.buttonMarcarTodosBrigadista);
+        Button buttonSalvarBrigadista = findViewById(R.id.buttonSalvarBrigadista);
+        Button buttonAtualizarBD = findViewById(R.id.buttonAtualizarBD);
 
         pcqContext = (PCQContext) getApplication();
-        itens = new ArrayList<ViewHolderChoice>();
+        itens = new ArrayList<>();
 
+        LogProcessoDAO.getInstance().insertLogProcesso("brigadistaList = pcqContext.getFormularioCTR().brigadistaList();\n" +
+                "        List<BrigadistaItemBean> brigadistaItemList;\n" +
+                "        if(pcqContext.getFormularioCTR().verCabecAberto()){\n" +
+                "            brigadistaItemList = pcqContext.getFormularioCTR().brigadistaItemCabecIniciadoList();\n" +
+                "        }\n" +
+                "        else {\n" +
+                "            brigadistaItemList = pcqContext.getFormularioCTR().brigadistaItemCabecAbertoList();\n" +
+                "        }", getLocalClassName());
         brigadistaList = pcqContext.getFormularioCTR().brigadistaList();
 
-        if(pcqContext.getTipoTela() == 1) {
+        List<BrigadistaItemBean> brigadistaItemList;
+        if(pcqContext.getFormularioCTR().verCabecAberto()){
             brigadistaItemList = pcqContext.getFormularioCTR().brigadistaItemCabecIniciadoList();
         }
         else {
             brigadistaItemList = pcqContext.getFormularioCTR().brigadistaItemCabecAbertoList();
         }
 
+        LogProcessoDAO.getInstance().insertLogProcesso("for (BrigadistaBean brigadistaBean : brigadistaList) {\n" +
+                "            ViewHolderChoice viewHolderChoice = new ViewHolderChoice();\n" +
+                "            boolean ver = false;\n" +
+                "            for(BrigadistaItemBean brigadistaItemBean : brigadistaItemList){\n" +
+                "                if(brigadistaBean.getIdFuncBrigadista().equals(brigadistaItemBean.getIdFunc())){\n" +
+                "                    ver = true;\n" +
+                "                }\n" +
+                "            }\n" +
+                "            viewHolderChoice.setSelected(ver);\n" +
+                "            viewHolderChoice.setDescrCheckBox(brigadistaBean.getMatricBrigadista() + \" - \" + brigadistaBean.getNomeBrigadista());\n" +
+                "            itens.add(viewHolderChoice);\n" +
+                "        }", getLocalClassName());
         for (BrigadistaBean brigadistaBean : brigadistaList) {
             ViewHolderChoice viewHolderChoice = new ViewHolderChoice();
             boolean ver = false;
@@ -63,16 +83,28 @@ public class BrigadistaActivity extends ActivityGeneric {
             itens.add(viewHolderChoice);
         }
 
+        LogProcessoDAO.getInstance().insertLogProcesso("adapterListChoice = new AdapterListChoice(this, itens);\n" +
+                "        brigadistaListView = findViewById(R.id.listBrigadista);\n" +
+                "        brigadistaListView.setAdapter(adapterListChoice);", getLocalClassName());
         adapterListChoice = new AdapterListChoice(this, itens);
-        brigadistaListView = (ListView) findViewById(R.id.listBrigadista);
+        brigadistaListView = findViewById(R.id.listBrigadista);
         brigadistaListView.setAdapter(adapterListChoice);
-
         buttonDesmarcarTodos.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
 
+                LogProcessoDAO.getInstance().insertLogProcesso("buttonDesmarcarTodos.setOnClickListener(new View.OnClickListener() {\n" +
+                        "            @Override\n" +
+                        "            public void onClick(View v) {\n" +
+                        "                itens.clear();", getLocalClassName());
                 itens.clear();
+
+                LogProcessoDAO.getInstance().insertLogProcesso("for (BrigadistaBean brigadistaBean : brigadistaList) {\n" +
+                        "                    ViewHolderChoice viewHolderChoice = new ViewHolderChoice();\n" +
+                        "                    viewHolderChoice.setSelected(false);\n" +
+                        "                    viewHolderChoice.setDescrCheckBox(brigadistaBean.getMatricBrigadista() + \" - \" + brigadistaBean.getNomeBrigadista());\n" +
+                        "                    itens.add(viewHolderChoice);\n" +
+                        "                }", getLocalClassName());
                 for (BrigadistaBean brigadistaBean : brigadistaList) {
                     ViewHolderChoice viewHolderChoice = new ViewHolderChoice();
                     viewHolderChoice.setSelected(false);
@@ -80,19 +112,32 @@ public class BrigadistaActivity extends ActivityGeneric {
                     itens.add(viewHolderChoice);
                 }
 
+                LogProcessoDAO.getInstance().insertLogProcesso("adapterListChoice = new AdapterListChoice( BrigadistaActivity.this, itens);\n" +
+                        "                brigadistaListView = findViewById(R.id.listBrigadista);\n" +
+                        "                brigadistaListView.setAdapter(adapterListChoice);", getLocalClassName());
                 adapterListChoice = new AdapterListChoice( BrigadistaActivity.this, itens);
-                brigadistaListView = (ListView) findViewById(R.id.listBrigadista);
+                brigadistaListView = findViewById(R.id.listBrigadista);
                 brigadistaListView.setAdapter(adapterListChoice);
 
             }
         });
 
         buttonMarcarTodos.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
 
+                LogProcessoDAO.getInstance().insertLogProcesso("        buttonMarcarTodos.setOnClickListener(new View.OnClickListener() {\n" +
+                        "            @Override\n" +
+                        "            public void onClick(View v) {\n" +
+                        "                itens.clear();", getLocalClassName());
                 itens.clear();
+
+                LogProcessoDAO.getInstance().insertLogProcesso("for (BrigadistaBean brigadistaBean : brigadistaList) {\n" +
+                        "                    ViewHolderChoice viewHolderChoice = new ViewHolderChoice();\n" +
+                        "                    viewHolderChoice.setSelected(true);\n" +
+                        "                    viewHolderChoice.setDescrCheckBox(brigadistaBean.getMatricBrigadista() + \" - \" + brigadistaBean.getNomeBrigadista());\n" +
+                        "                    itens.add(viewHolderChoice);\n" +
+                        "                }", getLocalClassName());
                 for (BrigadistaBean brigadistaBean : brigadistaList) {
                     ViewHolderChoice viewHolderChoice = new ViewHolderChoice();
                     viewHolderChoice.setSelected(true);
@@ -100,30 +145,47 @@ public class BrigadistaActivity extends ActivityGeneric {
                     itens.add(viewHolderChoice);
                 }
 
+                LogProcessoDAO.getInstance().insertLogProcesso("adapterListChoice = new AdapterListChoice( BrigadistaActivity.this, itens);\n" +
+                        "                brigadistaListView = findViewById(R.id.listBrigadista);\n" +
+                        "                brigadistaListView.setAdapter(adapterListChoice);", getLocalClassName());
                 adapterListChoice = new AdapterListChoice( BrigadistaActivity.this, itens);
-                brigadistaListView = (ListView) findViewById(R.id.listBrigadista);
+                brigadistaListView = findViewById(R.id.listBrigadista);
                 brigadistaListView.setAdapter(adapterListChoice);
 
             }
         });
 
         buttonAtualizarBD.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
 
-
+                LogProcessoDAO.getInstance().insertLogProcesso("buttonAtualizarBD.setOnClickListener(new View.OnClickListener() {\n" +
+                        "            @Override\n" +
+                        "            public void onClick(View v) {\n" +
+                        "                \n" +
+                        "                AlertDialog.Builder alerta = new AlertDialog.Builder(BrigadistaActivity.this);\n" +
+                        "                alerta.setTitle(\"ATENÇÃO\");\n" +
+                        "                alerta.setMessage(\"DESEJA REALMENTE ATUALIZAR BASE DE DADOS?\");", getLocalClassName());
                 AlertDialog.Builder alerta = new AlertDialog.Builder(BrigadistaActivity.this);
                 alerta.setTitle("ATENÇÃO");
                 alerta.setMessage("DESEJA REALMENTE ATUALIZAR BASE DE DADOS?");
                 alerta.setNegativeButton("SIM", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        LogProcessoDAO.getInstance().insertLogProcesso("alerta.setNegativeButton(\"SIM\", new DialogInterface.OnClickListener() {\n" +
+                                "                    @Override\n" +
+                                "                    public void onClick(DialogInterface dialog, int which) {", getLocalClassName());
+                        if (connectNetwork) {
 
-                        ConexaoWeb conexaoWeb = new ConexaoWeb();
-
-                        if (conexaoWeb.verificaConexao(BrigadistaActivity.this)) {
-
+                            LogProcessoDAO.getInstance().insertLogProcesso("if (connectNetwork) {\n" +
+                                    "                            progressBar = new ProgressDialog(BrigadistaActivity.this);\n" +
+                                    "                            progressBar.setCancelable(true);\n" +
+                                    "                            progressBar.setMessage(\"ATUALIZANDO ...\");\n" +
+                                    "                            progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);\n" +
+                                    "                            progressBar.setProgress(0);\n" +
+                                    "                            progressBar.setMax(100);\n" +
+                                    "                            progressBar.show();\n" +
+                                    "                            pcqContext.getFormularioCTR().atualDadosBrigad(BrigadistaActivity.this, BrigadistaActivity.class, progressBar);", getLocalClassName());
                             progressBar = new ProgressDialog(BrigadistaActivity.this);
                             progressBar.setCancelable(true);
                             progressBar.setMessage("ATUALIZANDO ...");
@@ -136,13 +198,19 @@ public class BrigadistaActivity extends ActivityGeneric {
 
                         } else {
 
+                            LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                                    "                            AlertDialog.Builder alerta = new AlertDialog.Builder(BrigadistaActivity.this);\n" +
+                                    "                            alerta.setTitle(\"ATENÇÃO\");\n" +
+                                    "                            alerta.setMessage(\"FALHA NA CONEXÃO DE DADOS. O CELULAR ESTA SEM SINAL. POR FAVOR, TENTE NOVAMENTE QUANDO O CELULAR ESTIVE COM SINAL.\");", getLocalClassName());
                             AlertDialog.Builder alerta = new AlertDialog.Builder(BrigadistaActivity.this);
                             alerta.setTitle("ATENÇÃO");
                             alerta.setMessage("FALHA NA CONEXÃO DE DADOS. O CELULAR ESTA SEM SINAL. POR FAVOR, TENTE NOVAMENTE QUANDO O CELULAR ESTIVE COM SINAL.");
                             alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-
+                                    LogProcessoDAO.getInstance().insertLogProcesso("alerta.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\n" +
+                                            "                                @Override\n" +
+                                            "                                public void onClick(DialogInterface dialog, int which) {", getLocalClassName());
                                 }
                             });
 
@@ -157,7 +225,9 @@ public class BrigadistaActivity extends ActivityGeneric {
                 alerta.setPositiveButton("NÃO", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        LogProcessoDAO.getInstance().insertLogProcesso("alerta.setPositiveButton(\"NÃO\", new DialogInterface.OnClickListener() {\n" +
+                                "                    @Override\n" +
+                                "                    public void onClick(DialogInterface dialog, int which) {", getLocalClassName());
                     }
                 });
 
@@ -167,39 +237,58 @@ public class BrigadistaActivity extends ActivityGeneric {
         });
 
         buttonSalvarBrigadista.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
 
+                LogProcessoDAO.getInstance().insertLogProcesso("buttonSalvarBrigadista.setOnClickListener(new View.OnClickListener() {\n" +
+                        "            @Override\n" +
+                        "            public void onClick(View v) {\n" +
+                        "                ArrayList<Long> brigadistaSelectedList = new ArrayList<Long>();\n" +
+                        "                for (int i = 0; i < itens.size(); i++) {\n" +
+                        "                    ViewHolderChoice viewHolderChoice = itens.get(i);\n" +
+                        "                    if(viewHolderChoice.isSelected()){\n" +
+                        "                        BrigadistaBean brigadistaBean = brigadistaList.get(i);\n" +
+                        "                        brigadistaSelectedList.add(brigadistaBean.getIdFuncBrigadista());\n" +
+                        "                    }\n" +
+                        "                }", getLocalClassName());
                 ArrayList<Long> brigadistaSelectedList = new ArrayList<Long>();
 
                 for (int i = 0; i < itens.size(); i++) {
                     ViewHolderChoice viewHolderChoice = itens.get(i);
                     if(viewHolderChoice.isSelected()){
-                        BrigadistaBean brigadistaBean = (BrigadistaBean) brigadistaList.get(i);
+                        BrigadistaBean brigadistaBean = brigadistaList.get(i);
                         brigadistaSelectedList.add(brigadistaBean.getIdFuncBrigadista());
                     }
                 }
 
                 if(brigadistaSelectedList.size() > 0){
 
-                    pcqContext.getFormularioCTR().setBrigadistaCabec(brigadistaSelectedList, pcqContext.getTipoTela());
+                    LogProcessoDAO.getInstance().insertLogProcesso("if(brigadistaSelectedList.size() > 0){\n" +
+                            "                    pcqContext.getFormularioCTR().setBrigadistaCabec(brigadistaSelectedList);\n" +
+                            "                    brigadistaSelectedList.clear();", getLocalClassName());
+                    pcqContext.getFormularioCTR().setBrigadistaCabec(brigadistaSelectedList);
                     brigadistaSelectedList.clear();
 
-                    if(pcqContext.getTipoTela()  == 1) {
+                    if(pcqContext.getFormularioCTR().verCabecAberto()){
+                        LogProcessoDAO.getInstance().insertLogProcesso("if(pcqContext.getFormularioCTR().verCabecAberto()){\n" +
+                                "                        Intent it = new Intent(BrigadistaActivity.this, TercCombActivity.class);", getLocalClassName());
                         Intent it = new Intent(BrigadistaActivity.this, TercCombActivity.class);
                         startActivity(it);
                         finish();
-                    }
-                    else{
+                    } else {
+                        LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                                "                        Intent it = new Intent(BrigadistaActivity.this, RelacaoCabecActivity.class);", getLocalClassName());
                         Intent it = new Intent(BrigadistaActivity.this, RelacaoCabecActivity.class);
                         startActivity(it);
                         finish();
                     }
 
-                }
-                else{
+                } else {
 
+                    LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                            "                    AlertDialog.Builder alerta = new AlertDialog.Builder(BrigadistaActivity.this);\n" +
+                            "                    alerta.setTitle(\"ATENÇÃO\");\n" +
+                            "                    alerta.setMessage(\"DESEJA REALMENTE AVANÇAR SEM ADICIONAR BRIGADISTA?\");", getLocalClassName());
                     AlertDialog.Builder alerta = new AlertDialog.Builder(BrigadistaActivity.this);
                     alerta.setTitle("ATENÇÃO");
                     alerta.setMessage("DESEJA REALMENTE AVANÇAR SEM ADICIONAR BRIGADISTA?");
@@ -207,14 +296,20 @@ public class BrigadistaActivity extends ActivityGeneric {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
 
-                            pcqContext.getFormularioCTR().delBrigadista(pcqContext.getTipoTela());
-
-                            if(pcqContext.getTipoTela() == 1) {
+                            LogProcessoDAO.getInstance().insertLogProcesso("alerta.setNegativeButton(\"SIM\", new DialogInterface.OnClickListener() {\n" +
+                                    "                        @Override\n" +
+                                    "                        public void onClick(DialogInterface dialog, int which) {\n" +
+                                    "                            pcqContext.getFormularioCTR().delBrigadista();", getLocalClassName());
+                            pcqContext.getFormularioCTR().delBrigadista();
+                            if(pcqContext.getFormularioCTR().verCabecFinalizado()){
+                                LogProcessoDAO.getInstance().insertLogProcesso("if(pcqContext.getFormularioCTR().verCabecFinalizado()){\n" +
+                                        "                                Intent it = new Intent(BrigadistaActivity.this, TercCombActivity.class);", getLocalClassName());
                                 Intent it = new Intent(BrigadistaActivity.this, TercCombActivity.class);
                                 startActivity(it);
                                 finish();
-                            }
-                            else{
+                            } else {
+                                LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                                        "                                Intent it = new Intent(BrigadistaActivity.this, RelacaoCabecActivity.class);", getLocalClassName());
                                 Intent it = new Intent(BrigadistaActivity.this, RelacaoCabecActivity.class);
                                 startActivity(it);
                                 finish();
@@ -226,6 +321,9 @@ public class BrigadistaActivity extends ActivityGeneric {
                     alerta.setPositiveButton("NÃO", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            LogProcessoDAO.getInstance().insertLogProcesso("alerta.setPositiveButton(\"NÃO\", new DialogInterface.OnClickListener() {\n" +
+                                    "                        @Override\n" +
+                                    "                        public void onClick(DialogInterface dialog, int which) {", getLocalClassName());
                         }
                     });
 
@@ -242,12 +340,16 @@ public class BrigadistaActivity extends ActivityGeneric {
     }
 
     public void onBackPressed() {
-        if(pcqContext.getTipoTela() == 1) {
+        LogProcessoDAO.getInstance().insertLogProcesso("public void onBackPressed() {", getLocalClassName());
+        if(pcqContext.getFormularioCTR().verCabecAberto()){
+            LogProcessoDAO.getInstance().insertLogProcesso("if(pcqContext.getFormularioCTR().verCabecAberto()){\n" +
+                    "            Intent it = new Intent(BrigadistaActivity.this, SaveiroActivity.class);", getLocalClassName());
             Intent it = new Intent(BrigadistaActivity.this, SaveiroActivity.class);
             startActivity(it);
             finish();
-        }
-        else{
+        } else {
+            LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                    "            Intent it = new Intent(BrigadistaActivity.this, RelacaoCabecActivity.class);", getLocalClassName());
             Intent it = new Intent(BrigadistaActivity.this, RelacaoCabecActivity.class);
             startActivity(it);
             finish();

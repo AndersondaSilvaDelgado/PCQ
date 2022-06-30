@@ -11,7 +11,7 @@ public class LogErroBean extends Entidade {
     private static final long serialVersionUID = 1L;
 
     @DatabaseField(generatedId=true)
-    private Long idLog;
+    private Long idLogErro;
     @DatabaseField
     private Long nroAparelho;
     @DatabaseField
@@ -19,17 +19,19 @@ public class LogErroBean extends Entidade {
     @DatabaseField
     private String dthr;
     @DatabaseField
+    private Long dthrLong;
+    @DatabaseField
     private Long status;
 
     public LogErroBean() {
     }
 
-    public Long getIdLog() {
-        return idLog;
+    public Long getIdLogErro() {
+        return idLogErro;
     }
 
-    public void setIdLog(Long idLog) {
-        this.idLog = idLog;
+    public void setIdLogErro(Long idLogErro) {
+        this.idLogErro = idLogErro;
     }
 
     public Long getNroAparelho() {
@@ -62,5 +64,13 @@ public class LogErroBean extends Entidade {
 
     public void setStatus(Long status) {
         this.status = status;
+    }
+
+    public Long getDthrLong() {
+        return dthrLong;
+    }
+
+    public void setDthrLong(Long dthrLong) {
+        this.dthrLong = dthrLong;
     }
 }

@@ -10,6 +10,7 @@ import android.widget.EditText;
 
 import br.com.usinasantafe.pcq.PCQContext;
 import br.com.usinasantafe.pcq.R;
+import br.com.usinasantafe.pcq.model.dao.LogProcessoDAO;
 
 public class ComentarioActivity extends ActivityGeneric {
 
@@ -23,20 +24,25 @@ public class ComentarioActivity extends ActivityGeneric {
 
         pcqContext = (PCQContext) getApplication();
 
-        Button buttonRetComentario = (Button) findViewById(R.id.buttonRetComentario);
-        Button buttonAvancaComentario = (Button) findViewById(R.id.buttonAvancaComentario);
-        editTextComentario = (EditText) findViewById(R.id.editTextComentario);
+        Button buttonRetComentario = findViewById(R.id.buttonRetComentario);
+        Button buttonAvancaComentario = findViewById(R.id.buttonAvancaComentario);
+        editTextComentario = findViewById(R.id.editTextComentario);
 
         buttonRetComentario.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
-                if(pcqContext.getTipoTela() == 1) {
+                LogProcessoDAO.getInstance().insertLogProcesso("buttonRetComentario.setOnClickListener(new View.OnClickListener() {\n" +
+                        "            @Override\n" +
+                        "            public void onClick(View v) {", getLocalClassName());
+                if(pcqContext.getFormularioCTR().verCabecAberto()){
+                    LogProcessoDAO.getInstance().insertLogProcesso("if(pcqContext.getFormularioCTR().verCabecAberto()){\n" +
+                            "                    Intent it = new Intent(ComentarioActivity.this, AceiroVegetNativaActivity.class);", getLocalClassName());
                     Intent it = new Intent(ComentarioActivity.this, AceiroVegetNativaActivity.class);
                     startActivity(it);
                     finish();
-                }
-                else{
+                } else {
+                    LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                            "                    Intent it = new Intent(ComentarioActivity.this, RelacaoCabecActivity.class);", getLocalClassName());
                     Intent it = new Intent(ComentarioActivity.this, RelacaoCabecActivity.class);
                     startActivity(it);
                     finish();
@@ -46,51 +52,37 @@ public class ComentarioActivity extends ActivityGeneric {
         });
 
         buttonAvancaComentario.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
-
+                LogProcessoDAO.getInstance().insertLogProcesso("buttonAvancaComentario.setOnClickListener(new View.OnClickListener() {\n" +
+                        "            @Override\n" +
+                        "            public void onClick(View v) {", getLocalClassName());
                 if (!editTextComentario.getText().toString().equals("")) {
 
-                    pcqContext.getFormularioCTR().setComentCabec(editTextComentario.getText().toString(), pcqContext.getTipoTela());
+                    LogProcessoDAO.getInstance().insertLogProcesso("if (!editTextComentario.getText().toString().equals(\"\")) {\n" +
+                            "                    pcqContext.getFormularioCTR().setComentCabec(editTextComentario.getText().toString());\n" +
+                            "                    pcqContext.getFormularioCTR().finalizarCabec();\n" +
+                            "                    Intent it = new Intent(ComentarioActivity.this, RelacaoCabecActivity.class);", getLocalClassName());
+                    pcqContext.getFormularioCTR().setComentCabec(editTextComentario.getText().toString());
+                    pcqContext.getFormularioCTR().finalizarCabec();
+                    Intent it = new Intent(ComentarioActivity.this, RelacaoCabecActivity.class);
+                    startActivity(it);
+                    finish();
 
-                    if(pcqContext.getTipoTela() == 1) {
-
-                        if (pcqContext.getFormularioCTR().getCabecIniciado().getTipoCabec() == 1L) {
-
-                            pcqContext.getFormularioCTR().setPosCriterio(1);
-                            pcqContext.getFormularioCTR().abrirCabec();
-                            Intent it = new Intent(ComentarioActivity.this, CriterioActivity.class);
-                            startActivity(it);
-                            finish();
-
-                        } else {
-
-                            pcqContext.getFormularioCTR().fecharCabec(pcqContext.getFormularioCTR().getCabecIniciado().getTipoCabec());
-                            Intent it = new Intent(ComentarioActivity.this, RelacaoCabecActivity.class);
-                            startActivity(it);
-                            finish();
-
-                        }
-
-                    }
-                    else{
-
-                        Intent it = new Intent(ComentarioActivity.this, RelacaoCabecActivity.class);
-                        startActivity(it);
-                        finish();
-
-                    }
-
-                }
-                else{
+                } else {
+                    LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                            "                    AlertDialog.Builder alerta = new AlertDialog.Builder( ComentarioActivity.this);\n" +
+                            "                    alerta.setTitle(\"ATENÇÃO\");\n" +
+                            "                    alerta.setMessage(\"POR FAVOR! DIGITE AS AÇÕES QUE FORAM TOMADAS PARA COMBATER O INCÊNDIO.\");", getLocalClassName());
                     AlertDialog.Builder alerta = new AlertDialog.Builder( ComentarioActivity.this);
                     alerta.setTitle("ATENÇÃO");
                     alerta.setMessage("POR FAVOR! DIGITE AS AÇÕES QUE FORAM TOMADAS PARA COMBATER O INCÊNDIO.");
                     alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-
+                            LogProcessoDAO.getInstance().insertLogProcesso("alerta.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\n" +
+                                    "                        @Override\n" +
+                                    "                        public void onClick(DialogInterface dialog, int which) {", getLocalClassName());
                         }
                     });
                     alerta.show();

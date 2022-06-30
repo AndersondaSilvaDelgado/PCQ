@@ -1,10 +1,7 @@
 package br.com.usinasantafe.pcq.view;
 
 import android.Manifest;
-import android.app.Activity;
-import android.app.AlarmManager;
 import android.app.AlertDialog;
-import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,22 +11,18 @@ import android.os.Handler;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import br.com.usinasantafe.pcq.PCQContext;
 import br.com.usinasantafe.pcq.R;
-import br.com.usinasantafe.pcq.TimerAlarme;
+import br.com.usinasantafe.pcq.model.dao.LogProcessoDAO;
 import br.com.usinasantafe.pcq.util.AtualDadosServ;
-import br.com.usinasantafe.pcq.util.ConexaoWeb;
 import br.com.usinasantafe.pcq.util.EnvioDadosServ;
-import br.com.usinasantafe.pcq.util.VerifDadosServ;
 
 public class MenuInicialActivity extends ActivityGeneric {
 
@@ -46,67 +39,43 @@ public class MenuInicialActivity extends ActivityGeneric {
         setContentView(R.layout.activity_menu_inicial);
 
         pcqContext = (PCQContext) getApplication();
-        textViewProcesso = (TextView) findViewById(R.id.textViewProcesso);
+        textViewProcesso = findViewById(R.id.textViewProcesso);
 
         progressBar = new ProgressDialog(this);
 
+        if (!checkPermission(Manifest.permission.CAMERA)) {
+            String[] PERMISSIONS = {Manifest.permission.CAMERA};
+            ActivityCompat.requestPermissions(this, PERMISSIONS, 112);
+        }
+
         if (!checkPermission(Manifest.permission.INTERNET)) {
             String[] PERMISSIONS = {android.Manifest.permission.INTERNET};
-            ActivityCompat.requestPermissions((Activity) this, PERMISSIONS, 112);
+            ActivityCompat.requestPermissions(this, PERMISSIONS, 112);
         }
 
         if (!checkPermission(Manifest.permission.ACCESS_NETWORK_STATE)) {
             String[] PERMISSIONS = {android.Manifest.permission.ACCESS_NETWORK_STATE};
-            ActivityCompat.requestPermissions((Activity) this, PERMISSIONS, 112);
+            ActivityCompat.requestPermissions(this, PERMISSIONS, 112);
         }
 
         if (!checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             String[] PERMISSIONS = {android.Manifest.permission.WRITE_EXTERNAL_STORAGE};
-            ActivityCompat.requestPermissions((Activity) this, PERMISSIONS, 112);
+            ActivityCompat.requestPermissions(this, PERMISSIONS, 112);
         }
 
-        if (!checkPermission(Manifest.permission.CAMERA)) {
-            String[] PERMISSIONS = {Manifest.permission.CAMERA};
-            ActivityCompat.requestPermissions((Activity) this, PERMISSIONS, 112);
-        }
+        LogProcessoDAO.getInstance().insertLogProcesso("customHandler.postDelayed(updateTimerThread, 0);", getLocalClassName());
+        customHandler.postDelayed(updateTimerThread, 0);
 
-        verifEnvio();
-        clearBD();
-
-        if(pcqContext.getFormularioCTR().verCabecAberto()) {
-
-            pcqContext.getFormularioCTR().delItemAberto();
-            pcqContext.getFormularioCTR().setPosCriterio(1);
-
-            pcqContext.setTipoTela(1);
-            Intent it = new Intent(MenuInicialActivity.this, CriterioActivity.class);
-            startActivity(it);
-            finish();
-
-        }
-        else if(pcqContext.getFormularioCTR().verCabecFechado()){
-
-            Intent it = new Intent(MenuInicialActivity.this, RelacaoCabecActivity.class);
-            startActivity(it);
-            finish();
-
-        }
-        else if(pcqContext.getFormularioCTR().verCabecFechRecebido()){
-
-            Intent it = new Intent(MenuInicialActivity.this, RelacaoCriterioActivity.class);
-            startActivity(it);
-            finish();
-
-        }
-        else {
-            atualizarAplic();
-        }
-
-        listarMenuInicial();
-
-    }
-
-    private void listarMenuInicial() {
+        LogProcessoDAO.getInstance().insertLogProcesso("ArrayList<String> itens = new ArrayList<String>();\n" +
+                "        itens.add(\"FORMULÁRIO COMPLETO\");\n" +
+                "        itens.add(\"FORMULÁRIO SIMPLIFICADO\");\n" +
+                "        itens.add(\"FORMULÁRIO(S) PARA REAJUSTE\");\n" +
+                "        itens.add(\"CONFIGURAÇÃO\");\n" +
+                "        itens.add(\"ATUALIZAR DADOS\");\n" +
+                "        itens.add(\"SAIR\");\n" +
+                "        AdapterList adapterList = new AdapterList(this, itens);\n" +
+                "        menuListView = findViewById(R.id.listaMenuInicial);\n" +
+                "        menuListView.setAdapter(adapterList);", getLocalClassName());
 
         ArrayList<String> itens = new ArrayList<String>();
 
@@ -116,92 +85,111 @@ public class MenuInicialActivity extends ActivityGeneric {
         itens.add("CONFIGURAÇÃO");
         itens.add("ATUALIZAR DADOS");
         itens.add("SAIR");
+        itens.add("LOG");
 
         AdapterList adapterList = new AdapterList(this, itens);
-        menuListView = (ListView) findViewById(R.id.listaMenuInicial);
+        menuListView = findViewById(R.id.listaMenuInicial);
         menuListView.setAdapter(adapterList);
-
         menuListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> l, View v, int position,
                                     long id) {
 
-                TextView textView = (TextView) v.findViewById(R.id.textViewItemList);
+                LogProcessoDAO.getInstance().insertLogProcesso("menuListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {\n" +
+                        "            @Override\n" +
+                        "            public void onItemClick(AdapterView<?> l, View v, int position,\n" +
+                        "                                    long id) {\n" +
+                        "                TextView textView = v.findViewById(R.id.textViewItemList);\n" +
+                        "                String text = textView.getText().toString();", getLocalClassName());
+                TextView textView = v.findViewById(R.id.textViewItemList);
                 String text = textView.getText().toString();
 
                 if (text.equals("FORMULÁRIO COMPLETO")) {
-
+                    LogProcessoDAO.getInstance().insertLogProcesso("if (text.equals(\"FORMULÁRIO COMPLETO\")) {", getLocalClassName());
                     if (pcqContext.getFormularioCTR().hasElemColab() && pcqContext.getConfigCTR().hasElements()) {
-                        customHandler.removeCallbacks(updateTimerThread);
-                        pcqContext.getFormularioCTR().salvarCabecIniciado(1L);
-                        pcqContext.setTipoTela(1);
+                        LogProcessoDAO.getInstance().insertLogProcesso("if (pcqContext.getFormularioCTR().hasElemColab() && pcqContext.getConfigCTR().hasElements()) {\n" +
+                                "                        pcqContext.getFormularioCTR().salvarCabecAberto(2L);\n" +
+                                "                        Intent it = new Intent(MenuInicialActivity.this, DataActivity.class);", getLocalClassName());
+                        pcqContext.getFormularioCTR().salvarCabecAberto(2L);
                         Intent it = new Intent(MenuInicialActivity.this, DataActivity.class);
                         startActivity(it);
                         finish();
-                    }
-                    else{
-
+                    } else {
+                        LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                                "                        AlertDialog.Builder alerta = new AlertDialog.Builder(MenuInicialActivity.this);\n" +
+                                "                        alerta.setTitle(\"ATENÇÃO\");\n" +
+                                "                        alerta.setMessage(\"BASE DE DADOS DESATUALIZADA! POR FAVOR, SELECIONE A OPÇÃO 'ATUALIZAR DADOS' PARA ATUALIZAR A BASE DE DADOS ANTES DE CRIAR UM NOVO FORMULÁRIO.\");", getLocalClassName());
                         AlertDialog.Builder alerta = new AlertDialog.Builder(MenuInicialActivity.this);
                         alerta.setTitle("ATENÇÃO");
                         alerta.setMessage("BASE DE DADOS DESATUALIZADA! POR FAVOR, SELECIONE A OPÇÃO 'ATUALIZAR DADOS' PARA ATUALIZAR A BASE DE DADOS ANTES DE CRIAR UM NOVO FORMULÁRIO.");
                         alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-
+                                LogProcessoDAO.getInstance().insertLogProcesso("alerta.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\n" +
+                                        "                            @Override\n" +
+                                        "                            public void onClick(DialogInterface dialog, int which) {", getLocalClassName());
                             }
                         });
                         alerta.show();
 
                     }
 
-                }
-                else if (text.equals("FORMULÁRIO SIMPLIFICADO")) {
-
+                } else if (text.equals("FORMULÁRIO SIMPLIFICADO")) {
+                    LogProcessoDAO.getInstance().insertLogProcesso("} else if (text.equals(\"FORMULÁRIO SIMPLIFICADO\")) {", getLocalClassName());
                     if (pcqContext.getFormularioCTR().hasElemColab() && pcqContext.getConfigCTR().hasElements()) {
-                        customHandler.removeCallbacks(updateTimerThread);
-                        pcqContext.getFormularioCTR().salvarCabecIniciado(2L);
-                        pcqContext.setTipoTela(1);
+                        LogProcessoDAO.getInstance().insertLogProcesso("if (pcqContext.getFormularioCTR().hasElemColab() && pcqContext.getConfigCTR().hasElements()) {\n" +
+                                "                        pcqContext.getFormularioCTR().salvarCabecAberto(1L);\n" +
+                                "                        Intent it = new Intent(MenuInicialActivity.this, DataActivity.class);", getLocalClassName());
+                        pcqContext.getFormularioCTR().salvarCabecAberto(1L);
                         Intent it = new Intent(MenuInicialActivity.this, DataActivity.class);
                         startActivity(it);
                         finish();
-                    }
-                    else{
-
+                    } else {
+                        LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                                "                        AlertDialog.Builder alerta = new AlertDialog.Builder(MenuInicialActivity.this);\n" +
+                                "                        alerta.setTitle(\"ATENÇÃO\");\n" +
+                                "                        alerta.setMessage(\"BASE DE DADOS DESATUALIZADA! POR FAVOR, ACESSE AS CONFIGURAÇÕES, ATUALIZE A BASE DE DADOS E INSIRA A NUMERO DA LINHA DO APARELHO.\");", getLocalClassName());
                         AlertDialog.Builder alerta = new AlertDialog.Builder(MenuInicialActivity.this);
                         alerta.setTitle("ATENÇÃO");
                         alerta.setMessage("BASE DE DADOS DESATUALIZADA! POR FAVOR, ACESSE AS CONFIGURAÇÕES, ATUALIZE A BASE DE DADOS E INSIRA A NUMERO DA LINHA DO APARELHO.");
                         alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-
+                                LogProcessoDAO.getInstance().insertLogProcesso("alerta.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\n" +
+                                        "                            @Override\n" +
+                                        "                            public void onClick(DialogInterface dialog, int which) {", getLocalClassName());
                             }
                         });
                         alerta.show();
 
                     }
 
-                }
-                else if (text.equals("FORMULÁRIO(S) PARA REAJUSTE")) {
-
-                    Intent it = new Intent(MenuInicialActivity.this, ListaFormReajActivity.class);
+                } else if (text.equals("FORMULÁRIO(S) PARA REAJUSTE")) {
+                    LogProcessoDAO.getInstance().insertLogProcesso("} else if (text.equals(\"FORMULÁRIO(S) PARA REAJUSTE\")) {\n" +
+                            "                    Intent it = new Intent(MenuInicialActivity.this, ListaFormRecebidoActivity.class);", getLocalClassName());
+                    Intent it = new Intent(MenuInicialActivity.this, ListaFormRecebidoActivity.class);
                     startActivity(it);
                     finish();
-
-                }
-                else if (text.equals("CONFIGURAÇÃO")) {
-
+                } else if (text.equals("CONFIGURAÇÃO")) {
+                    LogProcessoDAO.getInstance().insertLogProcesso("} else if (text.equals(\"CONFIGURAÇÃO\")) {\n" +
+                            "                    Intent it = new Intent(MenuInicialActivity.this, ConfigActivity.class);", getLocalClassName());
                     Intent it = new Intent(MenuInicialActivity.this, ConfigActivity.class);
                     startActivity(it);
                     finish();
+                } else if (text.equals("ATUALIZAR DADOS")) {
+                    LogProcessoDAO.getInstance().insertLogProcesso("} else if (text.equals(\"ATUALIZAR DADOS\")) {", getLocalClassName());
+                    if(connectNetwork){
 
-                }
-                else if (text.equals("ATUALIZAR DADOS")) {
-
-                    ConexaoWeb conexaoWeb = new ConexaoWeb();
-
-                    if(conexaoWeb.verificaConexao(MenuInicialActivity.this)){
-
+                        LogProcessoDAO.getInstance().insertLogProcesso("if(connectNetwork){\n" +
+                                "                        progressBar = new ProgressDialog(v.getContext());\n" +
+                                "                        progressBar.setCancelable(true);\n" +
+                                "                        progressBar.setMessage(\"ATUALIZANDO BASE DE DADOS...\");\n" +
+                                "                        progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);\n" +
+                                "                        progressBar.setProgress(0);\n" +
+                                "                        progressBar.setMax(100);\n" +
+                                "                        progressBar.show();\n" +
+                                "                        AtualDadosServ.getInstance().atualTodasTabBD(MenuInicialActivity.this, progressBar);", getLocalClassName());
                         progressBar = new ProgressDialog(v.getContext());
                         progressBar.setCancelable(true);
                         progressBar.setMessage("ATUALIZANDO BASE DE DADOS...");
@@ -212,70 +200,54 @@ public class MenuInicialActivity extends ActivityGeneric {
 
                         AtualDadosServ.getInstance().atualTodasTabBD(MenuInicialActivity.this, progressBar);
 
-                    }
-                    else{
-
+                    } else {
+                        LogProcessoDAO.getInstance().insertLogProcesso("} else {\n" +
+                                "                        AlertDialog.Builder alerta = new AlertDialog.Builder(MenuInicialActivity.this);\n" +
+                                "                        alerta.setTitle(\"ATENÇÃO\");\n" +
+                                "                        alerta.setMessage(\"FALHA NA CONEXÃO DE DADOS. O CELULAR ESTA SEM SINAL. POR FAVOR, TENTE NOVAMENTE QUANDO O CELULAR ESTIVE COM SINAL.\");", getLocalClassName());
                         AlertDialog.Builder alerta = new AlertDialog.Builder(MenuInicialActivity.this);
                         alerta.setTitle("ATENÇÃO");
                         alerta.setMessage("FALHA NA CONEXÃO DE DADOS. O CELULAR ESTA SEM SINAL. POR FAVOR, TENTE NOVAMENTE QUANDO O CELULAR ESTIVE COM SINAL.");
                         alerta.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-
+                                LogProcessoDAO.getInstance().insertLogProcesso("alerta.setPositiveButton(\"OK\", new DialogInterface.OnClickListener() {\n" +
+                                        "                            @Override\n" +
+                                        "                            public void onClick(DialogInterface dialog, int which) {", getLocalClassName());
                             }
                         });
                         alerta.show();
 
                     }
 
-                }
-                else if (text.equals("SAIR")) {
+                } else if (text.equals("SAIR")) {
 
+                    LogProcessoDAO.getInstance().insertLogProcesso("} else if (text.equals(\"SAIR\")) {\n" +
+                            "                    Intent intent = new Intent(Intent.ACTION_MAIN);\n" +
+                            "                    intent.addCategory(Intent.CATEGORY_HOME);\n" +
+                            "                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);\n" +
+                            "                    startActivity(intent);", getLocalClassName());
                     Intent intent = new Intent(Intent.ACTION_MAIN);
                     intent.addCategory(Intent.CATEGORY_HOME);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
 
                 }
+                else if (text.equals("LOG")) {
+                    LogProcessoDAO.getInstance().insertLogProcesso("else if (text.equals(\"LOG\")) {", getLocalClassName());
+                    if(pcqContext.getConfigCTR().hasElements()) {
+                        LogProcessoDAO.getInstance().insertLogProcesso("if(pcqContext.getConfigCTR().hasElements()) {\n" +
+                                "                        Intent it = new Intent(MenuInicialActivity.this, SenhaActivity.class);", getLocalClassName());
+                        Intent it = new Intent(MenuInicialActivity.this, SenhaActivity.class);
+                        startActivity(it);
+                        finish();
+                    }
+                }
 
             }
 
         });
 
-    }
-
-    private Runnable updateTimerThread = new Runnable() {
-
-        public void run() {
-            verifEnvio();
-            if(!VerifDadosServ.getInstance().isVerTerm()) {
-                VerifDadosServ.getInstance().cancelVer();
-                if (progressBar.isShowing()) {
-                    progressBar.dismiss();
-                }
-                startTimer();
-            }
-            customHandler.postDelayed(this, 10000);
-        }
-    };
-
-
-    public void verifEnvio(){
-        if (pcqContext.getConfigCTR().hasElements()) {
-            if (EnvioDadosServ.getInstance().getStatusEnvio() == 1) {
-                textViewProcesso.setTextColor(Color.YELLOW);
-                textViewProcesso.setText("Enviando Dados...");
-            } else if (EnvioDadosServ.getInstance().getStatusEnvio() == 2) {
-                textViewProcesso.setTextColor(Color.RED);
-                textViewProcesso.setText("Existem Dados para serem Enviados");
-            } else if (EnvioDadosServ.getInstance().getStatusEnvio() == 3) {
-                textViewProcesso.setTextColor(Color.GREEN);
-                textViewProcesso.setText("Todos os Dados já foram Enviados");
-            }
-        } else {
-            textViewProcesso.setTextColor(Color.RED);
-            textViewProcesso.setText("Equipamento sem Número");
-        }
     }
 
     public boolean checkPermission(String permission) {
@@ -286,56 +258,28 @@ public class MenuInicialActivity extends ActivityGeneric {
     public void onBackPressed() {
     }
 
-    public void atualizarAplic(){
-        ConexaoWeb conexaoWeb = new ConexaoWeb();
-        if (conexaoWeb.verificaConexao(this)) {
+    private Runnable updateTimerThread = new Runnable() {
+
+        public void run() {
             if (pcqContext.getConfigCTR().hasElements()) {
-                progressBar.setCancelable(true);
-                progressBar.setMessage("BUSCANDO ATUALIZAÇÃO...");
-                progressBar.show();
-                customHandler.postDelayed(updateTimerThread, 10000);
-                VerifDadosServ.getInstance().verAtualAplic(pcqContext.versaoAPP, this, progressBar);
+                if (EnvioDadosServ.status == 1) {
+                    textViewProcesso.setTextColor(Color.YELLOW);
+                    textViewProcesso.setText("Enviando Dados...");
+                } else if (EnvioDadosServ.status == 2) {
+                    textViewProcesso.setTextColor(Color.RED);
+                    textViewProcesso.setText("Existem Dados para serem Enviados");
+                } else if (EnvioDadosServ.status == 3) {
+                    textViewProcesso.setTextColor(Color.GREEN);
+                    textViewProcesso.setText("Todos os Dados já foram Enviados");
+                }
+            } else {
+                textViewProcesso.setTextColor(Color.RED);
+                textViewProcesso.setText("Equipamento sem Número");
             }
-        } else {
-            startTimer();
-        }
-    }
-
-    public void startTimer() {
-
-        boolean alarmeAtivo = (PendingIntent.getBroadcast(this, 0, new Intent("ALARME_DISPARADO"), PendingIntent.FLAG_NO_CREATE) == null);
-
-        if (progressBar.isShowing()) {
-            progressBar.dismiss();
-        }
-
-        if (alarmeAtivo) {
-
-            Log.i("PCQ", "NOVO TIMER");
-
-            Intent intent = new Intent(this, TimerAlarme.class);
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0,
-                    intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-            Calendar c = Calendar.getInstance();
-            c.setTimeInMillis(System.currentTimeMillis());
-            c.add(Calendar.SECOND, 1);
-
-            AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-
-            if (pendingIntent != null && alarmManager != null) {
-                alarmManager.cancel(pendingIntent);
+            if(EnvioDadosServ.status != 3){
+                customHandler.postDelayed(this, 10000);
             }
-
-            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), 60000, pendingIntent);
-
-        } else {
-            Log.i("PCQ", "TIMER já ativo");
         }
-    }
-
-    public void clearBD(){
-        pcqContext.getFormularioCTR().delCabecIniciado();
-    }
+    };
 
 }

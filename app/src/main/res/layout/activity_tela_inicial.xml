@@ -9,32 +9,20 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".view.RelacaoCabecReajActivity">
-
+    tools:context=".view.TelaInicialActivity">
 
     <TextView
-        android:id="@+id/textViewListaCabecReaj"
+        android:id="@+id/textInicioApp"
         style="@style/TextViewTituloLista"
-        android:text="@string/texto_infor_cabecalho" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/texto_inicio" />
 
-    <ListView
-        android:id="@+id/listaViewCabecReaj"
+    <ProgressBar
+        android:id="@+id/progressBarIniciandoApp"
+        style="?android:attr/progressBarStyle"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
-
-    <Button
-        android:id="@+id/buttonTermCabecReaj"
-        style="@style/BotaoAvulso"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/texto_term_form" />
-
-    <Button
-        android:id="@+id/buttonRetCabecReaj"
-        style="@style/BotaoAvulso"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/texto_padrao_retornar" />
 
 </LinearLayout>

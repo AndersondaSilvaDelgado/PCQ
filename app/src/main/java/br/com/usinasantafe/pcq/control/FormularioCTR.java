@@ -3,10 +3,7 @@ package br.com.usinasantafe.pcq.control;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,11 +32,11 @@ import br.com.usinasantafe.pcq.model.dao.RespostaDAO;
 import br.com.usinasantafe.pcq.model.dao.SecaoDAO;
 import br.com.usinasantafe.pcq.model.dao.TalhaoDAO;
 import br.com.usinasantafe.pcq.model.bean.variaveis.CabecBean;
-import br.com.usinasantafe.pcq.model.bean.variaveis.DadosEnvioBean;
 import br.com.usinasantafe.pcq.model.bean.variaveis.RespItemBean;
 import br.com.usinasantafe.pcq.model.dao.TercCombDAO;
 import br.com.usinasantafe.pcq.model.dao.TipoApontDAO;
 import br.com.usinasantafe.pcq.util.AtualDadosServ;
+import br.com.usinasantafe.pcq.util.EnvioDadosServ;
 
 public class FormularioCTR {
 
@@ -47,7 +44,6 @@ public class FormularioCTR {
     private int posCriterio;
     private int posCabecReaj;
     private RespItemBean respItemBean;
-    private Long secao;
 
     public FormularioCTR() {
         if(respItemBean == null)
@@ -56,55 +52,44 @@ public class FormularioCTR {
 
     //////////////////////////////Cabecalho ///////////////////////////////////////////////////////
 
-    public void salvarCabecIniciado(Long tipo){
+    public void salvarCabecAberto(Long tipo){
         CabecDAO cabecDAO = new CabecDAO();
         CabecBean cabecBean = new CabecBean();
         ConfigCTR configCTR = new ConfigCTR();
         cabecBean.setTipoCabec(tipo);
         cabecBean.setNroAparelhoCabec(configCTR.getConfig().getNroAparelhoConfig());
-        cabecDAO.salvarCabecIniciado(cabecBean);
+        cabecDAO.salvarCabecAberto(cabecBean);
     }
 
-    public void delCabecIniciado(){
+    public void excluirCabecAberto(){
         CabecDAO cabecDAO = new CabecDAO();
-        if(cabecDAO.verCabecIniciado()){
-            delForm(cabecDAO.getCabecIniciado());
-        }
+        excluirCabec(cabecDAO.getCabecAberto());
     }
 
-    public void abrirCabec(){
+    public void setCabecFinalizadoParaCabecRecebido(){
         CabecDAO cabecDAO = new CabecDAO();
-        cabecDAO.abrirCabec();
+        cabecDAO.setCabecFinalizadoParaCabecRecebido();
     }
 
-    public void fecharCabec(Long tipoCabec){
+    public void setCabecRecebidoParaCabecFinalizado(int pos){
         CabecDAO cabecDAO = new CabecDAO();
-        cabecDAO.fecharCabec(tipoCabec);
+        cabecDAO.setCabecRecebidoParaCabecFinalizado(pos);
     }
 
     public void finalizarCabec(){
         CabecDAO cabecDAO = new CabecDAO();
-        cabecDAO.finalizarCabec(cabecDAO.getCabecFechado());
+        cabecDAO.finalizarCabec();
     }
 
-    public void fecharRecebidoCabec(){
+    public void finalizarCabecItem(){
         CabecDAO cabecDAO = new CabecDAO();
-        cabecDAO.fecharRecebidoCabec(posCabecReaj);
+        cabecDAO.finalizarCabecItem();
     }
 
-    public void finalRecebidoCabec(){
+    public void finalizarCabecParaEnvio(String activity){
         CabecDAO cabecDAO = new CabecDAO();
-        cabecDAO.finalRecebidoCabec(cabecDAO.getCabecFechRecebido());
-    }
-
-    public Boolean verEnvioFormComum(){
-        CabecDAO cabecDAO = new CabecDAO();
-        return (cabecDAO.verCabecFinalizado());
-    }
-
-    public Boolean verEnvioFormComplementar(){
-        CabecDAO cabecDAO = new CabecDAO();
-        return (cabecDAO.verCabecFinalRecebido());
+        cabecDAO.finalizarCabecParaEnvio();
+        EnvioDadosServ.getInstance().envioDados(activity);
     }
 
     public boolean verCabecAberto(){
@@ -112,14 +97,19 @@ public class FormularioCTR {
         return cabecDAO.verCabecAberto();
     }
 
-    public boolean verCabecFechado(){
+    public Boolean verCabecEnvio(){
         CabecDAO cabecDAO = new CabecDAO();
-        return cabecDAO.verCabecFechado();
+        return cabecDAO.verCabecEnvio();
     }
 
-    public boolean verCabecFechRecebido(){
+    public boolean verCabecFinalizado(){
         CabecDAO cabecDAO = new CabecDAO();
-        return cabecDAO.verCabecFechRecebido();
+        return cabecDAO.verCabecFinalizado();
+    }
+
+    public boolean verCabecItemFinalizado(){
+        CabecDAO cabecDAO = new CabecDAO();
+        return cabecDAO.verCabecItemFinalizado();
     }
 
     public List<CabecBean> cabecRecebidoList() {
@@ -127,18 +117,71 @@ public class FormularioCTR {
         return cabecDAO.cabecRecebidoList();
     }
 
-    public void receberCabecReaj(Context telaAtual, Class telaProx, ProgressDialog progressDialog){
+    public void receberCabec(Context telaAtual, Class telaProx, ProgressDialog progressDialog){
         CabecDAO cabecDAO = new CabecDAO();
-        cabecDAO.receberCabecReaj(telaAtual, telaProx, progressDialog);
+        cabecDAO.receberCabec(telaAtual, telaProx, progressDialog);
+    }
+
+    public void receberCabecEnviado(List<CabecBean> cabecBeanList, String activity){
+
+        Log.i("PCQ", "RECEBENDO DADOS 2");
+        CabecDAO cabecDAO = new CabecDAO();
+        cabecDAO.receberCabecEnviado(cabecBeanList);
+
+        EnvioDadosServ.getInstance().envioDados(activity);
+
+    }
+
+    public void deleteCabecAberto(){
+        CabecDAO cabecDAO = new CabecDAO();
+        List<CabecBean> cabecBeanArrayList = cabecDAO.cabecAbertoList();
+        for (CabecBean cabecBean : cabecBeanArrayList) {
+            excluirCabec(cabecBean);
+        }
+    }
+
+    public void deleteCabecEnviado(){
+        CabecDAO cabecDAO = new CabecDAO();
+        ArrayList<CabecBean> cabecBeanArrayList = cabecDAO.cabecExcluirArrayList();
+        for (CabecBean cabecBean : cabecBeanArrayList) {
+            excluirCabec(cabecBean);
+        }
+    }
+
+    public void excluirCabec(CabecBean cabecBean) {
+
+        RespostaDAO respostaDAO = new RespostaDAO();
+        respostaDAO.delItem(cabecBean.getIdCabec());
+
+        BrigadistaDAO brigadistaDAO = new BrigadistaDAO();
+        brigadistaDAO.delBrigadista(cabecBean.getIdCabec());
+
+        EquipDAO equipDAO = new EquipDAO();
+        equipDAO.delEquip(cabecBean.getIdCabec());
+
+        FotoDAO fotoDAO = new FotoDAO();
+        fotoDAO.delFotoCabec(cabecBean.getIdCabec());
+
+        TalhaoDAO talhaoDAO = new TalhaoDAO();
+        talhaoDAO.delTalhao(cabecBean.getIdCabec());
+
+        CabecDAO cabecDAO = new CabecDAO();
+        cabecDAO.deleteCabec(cabecBean.getIdCabec());
+
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////
 
     /////////////////////////////////Item Cabecalho////////////////////////////////////////////////
 
-    public void delItemAberto(){
+    public void excluirItemCabec(){
         CabecDAO cabecDAO = new CabecDAO();
-        CabecBean cabecBean = cabecDAO.getCabecAberto();
+        CabecBean cabecBean;
+        if(verCabecFinalizado()){
+            cabecBean = cabecDAO.getCabecFinalizado();
+        } else {
+            cabecBean = cabecDAO.getCabecItemFinalizado();
+        }
         RespostaDAO respostaDAO = new RespostaDAO();
         respostaDAO.delItem(cabecBean.getIdCabec());
     }
@@ -150,41 +193,27 @@ public class FormularioCTR {
         respItemBean.setSeqQuestao(seqQuestao);
     }
 
-    public void salvarItem(Long idSubResp, int tipoTela){
+    public void salvarAtualizarItem(Long idSubResp){
         respItemBean.setIdSubResp(idSubResp);
         CabecDAO cabecDAO = new CabecDAO();
         CabecBean cabecBean;
-        if(tipoTela == 1){
-            cabecBean = cabecDAO.getCabecAberto();
-        }
-        else if(tipoTela == 2){
-            cabecBean = cabecDAO.getCabecFechado();
-        }
-        else if(tipoTela == 3){
-            cabecBean = cabecDAO.getCabecRecebido(posCabecReaj);
-        }
-        else{
-            cabecBean = cabecDAO.getCabecFechRecebido();
+        if(verCabecFinalizado()){
+            cabecBean = cabecDAO.getCabecFinalizado();
+        } else {
+            cabecBean = cabecDAO.getCabecItemFinalizado();
         }
         RespostaDAO respostaDAO = new RespostaDAO();
-        respostaDAO.delItem(respItemBean, cabecBean.getIdCabec());
-        respostaDAO.salvarItem(respItemBean, cabecBean.getIdCabec());
+        respostaDAO.salvarAtualizarItem(respItemBean, cabecBean.getIdCabec());
     }
 
     public Long getIdResp(){
         return respItemBean.getIdResp();
     }
 
-    public List<RespItemBean> respItemList(int tipoTela){
+    public List<RespItemBean> respItemList(){
         RespostaDAO respostaDAO = new RespostaDAO();
         CabecDAO cabecDAO = new CabecDAO();
-        CabecBean cabecBean;
-        if(tipoTela == 2){
-            cabecBean = cabecDAO.getCabecFechado();
-        }
-        else{
-            cabecBean = cabecDAO.getCabecFechRecebido();
-        }
+        CabecBean cabecBean = cabecDAO.getCabecItemFinalizado();
         return respostaDAO.respItemList(cabecBean.getIdCabec());
     }
 
@@ -216,27 +245,27 @@ public class FormularioCTR {
 
     ////////////////////////////////////////BRIGADISTA ////////////////////////////////////////////
 
-    public void setBrigadistaCabec(ArrayList<Long> brigadistaCabec, int tipoTela){
+    public void setBrigadistaCabec(ArrayList<Long> brigadistaCabec){
         CabecDAO cabecDAO = new CabecDAO();
         CabecBean cabecBean;
-        if(tipoTela == 1){
-            cabecBean = cabecDAO.getCabecIniciado();
+        if(verCabecAberto()){
+            cabecBean = cabecDAO.getCabecAberto();
         }
         else{
-            cabecBean = cabecDAO.getCabecFechado();
+            cabecBean = cabecDAO.getCabecItemFinalizado();
         }
         BrigadistaDAO brigadistaDAO = new BrigadistaDAO();
         brigadistaDAO.setBrigadistaCabec(brigadistaCabec, cabecBean.getIdCabec());
     }
 
-    public void delBrigadista(int tipoTela){
+    public void delBrigadista(){
         CabecDAO cabecDAO = new CabecDAO();
         CabecBean cabecBean;
-        if(tipoTela == 1){
-            cabecBean = cabecDAO.getCabecIniciado();
+        if(verCabecAberto()){
+            cabecBean = cabecDAO.getCabecAberto();
         }
         else{
-            cabecBean = cabecDAO.getCabecFechado();
+            cabecBean = cabecDAO.getCabecItemFinalizado();
         }
         BrigadistaDAO brigadistaDAO = new BrigadistaDAO();
         brigadistaDAO.delBrigadista(cabecBean.getIdCabec());
@@ -254,12 +283,12 @@ public class FormularioCTR {
 
     public List<BrigadistaItemBean> brigadistaItemCabecIniciadoList(){
         BrigadistaDAO brigadistaDAO = new BrigadistaDAO();
-        return brigadistaDAO.brigadistaItemList(getCabecIniciado().getIdCabec());
+        return brigadistaDAO.brigadistaItemList(getCabecAberto().getIdCabec());
     }
 
     public List<BrigadistaItemBean> brigadistaItemCabecAbertoList(){
         BrigadistaDAO brigadistaDAO = new BrigadistaDAO();
-        return brigadistaDAO.brigadistaItemList(getCabecFechado().getIdCabec());
+        return brigadistaDAO.brigadistaItemList(getCabecItemFinalizado().getIdCabec());
     }
 
     public List<BrigadistaItemBean> brigadistaItemList(Long idCabec){
@@ -332,32 +361,40 @@ public class FormularioCTR {
 
     ////////////////////////////////////////TALHÃO ////////////////////////////////////////////////
 
-    public void setTalhaoCabec(ArrayList<Long> talhaoCabec, int tipoTela){
+    public void setTalhaoCabec(ArrayList<Long> talhaoCabec){
         CabecDAO cabecDAO = new CabecDAO();
         TalhaoDAO talhaoDAO = new TalhaoDAO();
         CabecBean cabecBean;
-        if(tipoTela == 1){
-            cabecBean = cabecDAO.getCabecIniciado();
+        if(verCabecAberto()){
+            cabecBean = cabecDAO.getCabecAberto();
         }
         else{
-            cabecBean = cabecDAO.getCabecFechado();
+            cabecBean = cabecDAO.getCabecItemFinalizado();
         }
         talhaoDAO.setTalhaoCabec(talhaoCabec, cabecBean.getIdCabec());
     }
 
     public List<TalhaoBean> talhaoList(){
-        TalhaoDAO talhaoDAO = new TalhaoDAO();
-        return talhaoDAO.talhaoList(getCodSecao(getSecao()).getIdSecao());
-    }
-
-    public List<TalhaoItemBean> talhaoItemList(int tipoTela){
         CabecDAO cabecDAO = new CabecDAO();
+        TalhaoDAO talhaoDAO = new TalhaoDAO();
         CabecBean cabecBean;
-        if(tipoTela == 1){
-            cabecBean = cabecDAO.getCabecIniciado();
+        if(verCabecAberto()){
+            cabecBean = cabecDAO.getCabecAberto();
         }
         else{
-            cabecBean = cabecDAO.getCabecFechado();
+            cabecBean = cabecDAO.getCabecItemFinalizado();
+        }
+        return talhaoDAO.talhaoList(cabecBean.getSecaoCabec());
+    }
+
+    public List<TalhaoItemBean> talhaoItemList(){
+        CabecDAO cabecDAO = new CabecDAO();
+        CabecBean cabecBean;
+        if(verCabecAberto()){
+            cabecBean = cabecDAO.getCabecAberto();
+        }
+        else{
+            cabecBean = cabecDAO.getCabecItemFinalizado();
         }
         TalhaoDAO talhaoDAO = new TalhaoDAO();
         return talhaoDAO.talhaoItemList(cabecBean.getIdCabec());
@@ -365,16 +402,14 @@ public class FormularioCTR {
 
     public List<TalhaoItemBean> talhaoItemCabecIniciadoList(){
         CabecDAO cabecDAO = new CabecDAO();
-        CabecBean cabecBean = cabecDAO.getCabecIniciado();
+        CabecBean cabecBean = cabecDAO.getCabecAberto();
         TalhaoDAO talhaoDAO = new TalhaoDAO();
         return talhaoDAO.talhaoItemList(cabecBean.getIdCabec());
     }
 
-    public List<TalhaoItemBean> talhaoItemCabecAbertoList(){
-        CabecDAO cabecDAO = new CabecDAO();
-        CabecBean cabecBean = cabecDAO.getCabecFechado();
+    public List<TalhaoItemBean> talhaoList(Long idCabec){
         TalhaoDAO talhaoDAO = new TalhaoDAO();
-        return talhaoDAO.talhaoItemList(cabecBean.getIdCabec());
+        return talhaoDAO.talhaoItemList(idCabec);
     }
 
     public TalhaoBean getTalhao(Long idTalhao){
@@ -416,40 +451,40 @@ public class FormularioCTR {
         return equipDAO.tanqueList();
     }
 
-    public void setTanqueCabec(ArrayList<Long> tanqueCabec, int tipoTela){
+    public void setTanqueCabec(ArrayList<Long> tanqueCabec){
         CabecDAO cabecDAO = new CabecDAO();
         CabecBean cabecBean;
-        if(tipoTela == 1){
-            cabecBean = cabecDAO.getCabecIniciado();
+        if(verCabecAberto()){
+            cabecBean = cabecDAO.getCabecAberto();
         }
         else{
-            cabecBean = cabecDAO.getCabecFechado();
+            cabecBean = cabecDAO.getCabecItemFinalizado();
         }
         EquipDAO equipDAO = new EquipDAO();
         equipDAO.setTanqueCabec(tanqueCabec, cabecBean.getIdCabec());
     }
 
-    public void delTanqueCabec(int tipoTela){
+    public void delTanqueCabec(){
         CabecDAO cabecDAO = new CabecDAO();
         CabecBean cabecBean;
-        if(tipoTela == 1){
-            cabecBean = cabecDAO.getCabecIniciado();
+        if(verCabecAberto()){
+            cabecBean = cabecDAO.getCabecAberto();
         }
         else{
-            cabecBean = cabecDAO.getCabecFechado();
+            cabecBean = cabecDAO.getCabecItemFinalizado();
         }
         EquipDAO equipDAO = new EquipDAO();
         equipDAO.delTanque(cabecBean.getIdCabec());
     }
 
-    public List<EquipItemBean> tanqueItemCabecIniciadoList(){
+    public List<EquipItemBean> tanqueCabecAbertoList(){
         EquipDAO equipDAO = new EquipDAO();
-        return equipDAO.tanqueItemList(getCabecIniciado().getIdCabec());
+        return equipDAO.tanqueItemList(getCabecAberto().getIdCabec());
     }
 
-    public List<EquipItemBean> tanqueItemCabecAbertoList(){
+    public List<EquipItemBean> tanqueCabecFinalizadoList(){
         EquipDAO equipDAO = new EquipDAO();
-        return equipDAO.tanqueItemList(getCabecFechado().getIdCabec());
+        return equipDAO.tanqueItemList(getCabecFinalizado().getIdCabec());
     }
 
     public List<EquipItemBean> tanqueItemList(Long idCabec){
@@ -462,27 +497,27 @@ public class FormularioCTR {
         return equipDAO.saveiroList();
     }
 
-    public void setSaveiroCabec(ArrayList<Long> saveiroCabec, int tipoTela){
+    public void setSaveiroCabec(ArrayList<Long> saveiroCabec){
         CabecDAO cabecDAO = new CabecDAO();
         CabecBean cabecBean;
-        if(tipoTela == 1){
-            cabecBean = cabecDAO.getCabecIniciado();
+        if(verCabecAberto()){
+            cabecBean = cabecDAO.getCabecAberto();
         }
         else{
-            cabecBean = cabecDAO.getCabecFechado();
+            cabecBean = cabecDAO.getCabecItemFinalizado();
         }
         EquipDAO equipDAO = new EquipDAO();
         equipDAO.setSaveiroCabec(saveiroCabec, cabecBean.getIdCabec());
     }
 
-    public void delSaveiroCabec(int tipoTela){
+    public void delSaveiroCabec(){
         CabecDAO cabecDAO = new CabecDAO();
         CabecBean cabecBean;
-        if(tipoTela == 1){
-            cabecBean = cabecDAO.getCabecIniciado();
+        if(verCabecAberto()){
+            cabecBean = cabecDAO.getCabecAberto();
         }
         else{
-            cabecBean = cabecDAO.getCabecFechado();
+            cabecBean = cabecDAO.getCabecItemFinalizado();
         }
         EquipDAO equipDAO = new EquipDAO();
         equipDAO.delSaveiro(cabecBean.getIdCabec());
@@ -490,12 +525,12 @@ public class FormularioCTR {
 
     public List<EquipItemBean> saveiroItemCabecIniciadoList(){
         EquipDAO equipDAO = new EquipDAO();
-        return equipDAO.saveiroItemList(getCabecIniciado().getIdCabec());
+        return equipDAO.saveiroItemList(getCabecAberto().getIdCabec());
     }
 
     public List<EquipItemBean> saveiroItemCabecAbertoList(){
         EquipDAO equipDAO = new EquipDAO();
-        return equipDAO.saveiroItemList(getCabecFechado().getIdCabec());
+        return equipDAO.saveiroItemList(getCabecItemFinalizado().getIdCabec());
     }
 
     public List<EquipItemBean> saveiroItemList(Long idCabec){
@@ -507,59 +542,59 @@ public class FormularioCTR {
 
     //////////////////////////////////set Cabecalho////////////////////////////////////////////////
 
-    public void setDataInsCabec(String dataInsCabec, int tipoTela){
+    public void setDataInsCabec(String dataInsCabec){
         CabecDAO cabecDAO = new CabecDAO();
-        cabecDAO.setDataInsCabec(dataInsCabec, tipoTela);
+        cabecDAO.setDataInsCabec(dataInsCabec);
     }
 
-    public void setIdFuncCabec(Long matricColabFunc, int tipoTela){
+    public void setIdFuncCabec(Long matricColabFunc){
         CabecDAO cabecDAO = new CabecDAO();
-        cabecDAO.setIdFuncCabec(matricColabFunc, tipoTela);
+        cabecDAO.setIdFuncCabec(matricColabFunc);
     }
 
-    public void setTipoApontTrabCabec(Long tipoApontTrabCabec, int tipoTela){
+    public void setTipoApontTrabCabec(Long tipoApontTrabCabec){
         CabecDAO cabecDAO = new CabecDAO();
-        cabecDAO.setTipoApontTrabCabec(tipoApontTrabCabec, tipoTela);
+        cabecDAO.setTipoApontTrabCabec(tipoApontTrabCabec);
     }
 
-    public void setSecaoCabec(Long secaoCabec, int tipoTela){
+    public void setSecaoCabec(Long secaoCabec){
         CabecDAO cabecDAO = new CabecDAO();
-        cabecDAO.setSecaoCabec(secaoCabec, tipoTela);
+        cabecDAO.setSecaoCabec(secaoCabec);
     }
 
-    public void setHaIncAppCabec(Double haIncAppCabec, int tipoTela){
+    public void setHaIncAppCabec(Double haIncAppCabec){
         CabecDAO cabecDAO = new CabecDAO();
-        cabecDAO.setHaIncAppCabec(haIncAppCabec, tipoTela);
+        cabecDAO.setHaIncAppCabec(haIncAppCabec);
     }
 
-    public void setHaIncForaAppCabec(Double haIncForaAppCabec, int tipoTela) {
+    public void setHaIncForaAppCabec(Double haIncForaAppCabec) {
         CabecDAO cabecDAO = new CabecDAO();
-        cabecDAO.setHaIncForaAppCabec(haIncForaAppCabec, tipoTela);
+        cabecDAO.setHaIncForaAppCabec(haIncForaAppCabec);
     }
 
-    public void setTercCombCabec(Long empresaTercCabec, int tipoTela) {
+    public void setTercCombCabec(Long empresaTercCabec) {
         CabecDAO cabecDAO = new CabecDAO();
-        cabecDAO.setTercCombCabec(empresaTercCabec, tipoTela);
+        cabecDAO.setTercCombCabec(empresaTercCabec);
     }
 
-    public void setOrigemFogoCabec(Long origemFogoCabec, int tipoTela) {
+    public void setOrigemFogoCabec(Long origemFogoCabec) {
         CabecDAO cabecDAO = new CabecDAO();
-        cabecDAO.setOrigemFogoCabec(origemFogoCabec, tipoTela);
+        cabecDAO.setOrigemFogoCabec(origemFogoCabec);
     }
 
-    public void setAceiroCanavialCabec(Long aceiroCanavialCabec, int tipoTela) {
+    public void setAceiroCanavialCabec(Long aceiroCanavialCabec) {
         CabecDAO cabecDAO = new CabecDAO();
-        cabecDAO.setAceiroCanavialCabec(aceiroCanavialCabec, tipoTela);
+        cabecDAO.setAceiroCanavialCabec(aceiroCanavialCabec);
     }
 
-    public void setAceiroVegetNativalCabec(Long aceiroVegetNativalCabec, int tipoTela) {
+    public void setAceiroVegetNativalCabec(Long aceiroVegetNativalCabec) {
         CabecDAO cabecDAO = new CabecDAO();
-        cabecDAO.setAceiroVegetNativalCabec(aceiroVegetNativalCabec, tipoTela);
+        cabecDAO.setAceiroVegetNativalCabec(aceiroVegetNativalCabec);
     }
 
-    public void setComentCabec(String comentCabec, int tipoTela){
+    public void setComentCabec(String comentCabec){
         CabecDAO cabecDAO = new CabecDAO();
-        cabecDAO.setComentCabec(comentCabec, tipoTela);
+        cabecDAO.setComentCabec(comentCabec);
     }
 
 
@@ -567,14 +602,14 @@ public class FormularioCTR {
 
     //////////////////////////////////get Cabecalho////////////////////////////////////////////////
 
-    public CabecBean getCabecFechado(){
+    public CabecBean getCabecFinalizado(){
         CabecDAO cabecDAO = new CabecDAO();
-        return cabecDAO.getCabecFechado();
+        return cabecDAO.getCabecFinalizado();
     }
 
-    public CabecBean getCabecIniciado(){
+    public CabecBean getCabecItemFinalizado(){
         CabecDAO cabecDAO = new CabecDAO();
-        return cabecDAO.getCabecIniciado();
+        return cabecDAO.getCabecItemFinalizado();
     }
 
     public CabecBean getCabecAberto(){
@@ -628,186 +663,194 @@ public class FormularioCTR {
         this.posTalhao = posTalhao;
     }
 
-    public Long getSecao() {
-        return secao;
-    }
-
-    public void setSecao(Long secao) {
-        this.secao = secao;
-    }
-
-    public int getPosCabecReaj() {
-        return posCabecReaj;
-    }
-
-    public void setPosCabecReaj(int posCabecReaj) {
-        this.posCabecReaj = posCabecReaj;
-    }
-
     ////////////////////////////Dados para Envio///////////////////////////////////////////////////
 
-    public DadosEnvioBean dadosCabecFinalizadoEnvio() {
 
-        DadosEnvioBean dadosEnvioBean = new DadosEnvioBean();
-
+    public List<CabecBean> dadosCabecFinalizadoCompleto() {
         CabecDAO cabecDAO = new CabecDAO();
-        List<CabecBean> cabecList = cabecDAO.cabecFinalizadoList();
-        JsonArray cabecJsonArray = new JsonArray();
-        JsonArray itemJsonArray = new JsonArray();
-        JsonArray brigadistaJsonArray = new JsonArray();
-        JsonArray equipJsonArray = new JsonArray();
-        JsonArray fotoJsonArray = new JsonArray();
-        JsonArray talhaoJsonArray = new JsonArray();
-
-        for (CabecBean cabecBean : cabecList) {
-
-            Gson gsonCabec = new Gson();
-            cabecJsonArray.add(gsonCabec.toJsonTree(cabecBean, cabecBean.getClass()));
-
+        List<CabecBean> cabecList = cabecDAO.cabecEnvioList();
+        for (int i = 0; i < cabecList.size(); i++) {
             RespostaDAO respostaDAO = new RespostaDAO();
-            itemJsonArray = respostaDAO.dadosEnvioItem(cabecBean.getIdCabec());
-
+            List<RespItemBean> respItemBeanList = respostaDAO.respItemList(cabecList.get(i).getIdCabec());
+            cabecList.get(i).setRespItemBeanList(respItemBeanList);
             BrigadistaDAO brigadistaDAO = new BrigadistaDAO();
-            brigadistaJsonArray = brigadistaDAO.dadosEnvioBrigadista(cabecBean.getIdCabec());
-
+            List<BrigadistaItemBean> brigadistaItemBeanList = brigadistaDAO.brigadistaItemList(cabecList.get(i).getIdCabec());
+            cabecList.get(i).setBrigadistaItemBeanList(brigadistaItemBeanList);
             EquipDAO equipDAO = new EquipDAO();
-            equipJsonArray = equipDAO.dadosEnvioEquip(cabecBean.getIdCabec());
-
+            List<EquipItemBean> equipItemBeanList = equipDAO.equipItemList(cabecList.get(i).getIdCabec());
+            cabecList.get(i).setEquipItemBeanList(equipItemBeanList);
             FotoDAO fotoDAO = new FotoDAO();
-            fotoJsonArray = fotoDAO.dadosEnvioFoto(cabecBean.getIdCabec());
-
+            List<FotoItemBean> fotoItemBeanList = fotoDAO.fotoItemList(cabecList.get(i).getIdCabec());
+            cabecList.get(i).setFotoItemBeanList(fotoItemBeanList);
             TalhaoDAO talhaoDAO = new TalhaoDAO();
-            talhaoJsonArray = talhaoDAO.dadosEnvioTalhao(cabecBean.getIdCabec());
-
+            List<TalhaoItemBean> talhaoItemBeanList = talhaoDAO.talhaoItemList(cabecList.get(i).getIdCabec());
+            cabecList.get(i).setTalhaoItemBeanList(talhaoItemBeanList);
         }
-
-        JsonObject cabecJsonObj = new JsonObject();
-        cabecJsonObj.add("cabec", cabecJsonArray);
-        dadosEnvioBean.setCabec(cabecJsonObj.toString());
-
-        JsonObject itemJsonObj = new JsonObject();
-        itemJsonObj.add("item", itemJsonArray);
-        dadosEnvioBean.setItem(itemJsonObj.toString());
-
-        JsonObject brigadistaJsonObj = new JsonObject();
-        brigadistaJsonObj.add("brigadista", brigadistaJsonArray);
-        dadosEnvioBean.setBrigadista(brigadistaJsonObj.toString());
-
-        JsonObject equipJsonObj = new JsonObject();
-        equipJsonObj.add("equip", equipJsonArray);
-        dadosEnvioBean.setEquip(equipJsonObj.toString());
-
-        JsonObject fotoJsonObj = new JsonObject();
-        fotoJsonObj.add("foto", fotoJsonArray);
-        dadosEnvioBean.setFoto(fotoJsonObj.toString());
-
-        JsonObject talhaoJsonObj = new JsonObject();
-        talhaoJsonObj.add("talhao", talhaoJsonArray);
-        dadosEnvioBean.setTalhao(talhaoJsonObj.toString());
-
-        return dadosEnvioBean;
+        return cabecList;
     }
 
-    public DadosEnvioBean dadosCabecFinalRecebidoEnvio() {
-
-        DadosEnvioBean dadosEnvioBean = new DadosEnvioBean();
-
-        CabecDAO cabecDAO = new CabecDAO();
-        List<CabecBean> cabecList = cabecDAO.cabecFinalRecebidoList();
-        JsonArray cabecJsonArray = new JsonArray();
-        JsonArray itemJsonArray = new JsonArray();
-
-        for (CabecBean cabecBean : cabecList) {
-
-            Gson gsonCabec = new Gson();
-            cabecJsonArray.add(gsonCabec.toJsonTree(cabecBean, cabecBean.getClass()));
-
-            RespostaDAO respostaDAO = new RespostaDAO();
-            itemJsonArray = respostaDAO.dadosEnvioItem(cabecBean.getIdCabec());
-
-        }
-
-        JsonObject cabecJsonObj = new JsonObject();
-        cabecJsonObj.add("cabec", cabecJsonArray);
-        dadosEnvioBean.setCabec(cabecJsonObj.toString());
-
-        JsonObject itemJsonObj = new JsonObject();
-        itemJsonObj.add("item", itemJsonArray);
-        dadosEnvioBean.setItem(itemJsonObj.toString());
-
-        return dadosEnvioBean;
-
-    }
-
-    public void delFormFechado() {
-        CabecDAO cabecDAO = new CabecDAO();
-        delForm(cabecDAO.cabecFechadoList());
-    }
-
-    public void delFormFinalizado() {
-        CabecDAO cabecDAO = new CabecDAO();
-        delForm(cabecDAO.cabecFinalizadoList());
-    }
-
-    public void delItemFechadoRecebido() {
-        RespostaDAO respostaDAO = new RespostaDAO();
-        CabecDAO cabecDAO = new CabecDAO();
-        respostaDAO.delItem(cabecDAO.getCabecFechRecebido().getIdCabec());
-        cabecDAO.reabrirRecebidoCabec(cabecDAO.getCabecFechRecebido());
-    }
-
-    public void delFormFinalRecebido() {
-        CabecDAO cabecDAO = new CabecDAO();
-        delForm(cabecDAO.cabecFinalRecebidoList());
-    }
-
-    public void delForm(List<CabecBean> cabecList) {
-
-        for (CabecBean cabecBean : cabecList) {
-
-            RespostaDAO respostaDAO = new RespostaDAO();
-            respostaDAO.delItem(cabecBean.getIdCabec());
-
-            BrigadistaDAO brigadistaDAO = new BrigadistaDAO();
-            brigadistaDAO.delBrigadista(cabecBean.getIdCabec());
-
-            EquipDAO equipDAO = new EquipDAO();
-            equipDAO.delEquip(cabecBean.getIdCabec());
-
-            FotoDAO fotoDAO = new FotoDAO();
-            fotoDAO.delFotoCabec(cabecBean.getIdCabec());
-
-            TalhaoDAO talhaoDAO = new TalhaoDAO();
-            talhaoDAO.delTalhao(cabecBean.getIdCabec());
-
-            CabecDAO cabecDAO = new CabecDAO();
-            cabecDAO.delCabec(cabecBean);
-
-        }
-
-    }
-
-    public void delForm(CabecBean cabecBean) {
-
-        RespostaDAO respostaDAO = new RespostaDAO();
-        respostaDAO.delItem(cabecBean.getIdCabec());
-
-        BrigadistaDAO brigadistaDAO = new BrigadistaDAO();
-        brigadistaDAO.delBrigadista(cabecBean.getIdCabec());
-
-        EquipDAO equipDAO = new EquipDAO();
-        equipDAO.delEquip(cabecBean.getIdCabec());
-
-        FotoDAO fotoDAO = new FotoDAO();
-        fotoDAO.delFotoCabec(cabecBean.getIdCabec());
-
-        TalhaoDAO talhaoDAO = new TalhaoDAO();
-        talhaoDAO.delTalhao(cabecBean.getIdCabec());
-
-        CabecDAO cabecDAO = new CabecDAO();
-        cabecDAO.delCabec(cabecBean);
-
-    }
+//    public DadosEnvioBean dadosCabecFinalizadoCompleto() {
+//
+//        DadosEnvioBean dadosEnvioBean = new DadosEnvioBean();
+//
+//        CabecDAO cabecDAO = new CabecDAO();
+//        List<CabecBean> cabecList = cabecDAO.cabecFinalizadoList();
+//        JsonArray cabecJsonArray = new JsonArray();
+//        JsonArray itemJsonArray = new JsonArray();
+//        JsonArray brigadistaJsonArray = new JsonArray();
+//        JsonArray equipJsonArray = new JsonArray();
+//        JsonArray fotoJsonArray = new JsonArray();
+//        JsonArray talhaoJsonArray = new JsonArray();
+//
+//        for (CabecBean cabecBean : cabecList) {
+//
+//            Gson gsonCabec = new Gson();
+//            cabecJsonArray.add(gsonCabec.toJsonTree(cabecBean, cabecBean.getClass()));
+//
+//            RespostaDAO respostaDAO = new RespostaDAO();
+//            itemJsonArray = respostaDAO.dadosEnvioItem(cabecBean.getIdCabec());
+//
+//            BrigadistaDAO brigadistaDAO = new BrigadistaDAO();
+//            brigadistaJsonArray = brigadistaDAO.dadosEnvioBrigadista(cabecBean.getIdCabec());
+//
+//            EquipDAO equipDAO = new EquipDAO();
+//            equipJsonArray = equipDAO.dadosEnvioEquip(cabecBean.getIdCabec());
+//
+//            FotoDAO fotoDAO = new FotoDAO();
+//            fotoJsonArray = fotoDAO.dadosEnvioFoto(cabecBean.getIdCabec());
+//
+//            TalhaoDAO talhaoDAO = new TalhaoDAO();
+//            talhaoJsonArray = talhaoDAO.dadosEnvioTalhao(cabecBean.getIdCabec());
+//
+//        }
+//
+//        JsonObject cabecJsonObj = new JsonObject();
+//        cabecJsonObj.add("cabec", cabecJsonArray);
+//        dadosEnvioBean.setCabec(cabecJsonObj.toString());
+//
+//        JsonObject itemJsonObj = new JsonObject();
+//        itemJsonObj.add("item", itemJsonArray);
+//        dadosEnvioBean.setItem(itemJsonObj.toString());
+//
+//        JsonObject brigadistaJsonObj = new JsonObject();
+//        brigadistaJsonObj.add("brigadista", brigadistaJsonArray);
+//        dadosEnvioBean.setBrigadista(brigadistaJsonObj.toString());
+//
+//        JsonObject equipJsonObj = new JsonObject();
+//        equipJsonObj.add("equip", equipJsonArray);
+//        dadosEnvioBean.setEquip(equipJsonObj.toString());
+//
+//        JsonObject fotoJsonObj = new JsonObject();
+//        fotoJsonObj.add("foto", fotoJsonArray);
+//        dadosEnvioBean.setFoto(fotoJsonObj.toString());
+//
+//        JsonObject talhaoJsonObj = new JsonObject();
+//        talhaoJsonObj.add("talhao", talhaoJsonArray);
+//        dadosEnvioBean.setTalhao(talhaoJsonObj.toString());
+//
+//        return dadosEnvioBean;
+//    }
+//
+//    public DadosEnvioBean dadosCabecFinalizadoSimples() {
+//
+//        DadosEnvioBean dadosEnvioBean = new DadosEnvioBean();
+//
+//        CabecDAO cabecDAO = new CabecDAO();
+//        List<CabecBean> cabecList = cabecDAO.cabecFinalRecebidoList();
+//        JsonArray cabecJsonArray = new JsonArray();
+//        JsonArray itemJsonArray = new JsonArray();
+//
+//        for (CabecBean cabecBean : cabecList) {
+//
+//            Gson gsonCabec = new Gson();
+//            cabecJsonArray.add(gsonCabec.toJsonTree(cabecBean, cabecBean.getClass()));
+//
+//            RespostaDAO respostaDAO = new RespostaDAO();
+//            itemJsonArray = respostaDAO.dadosEnvioItem(cabecBean.getIdCabec());
+//
+//        }
+//
+//        JsonObject cabecJsonObj = new JsonObject();
+//        cabecJsonObj.add("cabec", cabecJsonArray);
+//        dadosEnvioBean.setCabec(cabecJsonObj.toString());
+//
+//        JsonObject itemJsonObj = new JsonObject();
+//        itemJsonObj.add("item", itemJsonArray);
+//        dadosEnvioBean.setItem(itemJsonObj.toString());
+//
+//        return dadosEnvioBean;
+//
+//    }
+//
+//    public void delFormFechado() {
+//        CabecDAO cabecDAO = new CabecDAO();
+//        delForm(cabecDAO.cabecItemFinalizadoList());
+//    }
+//
+//    public void delFormFinalizado() {
+//        CabecDAO cabecDAO = new CabecDAO();
+//        delForm(cabecDAO.cabecEnvioList());
+//    }
+//
+//    public void delItemFechadoRecebido() {
+//        RespostaDAO respostaDAO = new RespostaDAO();
+//        CabecDAO cabecDAO = new CabecDAO();
+//        respostaDAO.delItem(cabecDAO.getCabecEnviado().getIdCabec());
+//        cabecDAO.reabrirRecebidoCabec(cabecDAO.getCabecEnviado());
+//    }
+//
+//    public void delFormFinalRecebido() {
+//        CabecDAO cabecDAO = new CabecDAO();
+//        delForm(cabecDAO.cabecFinalRecebidoList());
+//    }
+//
+//    public void delForm(List<CabecBean> cabecList) {
+//
+//        for (CabecBean cabecBean : cabecList) {
+//
+//            RespostaDAO respostaDAO = new RespostaDAO();
+//            respostaDAO.delItem(cabecBean.getIdCabec());
+//
+//            BrigadistaDAO brigadistaDAO = new BrigadistaDAO();
+//            brigadistaDAO.delBrigadista(cabecBean.getIdCabec());
+//
+//            EquipDAO equipDAO = new EquipDAO();
+//            equipDAO.delEquip(cabecBean.getIdCabec());
+//
+//            FotoDAO fotoDAO = new FotoDAO();
+//            fotoDAO.delFotoCabec(cabecBean.getIdCabec());
+//
+//            TalhaoDAO talhaoDAO = new TalhaoDAO();
+//            talhaoDAO.delTalhao(cabecBean.getIdCabec());
+//
+//            CabecDAO cabecDAO = new CabecDAO();
+//            cabecDAO.delCabec(cabecBean);
+//
+//        }
+//
+//    }
+//
+//    public void delForm(CabecBean cabecBean) {
+//
+//        RespostaDAO respostaDAO = new RespostaDAO();
+//        respostaDAO.delItem(cabecBean.getIdCabec());
+//
+//        BrigadistaDAO brigadistaDAO = new BrigadistaDAO();
+//        brigadistaDAO.delBrigadista(cabecBean.getIdCabec());
+//
+//        EquipDAO equipDAO = new EquipDAO();
+//        equipDAO.delEquip(cabecBean.getIdCabec());
+//
+//        FotoDAO fotoDAO = new FotoDAO();
+//        fotoDAO.delFotoCabec(cabecBean.getIdCabec());
+//
+//        TalhaoDAO talhaoDAO = new TalhaoDAO();
+//        talhaoDAO.delTalhao(cabecBean.getIdCabec());
+//
+//        CabecDAO cabecDAO = new CabecDAO();
+//        cabecDAO.delCabec(cabecBean);
+//
+//    }
 
     /////////////////////////////////////////////////////////////////////////////////////
 
@@ -865,28 +908,28 @@ public class FormularioCTR {
 
     /////////////////////////////// MANIPULAÇÃO FOTO ///////////////////////////////////////////////
 
-    public FotoItemBean salvarFoto(Bitmap bitmap, Long tipoFoto, int tipoTela){
+    public FotoItemBean salvarFoto(Bitmap bitmap, Long tipoFoto){
         FotoDAO fotoDAO = new FotoDAO();
         CabecDAO cabecDAO = new CabecDAO();
         CabecBean cabecBean;
-        if(tipoTela == 1){
-            cabecBean = cabecDAO.getCabecIniciado();
+        if(verCabecAberto()){
+            cabecBean = cabecDAO.getCabecAberto();
         }
         else{
-            cabecBean = cabecDAO.getCabecFechado();
+            cabecBean = cabecDAO.getCabecItemFinalizado();
         }
         return fotoDAO.salvarFoto(cabecBean.getIdCabec(), bitmap, tipoFoto);
     }
 
-    public List getListFotoCabecIniciado(Long tipoFoto, int tipoTela){
+    public List getListFotoCabecIniciado(Long tipoFoto){
         FotoDAO fotoAbordDAO = new FotoDAO();
         CabecDAO cabecDAO = new CabecDAO();
         CabecBean cabecBean;
-        if(tipoTela == 1){
-            cabecBean = cabecDAO.getCabecIniciado();
+        if(verCabecAberto()){
+            cabecBean = cabecDAO.getCabecAberto();
         }
         else{
-            cabecBean = cabecDAO.getCabecFechado();
+            cabecBean = cabecDAO.getCabecItemFinalizado();
         }
         return fotoAbordDAO.getListFotoCabec(cabecBean.getIdCabec(), tipoFoto);
     }
@@ -896,9 +939,9 @@ public class FormularioCTR {
         return fotoDAO.getStringBitmap(foto);
     }
 
-    public List<FotoItemBean> getListFotoCabecFechado(Long tipoFoto){
+    public List<FotoItemBean> getListFotoCabecFinalizado(Long tipoFoto){
         FotoDAO fotoAbordDAO = new FotoDAO();
-        return fotoAbordDAO.getListFotoCabec(getCabecFechado().getIdCabec(), tipoFoto);
+        return fotoAbordDAO.getListFotoCabec(getCabecFinalizado().getIdCabec(), tipoFoto);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
